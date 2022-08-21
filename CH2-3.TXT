@@ -1,0 +1,425 @@
+SQL> 
+SQL> REM SUBSTITUTION VARIABLE : 1 TO MAKE COMMAND INTERACTIVE  2 TO MAKE SIMILARY COMMAND EXECUTION EASY
+SQL> 
+SQL> SELECT * FROM REGIONS;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT * FROM LOCATIONS;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO                                                                                                                   
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --                                                                                                                   
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US                                                                                                                   
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US                                                                                                                   
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US                                                                                                                   
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA                                                                                                                   
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK                                                                                                                   
+
+SQL> SELECT * FROM &TN;
+Enter value for tn: REGIONS
+old   1: SELECT * FROM &TN
+new   1: SELECT * FROM REGIONS
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> /
+Enter value for tn: LOCATIONS
+old   1: SELECT * FROM &TN
+new   1: SELECT * FROM LOCATIONS
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO                                                                                                                   
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --                                                                                                                   
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US                                                                                                                   
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US                                                                                                                   
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US                                                                                                                   
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA                                                                                                                   
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK                                                                                                                   
+
+SQL> /
+Enter value for tn: DEPARTMENTS
+old   1: SELECT * FROM &TN
+new   1: SELECT * FROM DEPARTMENTS
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> REM TYPES OF SUBSTITUTION VARIABLES : 1 & 2 &&/DEFINE
+SQL> 
+SQL> REM & : USE AND THROW
+SQL> 
+SQL> REM && : IT WILL ASK FOR VALUE FOR THE FIRST TIME AND WILL HOLD IT UNTIL WE UNDEFINE IT EXPLICITLY WITH COMMAND
+SQL> 
+SQL> SELECT &CL FROM &TN;
+Enter value for tn: *
+old   1: SELECT &CL FROM &TN
+new   1: SELECT FIRST_NAME , COMMISSION_PCT FROM *
+SELECT FIRST_NAME , COMMISSION_PCT FROM *
+                                        *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> UNDEFINE TN
+SQL> 
+SQL> SELECT &CL FROM &TN;
+Enter value for tn: *
+old   1: SELECT &CL FROM &TN
+new   1: SELECT FIRST_NAME , COMMISSION_PCT FROM *
+SELECT FIRST_NAME , COMMISSION_PCT FROM *
+                                        *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> UNDEFINE CL
+SQL> 
+SQL> SELECT &CL FROM &TN;
+Enter value for cl: *
+Enter value for tn: EMPLOYEES
+old   1: SELECT &CL FROM &TN
+new   1: SELECT * FROM EMPLOYEES
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander            Hunold                    AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce                Ernst                     BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana                Lorentz                   DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin                Mourgos                   KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon             Taylor                    JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely             Grant                     KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer             Whalen                    JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat                  Fay                       PFAY                      603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William              Gietz                     WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> /
+Enter value for cl: *
+Enter value for tn: REGIONS
+old   1: SELECT &CL FROM &TN
+new   1: SELECT * FROM REGIONS
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> /
+Enter value for cl: SALARY , COMMISSION_PCT
+Enter value for tn: EMPLOYEES
+old   1: SELECT &CL FROM &TN
+new   1: SELECT SALARY , COMMISSION_PCT FROM EMPLOYEES
+
+    SALARY COMMISSION_PCT                                                                                                                                                                                                                       
+---------- --------------                                                                                                                                                                                                                       
+     24000                                                                                                                                                                                                                                      
+     17000                                                                                                                                                                                                                                      
+     17000                                                                                                                                                                                                                                      
+      9000                                                                                                                                                                                                                                      
+      6000                                                                                                                                                                                                                                      
+      4200                                                                                                                                                                                                                                      
+      5800                                                                                                                                                                                                                                      
+      3500                                                                                                                                                                                                                                      
+      3100                                                                                                                                                                                                                                      
+      2600                                                                                                                                                                                                                                      
+      2500                                                                                                                                                                                                                                      
+     10500             .2                                                                                                                                                                                                                       
+     11000             .3                                                                                                                                                                                                                       
+      8600             .3                                                                                                                                                                                                                       
+      7000            .15                                                                                                                                                                                                                       
+      4400                                                                                                                                                                                                                                      
+     13000                                                                                                                                                                                                                                      
+      6000                                                                                                                                                                                                                                      
+     12000                                                                                                                                                                                                                                      
+      8300                                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> SELECT &CL FROM &&TN;
+Enter value for cl: *
+Enter value for tn: EMPLOYEES
+old   1: SELECT &CL FROM &&TN
+new   1: SELECT * FROM EMPLOYEES
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander            Hunold                    AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce                Ernst                     BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana                Lorentz                   DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin                Mourgos                   KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon             Taylor                    JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely             Grant                     KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer             Whalen                    JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat                  Fay                       PFAY                      603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William              Gietz                     WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> /
+Enter value for cl: FIRST_NAME , LAST_NAME
+old   1: SELECT &CL FROM &&TN
+new   1: SELECT FIRST_NAME , LAST_NAME FROM EMPLOYEES
+
+FIRST_NAME           LAST_NAME                                                                                                                                                                                                                  
+-------------------- -------------------------                                                                                                                                                                                                  
+Steven               King                                                                                                                                                                                                                       
+Neena                Kochhar                                                                                                                                                                                                                    
+Lex                  De Haan                                                                                                                                                                                                                    
+Alexander            Hunold                                                                                                                                                                                                                     
+Bruce                Ernst                                                                                                                                                                                                                      
+Diana                Lorentz                                                                                                                                                                                                                    
+Kevin                Mourgos                                                                                                                                                                                                                    
+Trenna               Rajs                                                                                                                                                                                                                       
+Curtis               Davies                                                                                                                                                                                                                     
+Randall              Matos                                                                                                                                                                                                                      
+Peter                Vargas                                                                                                                                                                                                                     
+Eleni                Zlotkey                                                                                                                                                                                                                    
+Ellen                Abel                                                                                                                                                                                                                       
+Jonathon             Taylor                                                                                                                                                                                                                     
+Kimerely             Grant                                                                                                                                                                                                                      
+Jennifer             Whalen                                                                                                                                                                                                                     
+Michael              Hartstein                                                                                                                                                                                                                  
+Pat                  Fay                                                                                                                                                                                                                        
+Shelley              Higgins                                                                                                                                                                                                                    
+William              Gietz                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> /
+Enter value for cl: LAST_NAME , COMMISSION_PCT
+old   1: SELECT &CL FROM &&TN
+new   1: SELECT LAST_NAME , COMMISSION_PCT FROM EMPLOYEES
+
+LAST_NAME                 COMMISSION_PCT                                                                                                                                                                                                        
+------------------------- --------------                                                                                                                                                                                                        
+King                                                                                                                                                                                                                                            
+Kochhar                                                                                                                                                                                                                                         
+De Haan                                                                                                                                                                                                                                         
+Hunold                                                                                                                                                                                                                                          
+Ernst                                                                                                                                                                                                                                           
+Lorentz                                                                                                                                                                                                                                         
+Mourgos                                                                                                                                                                                                                                         
+Rajs                                                                                                                                                                                                                                            
+Davies                                                                                                                                                                                                                                          
+Matos                                                                                                                                                                                                                                           
+Vargas                                                                                                                                                                                                                                          
+Zlotkey                               .2                                                                                                                                                                                                        
+Abel                                  .3                                                                                                                                                                                                        
+Taylor                                .3                                                                                                                                                                                                        
+Grant                                .15                                                                                                                                                                                                        
+Whalen                                                                                                                                                                                                                                          
+Hartstein                                                                                                                                                                                                                                       
+Fay                                                                                                                                                                                                                                             
+Higgins                                                                                                                                                                                                                                         
+Gietz                                                                                                                                                                                                                                           
+
+20 rows selected.
+
+SQL> UNDEFINE TN
+SQL> 
+SQL> /
+Enter value for cl: *
+Enter value for tn: DEPARTMENTS
+old   1: SELECT &CL FROM &&TN
+new   1: SELECT * FROM DEPARTMENTS
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> /
+Enter value for cl: DEPARTMENT_NAME , LOCATION_ID
+old   1: SELECT &CL FROM &&TN
+new   1: SELECT DEPARTMENT_NAME , LOCATION_ID FROM DEPARTMENTS
+
+DEPARTMENT_NAME                LOCATION_ID                                                                                                                                                                                                      
+------------------------------ -----------                                                                                                                                                                                                      
+Administration                        1700                                                                                                                                                                                                      
+Marketing                             1800                                                                                                                                                                                                      
+Shiping                               1500                                                                                                                                                                                                      
+IT                                    1400                                                                                                                                                                                                      
+Sales                                 2500                                                                                                                                                                                                      
+Executive                             1700                                                                                                                                                                                                      
+Accounting                            1700                                                                                                                                                                                                      
+Contracting                           1700                                                                                                                                                                                                      
+
+8 rows selected.
+
+SQL> REM && VARIABLE CAN BE REFERRED WITH && OR &
+SQL> 
+SQL> SELECT &CL FROM &TN;
+Enter value for cl: *
+old   1: SELECT &CL FROM &TN
+new   1: SELECT * FROM DEPARTMENTS
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander            Hunold                    AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce                Ernst                     BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana                Lorentz                   DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin                Mourgos                   KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon             Taylor                    JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely             Grant                     KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer             Whalen                    JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat                  Fay                       PFAY                      603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William              Gietz                     WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> DEFINE CL = 'FIRST_NAME , SALARY , JOB_ID'
+SQL> 
+SQL> SELECT LAST_NAME , &&CL , COMMISSION_PCT FROM EMPLOYEES;
+old   1: SELECT LAST_NAME , &&CL , COMMISSION_PCT FROM EMPLOYEES
+new   1: SELECT LAST_NAME , FIRST_NAME , SALARY , JOB_ID , COMMISSION_PCT FROM EMPLOYEES
+
+LAST_NAME                 FIRST_NAME               SALARY JOB_ID     COMMISSION_PCT                                                                                                                                                             
+------------------------- -------------------- ---------- ---------- --------------                                                                                                                                                             
+King                      Steven                    24000 AD_PRES                                                                                                                                                                               
+Kochhar                   Neena                     17000 AD_VP                                                                                                                                                                                 
+De Haan                   Lex                       17000 AD_VP                                                                                                                                                                                 
+Hunold                    Alexander                  9000 IT_PROG                                                                                                                                                                               
+Ernst                     Bruce                      6000 IT_PROG                                                                                                                                                                               
+Lorentz                   Diana                      4200 IT_PROG                                                                                                                                                                               
+Mourgos                   Kevin                      5800 ST_MAN                                                                                                                                                                                
+Rajs                      Trenna                     3500 ST_CLERK                                                                                                                                                                              
+Davies                    Curtis                     3100 ST_CLERK                                                                                                                                                                              
+Matos                     Randall                    2600 ST_CLERK                                                                                                                                                                              
+Vargas                    Peter                      2500 ST_CLERK                                                                                                                                                                              
+Zlotkey                   Eleni                     10500 SA_MAN                 .2                                                                                                                                                             
+Abel                      Ellen                     11000 SA_REP                 .3                                                                                                                                                             
+Taylor                    Jonathon                   8600 SA_REP                 .3                                                                                                                                                             
+Grant                     Kimerely                   7000 SA_REP                .15                                                                                                                                                             
+Whalen                    Jennifer                   4400 AD_ASST                                                                                                                                                                               
+Hartstein                 Michael                   13000 MK_MAN                                                                                                                                                                                
+Fay                       Pat                        6000 MK_REP                                                                                                                                                                                
+Higgins                   Shelley                   12000 AC_MGR                                                                                                                                                                                
+Gietz                     William                    8300 AC_ACCOUNT                                                                                                                                                                            
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME , &CL , COMMISSION_PCT FROM EMPLOYEES;
+old   1: SELECT LAST_NAME , &CL , COMMISSION_PCT FROM EMPLOYEES
+new   1: SELECT LAST_NAME , FIRST_NAME , SALARY , JOB_ID , COMMISSION_PCT FROM EMPLOYEES
+
+LAST_NAME                 FIRST_NAME               SALARY JOB_ID     COMMISSION_PCT                                                                                                                                                             
+------------------------- -------------------- ---------- ---------- --------------                                                                                                                                                             
+King                      Steven                    24000 AD_PRES                                                                                                                                                                               
+Kochhar                   Neena                     17000 AD_VP                                                                                                                                                                                 
+De Haan                   Lex                       17000 AD_VP                                                                                                                                                                                 
+Hunold                    Alexander                  9000 IT_PROG                                                                                                                                                                               
+Ernst                     Bruce                      6000 IT_PROG                                                                                                                                                                               
+Lorentz                   Diana                      4200 IT_PROG                                                                                                                                                                               
+Mourgos                   Kevin                      5800 ST_MAN                                                                                                                                                                                
+Rajs                      Trenna                     3500 ST_CLERK                                                                                                                                                                              
+Davies                    Curtis                     3100 ST_CLERK                                                                                                                                                                              
+Matos                     Randall                    2600 ST_CLERK                                                                                                                                                                              
+Vargas                    Peter                      2500 ST_CLERK                                                                                                                                                                              
+Zlotkey                   Eleni                     10500 SA_MAN                 .2                                                                                                                                                             
+Abel                      Ellen                     11000 SA_REP                 .3                                                                                                                                                             
+Taylor                    Jonathon                   8600 SA_REP                 .3                                                                                                                                                             
+Grant                     Kimerely                   7000 SA_REP                .15                                                                                                                                                             
+Whalen                    Jennifer                   4400 AD_ASST                                                                                                                                                                               
+Hartstein                 Michael                   13000 MK_MAN                                                                                                                                                                                
+Fay                       Pat                        6000 MK_REP                                                                                                                                                                                
+Higgins                   Shelley                   12000 AC_MGR                                                                                                                                                                                
+Gietz                     William                    8300 AC_ACCOUNT                                                                                                                                                                            
+
+20 rows selected.
+
+SQL> UNDEF CL
+SQL> 
+SQL> SPOOL OFF

@@ -1,0 +1,387 @@
+SQL> 
+SQL> CL SCR
+
+SQL> SELECT 5.6 , CEIL(5.6) FROM DUAL;
+
+       5.6  CEIL(5.6)                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                           
+       5.6          6                                                                                                                                                                                                                           
+
+SQL> SELECT 5.6 , FLOOR(5.6) FROM DUAL;
+
+       5.6 FLOOR(5.6)                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                           
+       5.6          5                                                                                                                                                                                                                           
+
+SQL> SELECT -5.6 , CEIL(-5.6) FROM DUAL;
+
+      -5.6 CEIL(-5.6)                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                           
+      -5.6         -5                                                                                                                                                                                                                           
+
+SQL> SELECT -5.6 , FLOOR(-5.6) FROM DUAL;
+
+      -5.6 FLOOR(-5.6)                                                                                                                                                                                                                          
+---------- -----------                                                                                                                                                                                                                          
+      -5.6          -6                                                                                                                                                                                                                          
+
+SQL> SELECT 5 , CEIL(5) FROM DUAL;
+
+         5    CEIL(5)                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                           
+         5          5                                                                                                                                                                                                                           
+
+SQL> SELECT 5 , FLOOR(5) FROM DUAL;
+
+         5   FLOOR(5)                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                           
+         5          5                                                                                                                                                                                                                           
+
+SQL> SELECT -5 , CEIL(-5) FROM DUAL;
+
+        -5   CEIL(-5)                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                           
+        -5         -5                                                                                                                                                                                                                           
+
+SQL> SELECT -5 , FLOOR(-5) FROM DUAL;
+
+        -5  FLOOR(-5)                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                           
+        -5         -5                                                                                                                                                                                                                           
+
+SQL> REM DISPLAY EMPLOYEE WHO GETS HIGHEST SALARY
+SQL> 
+SQL> SELECT FIRST_NAME, SALARY FROM EMPLOYEES WHERE SALARY = MAX(SALARY);
+SELECT FIRST_NAME, SALARY FROM EMPLOYEES WHERE SALARY = MAX(SALARY)
+                                                        *
+ERROR at line 1:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT FIRST_NAME, SALARY FROM EMPLOYEES WHERE SALARY = (SELECT MAX(SALARY) FROM EMPLOYEES);
+
+FIRST_NAME          SALARY                                                                                                                                                                                                                      
+--------------- ----------                                                                                                                                                                                                                      
+Steven               24000                                                                                                                                                                                                                      
+
+SQL> REM SUB QUERY CAN BE USED WHEN OUR QUERY HAS HIDDEN REQUIREMENT
+SQL> 
+SQL> REM DISPLAY THOSE WHO GETS HIGHER SALARY THAN Abel
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES WHERE SALARY > (SELECT SALARY FROM EMPLOYEES WHERE FIRST_NAME = 'Abel');
+
+no rows selected
+
+SQL> SELECT LAST_NAME , SALARY FROM EMPLOYEES WHERE SALARY > (SELECT SALARY FROM EMPLOYEES WHERE LAST_NAME = 'Abel');
+
+LAST_NAME           SALARY                                                                                                                                                                                                                      
+--------------- ----------                                                                                                                                                                                                                      
+King                 24000                                                                                                                                                                                                                      
+Kochhar              17000                                                                                                                                                                                                                      
+De Haan              17000                                                                                                                                                                                                                      
+Hartstein            13000                                                                                                                                                                                                                      
+Higgins              12000                                                                                                                                                                                                                      
+
+SQL> SELECT SALARY FROM EMPLOYEES WHERE LAST_NAME = 'Abel';
+
+    SALARY                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+     11000                                                                                                                                                                                                                                      
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT * FROM LOCATIONS;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO                                                                                                                   
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --                                                                                                                   
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US                                                                                                                   
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US                                                                                                                   
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US                                                                                                                   
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA                                                                                                                   
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK                                                                                                                   
+
+SQL> SELECT * FROM COUNTRIES;
+
+CO COUNTRY_NAME                              REGION_ID                                                                                                                                                                                          
+-- ---------------------------------------- ----------                                                                                                                                                                                          
+CA Canada                                            2                                                                                                                                                                                          
+DE Germany                                           1                                                                                                                                                                                          
+UK United Kingdom                                    1                                                                                                                                                                                          
+US United States of America                          2                                                                                                                                                                                          
+
+SQL> SELECT * FROM REGIONS;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> SELECT * FROM JOB_HISTORY;
+
+EMPLOYEE_ID START_DAT END_DATE  JOB_ID     DEPARTMENT_ID                                                                                                                                                                                        
+----------- --------- --------- ---------- -------------                                                                                                                                                                                        
+        102 13-JAN-93 24-JUL-98 IT_PROG               60                                                                                                                                                                                        
+        101 21-SEP-89 27-OCT-93 AC_ACCOUNT           110                                                                                                                                                                                        
+        101 28-OCT-93 15-MAR-97 AC_MGR               110                                                                                                                                                                                        
+        201 17-FEB-96 19-DEC-99 MK_REP                20                                                                                                                                                                                        
+        114 24-MAR-98 31-DEC-99 ST_CLERK              50                                                                                                                                                                                        
+        122 01-JAN-99 31-DEC-99 ST_CLERK              50                                                                                                                                                                                        
+        200 17-SEP-87 17-JUN-93 AD_ASST               90                                                                                                                                                                                        
+        176 24-MAR-98 31-DEC-98 SA_REP                80                                                                                                                                                                                        
+        176 01-JAN-99 31-DEC-99 SA_MAN                80                                                                                                                                                                                        
+        200 01-JUL-94 31-DEC-98 AC_ACCOUNT            90                                                                                                                                                                                        
+
+10 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES;
+
+FIRST_NAME          SALARY                                                                                                                                                                                                                      
+--------------- ----------                                                                                                                                                                                                                      
+Steven               24000                                                                                                                                                                                                                      
+Neena                17000                                                                                                                                                                                                                      
+Lex                  17000                                                                                                                                                                                                                      
+Alexander             9000                                                                                                                                                                                                                      
+Bruce                 6000                                                                                                                                                                                                                      
+Diana                 4200                                                                                                                                                                                                                      
+Kevin                 5800                                                                                                                                                                                                                      
+Trenna                3500                                                                                                                                                                                                                      
+Curtis                3100                                                                                                                                                                                                                      
+Randall               2600                                                                                                                                                                                                                      
+Peter                 2500                                                                                                                                                                                                                      
+Eleni                10500                                                                                                                                                                                                                      
+Ellen                11000                                                                                                                                                                                                                      
+Jonathon              8600                                                                                                                                                                                                                      
+Kimerely              7000                                                                                                                                                                                                                      
+Jennifer              4400                                                                                                                                                                                                                      
+Michael              13000                                                                                                                                                                                                                      
+Pat                   6000                                                                                                                                                                                                                      
+Shelley              12000                                                                                                                                                                                                                      
+William               8300                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> SELECT * FROM JOB_GRADES;
+
+GRA LOWEST_SAL HIGHEST_SAL                                                                                                                                                                                                                      
+--- ---------- -----------                                                                                                                                                                                                                      
+A         1000        2999                                                                                                                                                                                                                      
+B         3000        5999                                                                                                                                                                                                                      
+C         6000        9999                                                                                                                                                                                                                      
+D        10000       14999                                                                                                                                                                                                                      
+E        15000       24999                                                                                                                                                                                                                      
+F        25000       40000                                                                                                                                                                                                                      
+
+6 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY , GRADE_LEVEL FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEEN LOWEST_SAL AND HIGHEST_SAL;
+SELECT FIRST_NAME , SALARY , GRADE_LEVEL FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEEN LOWEST_SAL AND HIGHEST_SAL
+                                                                                  *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT FIRST_NAME , SALARY , GRADE_LEVEL FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL;
+
+FIRST_NAME          SALARY GRA                                                                                                                                                                                                                  
+--------------- ---------- ---                                                                                                                                                                                                                  
+Peter                 2500 A                                                                                                                                                                                                                    
+Randall               2600 A                                                                                                                                                                                                                    
+Curtis                3100 B                                                                                                                                                                                                                    
+Trenna                3500 B                                                                                                                                                                                                                    
+Diana                 4200 B                                                                                                                                                                                                                    
+Jennifer              4400 B                                                                                                                                                                                                                    
+Kevin                 5800 B                                                                                                                                                                                                                    
+Bruce                 6000 C                                                                                                                                                                                                                    
+Pat                   6000 C                                                                                                                                                                                                                    
+Kimerely              7000 C                                                                                                                                                                                                                    
+William               8300 C                                                                                                                                                                                                                    
+Jonathon              8600 C                                                                                                                                                                                                                    
+Alexander             9000 C                                                                                                                                                                                                                    
+Eleni                10500 D                                                                                                                                                                                                                    
+Ellen                11000 D                                                                                                                                                                                                                    
+Shelley              12000 D                                                                                                                                                                                                                    
+Michael              13000 D                                                                                                                                                                                                                    
+Neena                17000 E                                                                                                                                                                                                                    
+Lex                  17000 E                                                                                                                                                                                                                    
+Steven               24000 E                                                                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY , GRADE_LEVEL FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL WHERE GRADE_LEVEL = 'C';
+
+FIRST_NAME          SALARY GRA                                                                                                                                                                                                                  
+--------------- ---------- ---                                                                                                                                                                                                                  
+Alexander             9000 C                                                                                                                                                                                                                    
+Bruce                 6000 C                                                                                                                                                                                                                    
+Jonathon              8600 C                                                                                                                                                                                                                    
+Kimerely              7000 C                                                                                                                                                                                                                    
+Pat                   6000 C                                                                                                                                                                                                                    
+William               8300 C                                                                                                                                                                                                                    
+
+6 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL WHERE GRADE_LEVEL = 'C';
+
+FIRST_NAME          SALARY                                                                                                                                                                                                                      
+--------------- ----------                                                                                                                                                                                                                      
+Alexander             9000                                                                                                                                                                                                                      
+Bruce                 6000                                                                                                                                                                                                                      
+Jonathon              8600                                                                                                                                                                                                                      
+Kimerely              7000                                                                                                                                                                                                                      
+Pat                   6000                                                                                                                                                                                                                      
+William               8300                                                                                                                                                                                                                      
+
+6 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL WHERE GRADE_LEVEL = 'C' ORDER BY 2;
+
+FIRST_NAME          SALARY                                                                                                                                                                                                                      
+--------------- ----------                                                                                                                                                                                                                      
+Pat                   6000                                                                                                                                                                                                                      
+Bruce                 6000                                                                                                                                                                                                                      
+Kimerely              7000                                                                                                                                                                                                                      
+William               8300                                                                                                                                                                                                                      
+Jonathon              8600                                                                                                                                                                                                                      
+Alexander             9000                                                                                                                                                                                                                      
+
+6 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> SELECT * FROM JOB_HISTORY;
+
+EMPLOYEE_ID START_DAT END_DATE  JOB_ID     DEPARTMENT_ID                                                                                                                                                                                        
+----------- --------- --------- ---------- -------------                                                                                                                                                                                        
+        102 13-JAN-93 24-JUL-98 IT_PROG               60                                                                                                                                                                                        
+        101 21-SEP-89 27-OCT-93 AC_ACCOUNT           110                                                                                                                                                                                        
+        101 28-OCT-93 15-MAR-97 AC_MGR               110                                                                                                                                                                                        
+        201 17-FEB-96 19-DEC-99 MK_REP                20                                                                                                                                                                                        
+        114 24-MAR-98 31-DEC-99 ST_CLERK              50                                                                                                                                                                                        
+        122 01-JAN-99 31-DEC-99 ST_CLERK              50                                                                                                                                                                                        
+        200 17-SEP-87 17-JUN-93 AD_ASST               90                                                                                                                                                                                        
+        176 24-MAR-98 31-DEC-98 SA_REP                80                                                                                                                                                                                        
+        176 01-JAN-99 31-DEC-99 SA_MAN                80                                                                                                                                                                                        
+        200 01-JUL-94 31-DEC-98 AC_ACCOUNT            90                                                                                                                                                                                        
+
+10 rows selected.
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES JOIN JOB_HISTORY USING (EMPLOYEE_ID);
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Neena                                                                                                                                                                                                                                           
+Neena                                                                                                                                                                                                                                           
+Lex                                                                                                                                                                                                                                             
+Jonathon                                                                                                                                                                                                                                        
+Jonathon                                                                                                                                                                                                                                        
+Jennifer                                                                                                                                                                                                                                        
+Jennifer                                                                                                                                                                                                                                        
+Michael                                                                                                                                                                                                                                         
+
+8 rows selected.
+
+SQL> SELECT DISTINCT FIRST_NAME FROM EMPLOYEES JOIN JOB_HISTORY USING (EMPLOYEE_ID);
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Michael                                                                                                                                                                                                                                         
+Jonathon                                                                                                                                                                                                                                        
+Lex                                                                                                                                                                                                                                             
+Neena                                                                                                                                                                                                                                           
+Jennifer                                                                                                                                                                                                                                        
+
+SQL> SPOOL OFF

@@ -1,0 +1,268 @@
+
+SQL> REM INSERT TWO ROWS TO REGIONS TABLE. (USE LITERAL VALUES)
+SQL>
+SQL>
+SQL> CREATE TABLE R1 AS SELECT * FROM RGIONS WHERE  1=2;
+CREATE TABLE R1 AS SELECT * FROM RGIONS WHERE  1=2
+                                 *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> CREATE TABLE R1 AS SELECT * FROM REGIONS WHERE  1=2;
+
+Table created.
+
+SQL> SELECT * FROM REGIONS;
+
+ REGION_ID REGION_NAME
+---------- -------------------------
+         1 Europe
+         2 Americas
+         3 Asia
+         4 Middle East and Africa
+
+SQL> SELECT * FROM R1;
+
+no rows selected
+
+SQL> INSERT INTO R1 (REGION_ID,REGION_NAME) VALUES(5,'EUROPE');
+
+1 row created.
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME
+---------- -------------------------
+         5 EUROPE
+
+SQL> REM INSERT TWO ROWS TO DEPARTMENTS TABLE. SUPPLY VALUES ONLY FOR NOT NULL COLUMNS. (USE SUBSTITUTION VARIABLES)
+SQL> CREATE TABLE D1 AS SELECT * FROM DEPARTMENTS WHERE  1=2;
+
+Table created.
+
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID
+------------- ------------------------------ ---------- -----------
+           10 Administration                        200        1700
+           20 Marketing                             201        1800
+           50 Shiping                               124        1500
+           60 IT                                    103        1400
+           80 Sales                                 149        2500
+           90 Executive                             100        1700
+          110 Accounting                            205        1700
+          190 Contracting                                      1700
+
+8 rows selected.
+
+SQL> INSERT INTO R1 (DEPARTMENT_ID,DEPARTMENT_NAME,) VALUES(NULL,'IT');
+INSERT INTO R1 (DEPARTMENT_ID,DEPARTMENT_NAME,) VALUES(NULL,'IT')
+                                              *
+ERROR at line 1:
+ORA-01747: invalid user.table.column, table.column, or column specification
+
+
+SQL> INSERT INTO R1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(NULL,'IT');
+INSERT INTO R1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(NULL,'IT')
+                              *
+ERROR at line 1:
+ORA-00904: "DEPARTMENT_NAME": invalid identifier
+
+
+SQL> INSERT INTO D1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(NULL,'IT');
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID
+------------- ------------------------------ ---------- -----------
+              IT
+
+SQL> INSERT INTO D1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(&CL,'&LN');
+Enter value for cl: 50
+Enter value for ln: 'IT'
+old   1: INSERT INTO D1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(&CL,'&LN')
+new   1: INSERT INTO D1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(50,''IT'')
+INSERT INTO D1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(50,''IT'')
+                                                           *
+ERROR at line 1:
+ORA-00917: missing comma
+
+
+SQL> /
+Enter value for cl: 50
+Enter value for ln: IT
+old   1: INSERT INTO D1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(&CL,'&LN')
+new   1: INSERT INTO D1 (DEPARTMENT_ID,DEPARTMENT_NAME) VALUES(50,'IT')
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID
+------------- ------------------------------ ---------- -----------
+              IT
+           50 IT
+
+SQL> REM  INSERT TWO ROWS TO LOCATIONS TABLE. SUPPLY VALUES FOR ALL COLUMNS, BUT KEEP NULL FOR COLUMNS WHICH ALLOWS NULL.
+SQL>
+SQL> CREATE TABLE L1 AS SELECT * FROM LOCATIONSS WHERE  1=2;
+CREATE TABLE L1 AS SELECT * FROM LOCATIONSS WHERE  1=2
+                                 *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> CREATE TABLE L1 AS SELECT * FROM LOCATIONS WHERE  1=2;
+
+Table created.
+
+SQL> SELECT * FROM LOCATIONS;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK
+
+SQL> INSERT INTO L1 VALUES(SELECT * FROM LOCATIONS);
+INSERT INTO L1 VALUES(SELECT * FROM LOCATIONS)
+                      *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> INSERT INTO L1 VALUES (SELECT * FROM LOCATIONS);
+INSERT INTO L1 VALUES (SELECT * FROM LOCATIONS)
+                       *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> INSERT INTO L1 (LOCATION_ID,STREET_ADRESS,POSTAL_CODE,CITY,STATE_PROVINCE,COUNTRY_ID) VALUES (2501,'AHMEDABAD','','','','');
+INSERT INTO L1 (LOCATION_ID,STREET_ADRESS,POSTAL_CODE,CITY,STATE_PROVINCE,COUNTRY_ID) VALUES (2501,'AHMEDABAD','','','','')
+                                                                                                                  *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SYS"."L1"."CITY")
+
+
+SQL> INSERT INTO L1 (LOCATION_ID,CITY,POSTAL_CODE,STREET_ADRESS,STATE_PROVINCE,COUNTRY_ID) VALUES (2501,'AHMEDABAD',,'','','');
+INSERT INTO L1 (LOCATION_ID,CITY,POSTAL_CODE,STREET_ADRESS,STATE_PROVINCE,COUNTRY_ID) VALUES (2501,'AHMEDABAD',,'','','')
+                                                                                                               *
+ERROR at line 1:
+ORA-00936: missing expression
+
+
+SQL> INSERT INTO L1 (LOCATION_ID,CITY,POSTAL_CODE,STREET_ADRESS,STATE_PROVINCE,COUNTRY_ID) VALUES (2501,'AHMEDABAD','','','');
+INSERT INTO L1 (LOCATION_ID,CITY,POSTAL_CODE,STREET_ADRESS,STATE_PROVINCE,COUNTRY_ID) VALUES (2501,'AHMEDABAD','','','')
+                                                                                      *
+ERROR at line 1:
+ORA-00947: not enough values
+
+
+SQL> INSERT INTO L1 (LOCATION_ID,CITY,POSTAL_CODE,STREET_ADRESS,STATE_PROVINCE,COUNTRY_ID) VALUES (2501,'AHMEDABAD','','','','');
+
+1 row created.
+
+SQL> INSERT INTO L1;
+INSERT INTO L1
+             *
+ERROR at line 1:
+ORA-00926: missing VALUES keyword
+
+
+SQL> SELECT * FROM L1;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --
+       2501                                                       AHMEDABAD
+
+SQL> REM 4 INSERT ALL ROWS OF REGIONS TABLE INTO SAME TABLE, USING SINGLE COMMAND.
+SQL>
+SQL>
+SQL> SELECT * FROM REGIONS;
+
+ REGION_ID REGION_NAME
+---------- -------------------------
+         1 Europe
+         2 Americas
+         3 Asia
+         4 Middle East and Africa
+
+SQL> INSERT INTO R1 (SELECT * FROM REGIONS);
+
+4 rows created.
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME
+---------- -------------------------
+         5 EUROPE
+         1 Europe
+         2 Americas
+         3 Asia
+         4 Middle East and Africa
+
+SQL> REM 5 INSERT TWO ROWS TO COUNTRIES TABLE, USE DEFAULT KEY WORD.
+SQL>
+SQL> CREATE TABLE C1 AS SELECT * FROM  COUNTRIES WHERE  1=2;
+
+Table created.
+
+SQL> SELECT * FROM COUNTRIES;
+
+CO COUNTRY_NAME                              REGION_ID
+-- ---------------------------------------- ----------
+CA Canada                                            2
+DE Germany                                           1
+UK United Kingdom                                    1
+US United States of America                          2
+
+ 
+
+SQL> INSERT INTO C1 (COUNTRY_ID,COUNTRY_NAME,REGION_ID) VALUES (55,'ROYAL',91);
+
+1 row created.
+
+SQL>
+SQL> SELECT * FROM C1;
+
+CO COUNTRY_NAME                              REGION_ID
+-- ---------------------------------------- ----------
+55 ROYAL                                            91
+SQL>
+SQL> REM 6 CREATE SAVEPOINT NAMED FIRST.
+SQL>
+SQL> SAVEPOINT FIRST;
+
+Savepoint created.
+
+SQL> REM 7 INSERT TWO ROWS TO COUNTRIES TABLE, USE SUB QUERY TO GET VALUE FOR REGION_ID COLUMN.
+SQL>
+SQL> INSERT INTO R1 (SELECT * FROM REGIONS WHERE REGION_ID>2);
+
+2 rows created.
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME
+---------- -------------------------
+         5 EUROPE
+         1 Europe
+         2 Americas
+         3 Asia
+         4 Middle East and Africa
+         3 Asia
+         4 Middle East and Africa
+
+7 rows selected.
+
+SQL>

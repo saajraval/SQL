@@ -1,0 +1,276 @@
+
+SQL*Plus: Release 12.2.0.1.0 Production on Sat Jul 3 17:27:08 2021
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+Enter user-name: SCOTT
+Enter password:
+Last Successful login time: Sat Jul 03 2021 17:26:21 +05:30
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SQL> SET LINES 240 PAGES 24;
+SQL> SELECT * FROM REGIONS;
+
+ REGION_ID REGION_NAME
+---------- -------------------------
+         1 Europe
+         2 Americas
+         3 Asia
+         4 Middle East and Africa
+
+SQL> DROP TABLE R1;
+DROP TABLE R1
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> REM 1 CREATE IDENTICAL TABLE OF REGIONS WITH DEFINITION AND DATA AND NAME IT R1
+SQL>
+SQL> CREATE TABLE R1 AS SELECT * FROM REGIONS;
+
+Table created.
+
+SQL> DESC R1;
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ REGION_ID                                                                                                                                 NOT NULL NUMBER
+ REGION_NAME                                                                                                                                        VARCHAR2(25)
+
+SQL> SELECT * FROM R1;
+
+ REGION_ID REGION_NAME
+---------- -------------------------
+         1 Europe
+         2 Americas
+         3 Asia
+         4 Middle East and Africa
+
+SQL> REM 2 CREATE TABLE E2 USING EMPLOYEES TABLE WHICH WILL HAVE EMPLOYEE_ID , JOB_ID , SALARY COLUMNS ONLY.
+SQL>
+SQL> CREATE TABLE E2 AS SELECT EMPLOYEE_ID,JOB_ID,SALARY FROM EMPLOYEES;
+
+Table created.
+
+SQL> DESC E2;
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+
+SQL> REM 3 CREATE TABLE E3 USING EMPLOYEES TABLE WHICH WILL HAVE ONLY ROWS HAVING SALARY HIGHER THAN 10000.
+SQL>
+SQL> CREATE TABLE E3 AS SELECT * FROM EMPLOYEES WHERE SALARY > 10000;
+
+Table created.
+
+SQL> DESC E3;
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(20)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(25)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(25)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> SELECT * FROM E3;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110
+
+7 rows selected.
+
+SQL> REM 4 CREATE TABLE E4 USING EMPLOYEES TABLE WHICH WILL HAVE FIRST_NAME , SALARY , JOB_ID , HIRE_DATE COLUMNS. INCLUDE ONLY THOSE ROWS WHICH WERE HIRED BEFORE 1995.
+SQL>
+SQL> CREATE TABLE E4 AS SELECT FIRST_NAME,SALARY,JOB_ID,HIRE_DATE FROM EMPLOYEES WHERE HIRE_DATE < '01-JAN-1995';
+
+Table created.
+
+SQL> SELECT * FROM E4;
+
+FIRST_NAME               SALARY JOB_ID     HIRE_DATE
+-------------------- ---------- ---------- ---------
+Steven                    24000 AD_PRES    17-JUL-87
+Neena                     17000 AD_VP      21-SEP-89
+Lex                       17000 AD_VP      13-JAN-93
+Alexander                  9000 IT_PROG    03-JAN-90
+Bruce                      6000 IT_PROG    21-MAY-91
+Jennifer                   4400 AD_ASST    17-SEP-87
+Shelley                   12000 AC_MGR     07-JUN-94
+William                    8300 AC_ACCOUNT 07-JUN-94
+
+8 rows selected.
+
+SQL> REM 5 CREATE TABLE D5 USING DEPARTMENTS TABLE. ONLY DEFINITION SHOULD BE CREATED WITHOUT ANY DATA.
+SQL>
+SQL> CREATE TABLE D5 AS SELECT * FROM DEPARTMENTS WHERE 2=1;
+
+Table created.
+
+SQL> DESC E5;
+ERROR:
+ORA-04043: object E5 does not exist
+
+
+SQL> DESC D5;
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+ DEPARTMENT_NAME                                                                                                                           NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ LOCATION_ID                                                                                                                                        NUMBER(4)
+
+SQL> SELECT * FROM D5;
+
+no rows selected
+
+SQL> REM 6 CREATE TABLE ED6 USING EMPLOYEES AND DEPARTMENTS TABLES. INCLUDE FIRST_NAME AND DEPARTMENT_NAME WITH ALL ROWS.
+SQL>
+SQL> CREATE TABLE ED6 AS SELECT FIRST_NAME,DEPARTMENT_NAME FROM EMPLOYEES
+  2  NATURAL JOIN DEPARTMENTS;
+
+Table created.
+
+SQL> SELECT * FROM ED6;
+
+FIRST_NAME           DEPARTMENT_NAME
+-------------------- ------------------------------
+Neena                Executive
+Lex                  Executive
+Bruce                IT
+Diana                IT
+Trenna               Shiping
+Curtis               Shiping
+Randall              Shiping
+Peter                Shiping
+Ellen                Sales
+Jonathon             Sales
+Pat                  Marketing
+William              Accounting
+
+12 rows selected.
+
+SQL> REM 7 CREATE TABLE E7 USING EMPLOYEES TABLE. INCLUDE JOB_ID AND HIGHEST SALRAY PAID TO EACH JOB_ID.
+SQL>
+SQL> CREATE TABLE E7 AS SELECT JOB_ID,MAX(SALARY) HIGHEST_SALARY FROM EMPLOYEES GROUP BY JOB_ID;
+
+Table created.
+
+SQL> SELECT * FROM E7;
+
+JOB_ID     HIGHEST_SALARY
+---------- --------------
+IT_PROG              9000
+AC_MGR              12000
+AC_ACCOUNT           8300
+ST_MAN               5800
+AD_ASST              4400
+AD_VP               17000
+SA_MAN              10500
+MK_MAN              13000
+AD_PRES             24000
+SA_REP              11000
+MK_REP               6000
+ST_CLERK             3500
+
+12 rows selected.
+
+SQL> REM 8 CREATE TABLE E8 USING EMPLOYEES TABLE. INCLUDE FIRST_NAME AND ANNUAL SALARY.
+SQL>
+SQL> CREATE TABLE E8 AS SELECT FIRST_NAME,SALARY * 12 ANNUAL_SALARY FROM EMPLOYEES;
+
+Table created.
+
+SQL> SELECT * FROM E8;
+
+FIRST_NAME           ANNUAL_SALARY
+-------------------- -------------
+Steven                      288000
+Neena                       204000
+Lex                         204000
+Alexander                   108000
+Bruce                        72000
+Diana                        50400
+Kevin                        69600
+Trenna                       42000
+Curtis                       37200
+Randall                      31200
+Peter                        30000
+Eleni                       126000
+Ellen                       132000
+Jonathon                    103200
+Kimerely                     84000
+Jennifer                     52800
+Michael                     156000
+Pat                          72000
+Shelley                     144000
+William                      99600
+
+20 rows selected.
+
+SQL> REM 9 CREATE TABLE E9 USING EMPLOYEES AND DEPARTMENTS TABLES. INCLUDE ROWS WHICH WORKS IN Shiping DEPARTMENT.
+SQL>
+SQL> CREATE TABLE E9 AS SELECT * FROM EMPLOYEES NATURAL JOIN DEPARTMENTS WHERE DEPARTMENT_NAME = 'Shiping';
+
+Table created.
+
+SQL> SELECT * FROM E9;
+
+MANAGER_ID DEPARTMENT_ID EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT DEPARTMENT_NAME                LOCATION_ID
+---------- ------------- ----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ------------------------------ -----------
+       124            50         141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                Shiping                               1500
+       124            50         142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                Shiping                               1500
+       124            50         143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                Shiping                               1500
+       124            50         144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                Shiping                               1500
+
+SQL> REM 10 CREATE TABLE E10 USING DEPARTMENTS AND EMPLOYEES TABLES. INCLUDE DEPARTMENT_NAME , LOWEST SALARY , HIGHEST SALARY PAID TO EACH DEPARTMENT.
+SQL>
+SQL> CREATE TABLE E10 AS SELECT DEPARTMENT_NAME,MIN(SALARY) LOW_SALARY,MAX(SALARY) HIGH_SALARY FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+CREATE TABLE E10 AS SELECT DEPARTMENT_NAME,MIN(SALARY) LOW_SALARY,MAX(SALARY) HIGH_SALARY FROM EMPLOYEES GROUP BY DEPARTMENT_ID
+                           *
+ERROR at line 1:
+ORA-00904: "DEPARTMENT_NAME": invalid identifier
+
+
+SQL> CREATE TABLE E10 AS SELECT DEPARTMENT_NAME,MIN(SALARY) LOW_SALARY,MAX(SALARY) HIGH_SALARY FROM EMPLOYEES NATURAL JOIN DEPARTMENTS GROUP BY DEPARTMENT_ID;
+CREATE TABLE E10 AS SELECT DEPARTMENT_NAME,MIN(SALARY) LOW_SALARY,MAX(SALARY) HIGH_SALARY FROM EMPLOYEES NATURAL JOIN DEPARTMENTS GROUP BY DEPARTMENT_ID
+                           *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression
+
+
+SQL> CREATE TABLE E10 AS SELECT DEPARTMENT_NAME,MIN(SALARY) LOW_SALARY,MAX(SALARY) HIGH_SALARY FROM EMPLOYEES INNER JOIN DEPARTMENTS  USING(DEPARTMENT_ID) GROUP BY DEPARTMENT_NAME;
+
+Table created.
+
+SQL> SELECT * FROM E10;
+
+DEPARTMENT_NAME                LOW_SALARY HIGH_SALARY
+------------------------------ ---------- -----------
+Administration                       4400        4400
+Accounting                           8300       12000
+IT                                   4200        9000
+Executive                           17000       24000
+Shiping                              2500        5800
+Sales                                8600       11000
+Marketing                            6000       13000
+
+7 rows selected.
+
+SQL> SPOOL OFF

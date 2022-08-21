@@ -1,0 +1,20 @@
+Arith->    + - / * 
+Logical->  and or not
+special->   in between  like is null
+conc. ->   || 
+single ->    < > <= >= =
+multi->     all some any  <> 
+quation->   q
+
+
+
+
+
+
+
+
+
+
+
+
+

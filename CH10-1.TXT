@@ -1,0 +1,136 @@
+SQL> 
+SQL> REM DIFFERENCE BETWEEN FILE AND OBJECT
+SQL> 
+SQL> REM FILE : HAS PHYSICAL EXISTENCE OS COMMAND , MY COMPUTER , THIS PC
+SQL> 
+SQL> REM OBJECT : HAS LOGICAL EXISTENCE SO OS COMMAND CAN'T STORE IT'S INFO.
+SQL> 
+SQL> REM OBJECT INFO. CAN BE FOUND USING ORACLE BUILT IN VIEWS.
+SQL> 
+SQL> REM TYPES OF OBJECTS : TABLE , VIEW , SYNONYM , SEQUENCE , INDEX , DIRECTORY
+SQL> 
+SQL> REM CHAPTER 10 : TABLE
+SQL> 
+SQL> REM CREATE TABLE , DROP TABLE , FLASHBACK TABLE , PURGE TABLE , RECYCLBIN , TRUNCATE TABLE
+SQL> 
+SQL> 
+SQL> REM PURPOSE OF CREATING TABLE : TO STORE DATA PERMANENTLY INSIDE DATABASE
+SQL> 
+SQL> REM TABLE : DEFINITION + CONSTRAINTS + DATA
+SQL> 
+SQL> REM HOW TO CREATE TABLE : 1 FROM SCRATCH 2 USING EXISTING TABLE
+SQL> 
+SQL> REM SYNTAX FOR CREATING TABLE FROM SCRATCH : CREATE TABLE TN(COLUMN_NAME DATA TYPE (SIZE) DEFAULT DV COLUMN LEVEL CONSTRAINTS,...,TABLE LEVEL CONSTRAINTS);
+SQL> 
+SQL> REM SYNTAX FOR CREATING TABLE USING SUB QUERY : CREATE TABLE TN AS SUB QUERY;
+SQL> 
+SQL> 
+SQL> REM SYNTAX FOR CREATING TABLE FROM SCRATCH : CREATE TABLE TN(COLUMN_NAME DATA TYPE (SIZE) DEFAULT DV COLUMN LEVEL CONSTRAINTS,...,TABLE LEVEL CONSTRAINTS);
+SQL> 
+SQL> REM ORACLE SUPPORTS TWO TYPES OF NAMING CONVENTIONS FOR OBJECT NAMING.
+SQL> 
+SQL> REM 1 CASE INSENSITIVE NAMING (DEFAULT) 2 CASE SENSITIVE NAMING
+SQL> 
+SQL> 
+SQL> 
+SQL> REM RULES FOR USING CASE INSENSITIVE NAMING :
+SQL> 
+SQL> REM 1 MIN LENGTH 1 CHARACTER , MAX LENGTH 128 CHARACTER
+SQL> 
+SQL> REM 2 FIRST CHARACTER MUST BE ALPHABET
+SQL> 
+SQL> REM 3 REMAINING CHARACTERS MAY BE ALPHABETS, NUMBERS OR ANY OF THE 3 SPECIAL CHARACTERS  _ # $
+SQL> 
+SQL> REM 4 WE CAN'T USE SQL/ORACLE KEY/RESERVE WORD AS OBJECT NAME, BUT IT MAY BE PART OF OBJECT NAME
+SQL> 
+SQL> REM 5 ORACLE DOESN'T ALLOW IDENTICAL NAME FOR NEWLY CREATED OBJECT UNDER SAME USER/SCHEMA
+SQL> 
+SQL> 
+SQL> 
+SQL> REM RULES FOR USING CASE SENSITIVE NAMING :
+SQL> 
+SQL> REM 1 MIN LENGTH 1 CHARACTER , MAX LENGTH 128 CHARACTER
+SQL> 
+SQL> REM 2 IT MUST BE DELIMITED WITH " (DOUBLE QUOTES)
+SQL> 
+SQL> REM 3 WE CAN USE ANY CHARACTER FOR NAMING
+SQL> 
+SQL> REM 4 WE CAN USE SQL/ORACLE KEY/RESERVE WORD FOR OBJECT NAMING
+SQL> 
+SQL> REM 5 WE CAN USE SAME SPELLING WITH DIFFERENT CASE FOR NAMING OBJECT
+SQL> 
+SQL> REM 6 IF WE USE ALL CAPITAL ALPHABETS, THE NAME WILL BE CONSIDERED AS CASE INSENSITIVE
+SQL> 
+SQL> 
+SQL> 
+SQL> REM NOTE FOR CASE SENSITIVE NAMING : WHENEVER WE REFER THIS TYPE OBJECT WE MUST DELIMIT IT WITH DOUBLE QUOTES, USE SAME SPELLING AND MOST IMPORTANTLY USE SAME CASE
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE A(NO NUMBER);
+
+Table created.
+
+SQL> CREATE TABLE a(NO NUMBER);
+CREATE TABLE a(NO NUMBER)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE "Abc"(c char);
+
+Table created.
+
+SQL> CREATE TABLE "ABc"(c char);
+
+Table created.
+
+SQL> drop table "ABc";
+
+Table dropped.
+
+SQL> CREATE TABLE "ABc"(d date);
+
+Table created.
+
+SQL> CREATE TABLE "ABC"(n number);
+
+Table created.
+
+SQL> desc "Abc"
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ C                                                                                                                                                  CHAR(1)
+
+SQL> desc "ABc"
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ D                                                                                                                                                  DATE
+
+SQL> desc "ABC"
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ N                                                                                                                                                  NUMBER
+
+SQL> desc ABC
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ N                                                                                                                                                  NUMBER
+
+SQL> desc abc
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ N                                                                                                                                                  NUMBER
+
+SQL> desc Abc
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ N                                                                                                                                                  NUMBER
+
+SQL> desc ABc
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ N                                                                                                                                                  NUMBER
+
+SQL> SPOOL OFF

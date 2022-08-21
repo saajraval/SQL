@@ -1,0 +1,972 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM TYPES OF INSERT : 1 SINGLE ROW INSERT 2 MULTI ROW INSERT 3 MULTI TABLE INSERT
+SQL> 
+SQL> 
+SQL> DROP TABLE D1 PURGE
+  2  ;
+DROP TABLE D1 PURGE
+           *
+ERROR at line 1:
+ORA-02449: unique/primary keys in table referenced by foreign keys 
+
+
+SQL> DROP TABLE D1 CASCADE CONSTRAINTS PURGE;
+
+Table dropped.
+
+SQL> DROP TABLE D2 CASCADE CONSTRAINTS PURGE;
+DROP TABLE D2 CASCADE CONSTRAINTS PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SET LINES 240 PAGES 24
+SQL> 
+SQL> CREATE TABLE D1 AS SELECT * FROM DEPARTMENTS WHERE ROWNUM = 0;
+
+Table created.
+
+SQL> DESC DEPARTMENTS
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                                             NOT NULL NUMBER(4)
+ DEPARTMENT_NAME                                                                                                                           NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ LOCATION_ID                                                                                                                                        NUMBER(4)
+
+SQL> DESC D1
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+ DEPARTMENT_NAME                                                                                                                           NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ LOCATION_ID                                                                                                                                        NUMBER(4)
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> SELECT ROWNUM , D.* FROM DEPARTMENTS D;
+
+    ROWNUM DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                  
+---------- ------------- ------------------------------ ---------- -----------                                                                                                                                                                  
+         1            10 Administration                        200        1700                                                                                                                                                                  
+         2            20 Marketing                             201        1800                                                                                                                                                                  
+         3            50 Shiping                               124        1500                                                                                                                                                                  
+         4            60 IT                                    103        1400                                                                                                                                                                  
+         5            80 Sales                                 149        2500                                                                                                                                                                  
+         6            90 Executive                             100        1700                                                                                                                                                                  
+         7           110 Accounting                            205        1700                                                                                                                                                                  
+         8           190 Contracting                                      1700                                                                                                                                                                  
+
+8 rows selected.
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS;
+
+8 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> ROLL
+Rollback complete.
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE MANAGER_ID > 200;
+
+2 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_NAME LIKE '%o%';
+
+3 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE MANAGER_ID > 400;
+
+0 rows created.
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , MANAGER_ID) SELECT DEPARTMENT_NAME , MANAGER_ID FROM DEPARTMENTS WHERE MANAGER_ID < 150;
+
+4 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+              Shiping                               124                                                                                                                                                                                         
+              IT                                    103                                                                                                                                                                                         
+              Sales                                 149                                                                                                                                                                                         
+              Executive                             100                                                                                                                                                                                         
+
+9 rows selected.
+
+SQL> SAVEPOINT A;
+
+Savepoint created.
+
+SQL> 
+SQL> REM UPDATE : TO UPDATE/CHANGE/EDIT/MODIFY EXISTING ROW VALUES
+SQL> 
+SQL> UPDATE D1 SET LOCATION_ID = 2100;
+
+9 rows updated.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        2100                                                                                                                                                                             
+          110 Accounting                            205        2100                                                                                                                                                                             
+           10 Administration                        200        2100                                                                                                                                                                             
+          110 Accounting                            205        2100                                                                                                                                                                             
+          190 Contracting                                      2100                                                                                                                                                                             
+              Shiping                               124        2100                                                                                                                                                                             
+              IT                                    103        2100                                                                                                                                                                             
+              Sales                                 149        2100                                                                                                                                                                             
+              Executive                             100        2100                                                                                                                                                                             
+
+9 rows selected.
+
+SQL> ROLLBACK TO A;
+
+Rollback complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+              Shiping                               124                                                                                                                                                                                         
+              IT                                    103                                                                                                                                                                                         
+              Sales                                 149                                                                                                                                                                                         
+              Executive                             100                                                                                                                                                                                         
+
+9 rows selected.
+
+SQL> UPDATE D1 SET LOCATION_ID = 2100 WHERE LOCATION_ID IS NULL;
+
+4 rows updated.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+              Shiping                               124        2100                                                                                                                                                                             
+              IT                                    103        2100                                                                                                                                                                             
+              Sales                                 149        2100                                                                                                                                                                             
+              Executive                             100        2100                                                                                                                                                                             
+
+9 rows selected.
+
+SQL> UPDATE D1 SET DEPARTMENT_NAME = UPPER(DEPARTMENT_NAME) WHERE DEPARTMENT_NAME LIKE '%o%';
+
+4 rows updated.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+           10 ADMINISTRATION                        200        1700                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+          190 CONTRACTING                                      1700                                                                                                                                                                             
+              Shiping                               124        2100                                                                                                                                                                             
+              IT                                    103        2100                                                                                                                                                                             
+              Sales                                 149        2100                                                                                                                                                                             
+              Executive                             100        2100                                                                                                                                                                             
+
+9 rows selected.
+
+SQL> SAVEPOINT B;
+
+Savepoint created.
+
+SQL> UPDATE D1 DEPARTMENT_NAME = LOWER(DEPARTMENT_NAME) , LOCATION_ID = LOCATION_ID + 100 WHERE MANAGER_ID IS NULL;
+UPDATE D1 DEPARTMENT_NAME = LOWER(DEPARTMENT_NAME) , LOCATION_ID = LOCATION_ID + 100 WHERE MANAGER_ID IS NULL
+                          *
+ERROR at line 1:
+ORA-00971: missing SET keyword 
+
+
+SQL> UPDATE D1 SET DEPARTMENT_NAME = LOWER(DEPARTMENT_NAME) , LOCATION_ID = LOCATION_ID + 100 WHERE MANAGER_ID IS NULL;
+
+1 row updated.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+           10 ADMINISTRATION                        200        1700                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+          190 contracting                                      1800                                                                                                                                                                             
+              Shiping                               124        2100                                                                                                                                                                             
+              IT                                    103        2100                                                                                                                                                                             
+              Sales                                 149        2100                                                                                                                                                                             
+              Executive                             100        2100                                                                                                                                                                             
+
+9 rows selected.
+
+SQL> UPDATE D1 SET MANAGER_ID = (SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE FIRST_NAME = 'Steven') WHERE MANAGER_ID IS NULL;
+
+1 row updated.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+           10 ADMINISTRATION                        200        1700                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+          190 contracting                           100        1800                                                                                                                                                                             
+              Shiping                               124        2100                                                                                                                                                                             
+              IT                                    103        2100                                                                                                                                                                             
+              Sales                                 149        2100                                                                                                                                                                             
+              Executive                             100        2100                                                                                                                                                                             
+
+9 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> REM SUBQUERY MUST RETURN SINGLE ROW AND SINGLE COLUMN I.E. IT MUST BE SCALAR SUB QUERY
+SQL> 
+SQL> UPDATE D1 SET MANAGER_ID = (SELECT EMPLOYEE_ID FROM EMPLOYEES) WHERE MANAGER_ID IS NULL;
+
+0 rows updated.
+
+SQL> ROLLBACK TO B;
+
+Rollback complete.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+           10 ADMINISTRATION                        200        1700                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+          190 CONTRACTING                                      1700                                                                                                                                                                             
+              Shiping                               124        2100                                                                                                                                                                             
+              IT                                    103        2100                                                                                                                                                                             
+              Sales                                 149        2100                                                                                                                                                                             
+              Executive                             100        2100                                                                                                                                                                             
+
+9 rows selected.
+
+SQL> UPDATE D1 SET MANAGER_ID = (SELECT EMPLOYEE_ID FROM EMPLOYEES) WHERE MANAGER_ID IS NULL;
+UPDATE D1 SET MANAGER_ID = (SELECT EMPLOYEE_ID FROM EMPLOYEES) WHERE MANAGER_ID IS NULL
+                            *
+ERROR at line 1:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> UPDATE D1 SET (DEPARTMENT_ID , MANAGER_ID) = (SELECT DEPARTMENT_ID , MANAGER_ID FROM EMPLOYEES WHERE EMPLOYEE_ID = 101) WHERE MANAGER_ID IS NULL;
+
+1 row updated.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+           10 ADMINISTRATION                        200        1700                                                                                                                                                                             
+          110 ACCOUNTING                            205        1700                                                                                                                                                                             
+           90 CONTRACTING                           100        1700                                                                                                                                                                             
+              Shiping                               124        2100                                                                                                                                                                             
+              IT                                    103        2100                                                                                                                                                                             
+              Sales                                 149        2100                                                                                                                                                                             
+              Executive                             100        2100                                                                                                                                                                             
+
+9 rows selected.
+
+SQL> ROLL
+Rollback complete.
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID <200;
+
+8 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> UPDATE D1 SET (DEPARTMENT_NAME , MANAGER_ID) = (LOWER(DEPARTMENT_NAME),MANAGER_ID+1) WHERE MANAGER_ID IS NULL;
+UPDATE D1 SET (DEPARTMENT_NAME , MANAGER_ID) = (LOWER(DEPARTMENT_NAME),MANAGER_ID+1) WHERE MANAGER_ID IS NULL
+                                               *
+ERROR at line 1:
+ORA-01767: UPDATE ... SET expression must be a subquery 
+
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SAVEPOINT A;
+
+Savepoint created.
+
+SQL> DELETE D1;
+
+8 rows deleted.
+
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> ROLLBACK TO A;
+
+Rollback complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> DELETE D1 WHERE MANAGER_ID IS NULL;
+
+1 row deleted.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+
+7 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> DELETE D1 WHERE MANAGER_ID IN (SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE FIRST_NAME = 'Steven');
+
+1 row deleted.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+
+6 rows selected.
+
+SQL> REM REMOVE THOSE DEPARTMENT ROWS WHOSE MANAGERS IS EITHER Kevin OR Shelley
+SQL> 
+SQL> DELETE DE1 WHERE MANAGER_ID IN (SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE FIRST_NAME  IN ('Kevin','Shelley'));
+DELETE DE1 WHERE MANAGER_ID IN (SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE FIRST_NAME  IN ('Kevin','Shelley'))
+       *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DELETE D1 WHERE MANAGER_ID IN (SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE FIRST_NAME  IN ('Kevin','Shelley'));
+
+2 rows deleted.
+
+SQL> SELECT * FROM LOCATIONS;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO                                                                                                                   
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --                                                                                                                   
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US                                                                                                                   
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US                                                                                                                   
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US                                                                                                                   
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA                                                                                                                   
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK                                                                                                                   
+
+SQL> SELECT * FROM COUNTRIES;
+
+CO COUNTRY_NAME                              REGION_ID                                                                                                                                                                                          
+-- ---------------------------------------- ----------                                                                                                                                                                                          
+CA Canada                                            2                                                                                                                                                                                          
+DE Germany                                           1                                                                                                                                                                                          
+UK United Kingdom                                    1                                                                                                                                                                                          
+US United States of America                          2                                                                                                                                                                                          
+
+SQL> REM REMOVE THOSE DEPARTMENTS WHICH ARE LOCATED IN Canada COUNTRY
+SQL> 
+SQL> SELECT GRADE_LEVEL FROM JOB_GRADES LEFT OUTER JOIN EMPLOYEES ON SALARY BETWEEN HIGHEST_SAL AND LOWEST_SAL WHERE SALARY IS NULL;
+
+GRA                                                                                                                                                                                                                                             
+---                                                                                                                                                                                                                                             
+A                                                                                                                                                                                                                                               
+B                                                                                                                                                                                                                                               
+C                                                                                                                                                                                                                                               
+D                                                                                                                                                                                                                                               
+E                                                                                                                                                                                                                                               
+F                                                                                                                                                                                                                                               
+
+6 rows selected.
+
+SQL> SELECT GRADE_LEVEL FROM JOB_GRADES LEFT OUTER JOIN EMPLOYEES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL WHERE SALARY IS NULL;
+
+GRA                                                                                                                                                                                                                                             
+---                                                                                                                                                                                                                                             
+F                                                                                                                                                                                                                                               
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES WHERE SALARY BETWEEN (SELECT HIGHEST_SAL FROM JOB_GRADES WHERE GRADE_LEVEL='D')AND (SELECT LOWEST_SAL FROM JOB_GRADES WHERE GRADE_LEVEL='D');
+
+no rows selected
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES WHERE SALARY BETWEEN (SELECT LOWEST_SAL FROM JOB_GRADES WHERE GRADE_LEVEL='D')AND (SELECT HIGHEST_SAL FROM JOB_GRADES WHERE GRADE_LEVEL='D');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Eleni                                                                                                                                                                                                                                           
+Ellen                                                                                                                                                                                                                                           
+Michael                                                                                                                                                                                                                                         
+Shelley                                                                                                                                                                                                                                         
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES WHERE JOB_ID IN (SELECT JOB_ID FROM JOBS WHERE JOB_TITLE='Stock Manager';
+SELECT FIRST_NAME FROM EMPLOYEES WHERE JOB_ID IN (SELECT JOB_ID FROM JOBS WHERE JOB_TITLE='Stock Manager'
+                                                                                                        *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES WHERE JOB_ID IN (SELECT JOB_ID FROM JOBS WHERE JOB_TITLE='Stock Manager');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Kevin                                                                                                                                                                                                                                           
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES WHERE MANAGER_ID IN (SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE FIRST_NAME = 'Peter');
+
+no rows selected
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES WHERE MANAGER_ID IN (SELECT MANAGER_ID FROM EMPLOYEES WHERE FIRST_NAME = 'Peter');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+
+SQL> SELECT TO_CHAR(HIRE_DATE,'Q') , MAX(SALARY) FROM EMPLOYEES GROUP BY TO_CHAR(HIRE_DATE,'Q');
+
+T MAX(SALARY)                                                                                                                                                                                                                                   
+- -----------                                                                                                                                                                                                                                   
+1       17000                                                                                                                                                                                                                                   
+3       24000                                                                                                                                                                                                                                   
+2       12000                                                                                                                                                                                                                                   
+4        5800                                                                                                                                                                                                                                   
+
+SQL> select first_name,manager_id,salary,avgsalary,diff from (select first_name,manager_id,salary from employees) e  join (select manager_id,avg(salary) as avgsalary, (avg(salary)-salary) as diff from employees group by manager_id))g using(manager_id);
+select first_name,manager_id,salary,avgsalary,diff from (select first_name,manager_id,salary from employees) e  join (select manager_id,avg(salary) as avgsalary, (avg(salary)-salary) as diff from employees group by manager_id))g using(manager_id)
+                                                                                                                                                                                                                                  *
+ERROR at line 1:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT FIRST_NAME , MANAGER_ID , SALARY , AVGSALARY , AVGSALARY - SALARY DIFF
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN (SELECT MANAGER_ID , AVG(SALARY) AVGSALARY FROM EMPLOYEES GROUP BY MANAGER_ID);
+
+FIRST_NAME      MANAGER_ID     SALARY  AVGSALARY       DIFF                                                                                                                                                                                     
+--------------- ---------- ---------- ---------- ----------                                                                                                                                                                                     
+Neena                  100      17000      12660      -4340                                                                                                                                                                                     
+Lex                    100      17000      12660      -4340                                                                                                                                                                                     
+Alexander              102       9000       9000          0                                                                                                                                                                                     
+Bruce                  103       6000       5100       -900                                                                                                                                                                                     
+Diana                  103       4200       5100        900                                                                                                                                                                                     
+Kevin                  100       5800      12660       6860                                                                                                                                                                                     
+Trenna                 124       3500       2925       -575                                                                                                                                                                                     
+Curtis                 124       3100       2925       -175                                                                                                                                                                                     
+Randall                124       2600       2925        325                                                                                                                                                                                     
+Peter                  124       2500       2925        425                                                                                                                                                                                     
+Eleni                  100      10500      12660       2160                                                                                                                                                                                     
+Ellen                  149      11000 8866.66667 -2133.3333                                                                                                                                                                                     
+Jonathon               149       8600 8866.66667 266.666667                                                                                                                                                                                     
+Kimerely               149       7000 8866.66667 1866.66667                                                                                                                                                                                     
+Jennifer               101       4400       8200       3800                                                                                                                                                                                     
+Michael                100      13000      12660       -340                                                                                                                                                                                     
+Pat                    201       6000       6000          0                                                                                                                                                                                     
+Shelley                101      12000       8200      -3800                                                                                                                                                                                     
+William                205       8300       8300          0                                                                                                                                                                                     
+
+19 rows selected.
+
+SQL> select job_id,empno from employees natural join (select min(count(first_name)) as empno from (select count(first_name) from employees group by job_id) s)e;]
+  2  
+SQL> select job_id,empno from employees natural join (select min(count(first_name)) as empno from (select count(first_name) from employees group by job_id) s)e;]
+  2  
+SQL> select job_id,empno from employees natural join (select min(count(first_name)) as empno from (select count(first_name) from employees group by job_id) s)e;
+select job_id,empno from employees natural join (select min(count(first_name)) as empno from (select count(first_name) from employees group by job_id) s)e
+                                                                  *
+ERROR at line 1:
+ORA-00904: "FIRST_NAME": invalid identifier 
+
+
+SQL> SELECT JOB_ID , COUNT(*)
+  2  FROM EMPLOYEES
+  3  GROUP BY JOB_ID
+  4  HAVING COUNT(*) = (SELECT MIN(COUNT(*)) FROM EMPLOYEES GROUP BY JOB_ID);
+
+JOB_ID       COUNT(*)                                                                                                                                                                                                                           
+---------- ----------                                                                                                                                                                                                                           
+AC_MGR              1                                                                                                                                                                                                                           
+AC_ACCOUNT          1                                                                                                                                                                                                                           
+ST_MAN              1                                                                                                                                                                                                                           
+AD_ASST             1                                                                                                                                                                                                                           
+SA_MAN              1                                                                                                                                                                                                                           
+MK_MAN              1                                                                                                                                                                                                                           
+AD_PRES             1                                                                                                                                                                                                                           
+MK_REP              1                                                                                                                                                                                                                           
+
+8 rows selected.
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES GROUP BY JOB_ID;
+
+  COUNT(*)                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+         3                                                                                                                                                                                                                                      
+         1                                                                                                                                                                                                                                      
+         1                                                                                                                                                                                                                                      
+         1                                                                                                                                                                                                                                      
+         1                                                                                                                                                                                                                                      
+         2                                                                                                                                                                                                                                      
+         1                                                                                                                                                                                                                                      
+         1                                                                                                                                                                                                                                      
+         1                                                                                                                                                                                                                                      
+         3                                                                                                                                                                                                                                      
+         1                                                                                                                                                                                                                                      
+         4                                                                                                                                                                                                                                      
+
+12 rows selected.
+
+SQL> SELECT MIN(COUNT(*)) FROM EMPLOYEES GROUP BY JOB_ID;
+
+MIN(COUNT(*))                                                                                                                                                                                                                                   
+-------------                                                                                                                                                                                                                                   
+            1                                                                                                                                                                                                                                   
+
+SQL> 3
+SP2-0226: Invalid line number 
+SQL> select employee_id,year,salary,lowest,highest from (select employee_id,year(hire_date) as year,salary from employees) e join  (select year(hire_date) year,min(salary) lowest,max(salary) highest from employees group by year(hire_date)) g using(year);
+select employee_id,year,salary,lowest,highest from (select employee_id,year(hire_date) as year,salary from employees) e join  (select year(hire_date) year,min(salary) lowest,max(salary) highest from employees group by year(hire_date)) g using(year)
+                                                                                                                                                                                                                          *
+ERROR at line 1:
+ORA-00904: "YEAR": invalid identifier 
+
+
+SQL> select job_id,avg(salary) from employees group by job_id having avg(salary) = (select min(avg(salary) from employees group by job_id);
+select job_id,avg(salary) from employees group by job_id having avg(salary) = (select min(avg(salary) from employees group by job_id)
+                                                                               *
+ERROR at line 1:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> select job_id,avg(salary) from employees group by job_id having avg(salary) = (select min(avg(salary)) from employees group by job_id);
+
+JOB_ID     AVG(SALARY)                                                                                                                                                                                                                          
+---------- -----------                                                                                                                                                                                                                          
+ST_CLERK          2925                                                                                                                                                                                                                          
+
+SQL> select grade_level from job_grades
+  2  MINUS
+  3  select grade_level from employees join job_grades where salary between lowest_sal and highest_sal;
+select grade_level from employees join job_grades where salary between lowest_sal and highest_sal
+                                                  *
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> select grade_level from job_grades
+  2  MINUS
+  3  select grade_level from employees join job_grades ON salary between lowest_sal and highest_sal;
+
+GRA                                                                                                                                                                                                                                             
+---                                                                                                                                                                                                                                             
+F                                                                                                                                                                                                                                               
+
+SQL> select job from mpsemp where hiredate >= '31-DEC-1994'
+  2  minus
+  3  select job from mpsemp where hiredate < '01-JAN-1995';
+
+no rows selected
+
+SQL> select job from mpsemp where hiredate <= '31-DEC-1995'
+  2  MINUS
+  3  select job from mpsemp where hiredate > '31-DEC-1995'
+  4  ;
+
+JOB                                                                                                                                                                                                                                             
+----------                                                                                                                                                                                                                                      
+ANALYST                                                                                                                                                                                                                                         
+CLERK                                                                                                                                                                                                                                           
+MANAGER                                                                                                                                                                                                                                         
+PRESIDENT                                                                                                                                                                                                                                       
+SALESMAN                                                                                                                                                                                                                                        
+
+SQL> select department_id,manager_id from employees where employee_id IN (select manager_id from employees);
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                                                        
+------------- ----------                                                                                                                                                                                                                        
+           90                                                                                                                                                                                                                                   
+           90        100                                                                                                                                                                                                                        
+           60        102                                                                                                                                                                                                                        
+           50        100                                                                                                                                                                                                                        
+           80        100                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           20        100                                                                                                                                                                                                                        
+          110        101                                                                                                                                                                                                                        
+
+8 rows selected.
+
+SQL> select department_id,manager_id from employees where employee_id IN (select manager_id from DEPARTMENTS);
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                                                        
+------------- ----------                                                                                                                                                                                                                        
+           10        101                                                                                                                                                                                                                        
+           20        100                                                                                                                                                                                                                        
+           50        100                                                                                                                                                                                                                        
+           60        102                                                                                                                                                                                                                        
+           80        100                                                                                                                                                                                                                        
+           90                                                                                                                                                                                                                                   
+          110        101                                                                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> select department_id,manager_id from employees where manager_id IN (select manager_id from DEPARTMENTS);
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                                                        
+------------- ----------                                                                                                                                                                                                                        
+           20        201                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           60        103                                                                                                                                                                                                                        
+           60        103                                                                                                                                                                                                                        
+           80        149                                                                                                                                                                                                                        
+           80        149                                                                                                                                                                                                                        
+                     149                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           50        100                                                                                                                                                                                                                        
+           80        100                                                                                                                                                                                                                        
+           20        100                                                                                                                                                                                                                        
+          110        205                                                                                                                                                                                                                        
+
+16 rows selected.
+
+SQL> select department_id,manager_id from employees where (department_id , manager_id) IN (select department_id , manager_id from DEPARTMENTS);
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                                                        
+------------- ----------                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           60        103                                                                                                                                                                                                                        
+           60        103                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           80        149                                                                                                                                                                                                                        
+           80        149                                                                                                                                                                                                                        
+           20        201                                                                                                                                                                                                                        
+          110        205                                                                                                                                                                                                                        
+
+12 rows selected.
+
+SQL> select distinct department_id,manager_id from employees where (department_id , manager_id) IN (select department_id , manager_id from DEPARTMENTS);
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                                                        
+------------- ----------                                                                                                                                                                                                                        
+           60        103                                                                                                                                                                                                                        
+           80        149                                                                                                                                                                                                                        
+          110        205                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           20        201                                                                                                                                                                                                                        
+
+6 rows selected.
+
+SQL> select * from employees;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , MANAGER_ID
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN DEPARTMENTS;
+
+FIRST_NAME      DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                                        
+--------------- ------------- ----------                                                                                                                                                                                                        
+Neena                      90        100                                                                                                                                                                                                        
+Lex                        90        100                                                                                                                                                                                                        
+Bruce                      60        103                                                                                                                                                                                                        
+Diana                      60        103                                                                                                                                                                                                        
+Trenna                     50        124                                                                                                                                                                                                        
+Curtis                     50        124                                                                                                                                                                                                        
+Randall                    50        124                                                                                                                                                                                                        
+Peter                      50        124                                                                                                                                                                                                        
+Ellen                      80        149                                                                                                                                                                                                        
+Jonathon                   80        149                                                                                                                                                                                                        
+Pat                        20        201                                                                                                                                                                                                        
+William                   110        205                                                                                                                                                                                                        
+
+12 rows selected.
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MANAGER_ID
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN DEPARTMENTS;
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                                                        
+------------- ----------                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           60        103                                                                                                                                                                                                                        
+           60        103                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           80        149                                                                                                                                                                                                                        
+           80        149                                                                                                                                                                                                                        
+           20        201                                                                                                                                                                                                                        
+          110        205                                                                                                                                                                                                                        
+
+12 rows selected.
+
+SQL> SELECT DISTINCT DEPARTMENT_ID , MANAGER_ID
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN DEPARTMENTS;
+
+DEPARTMENT_ID MANAGER_ID                                                                                                                                                                                                                        
+------------- ----------                                                                                                                                                                                                                        
+           60        103                                                                                                                                                                                                                        
+           80        149                                                                                                                                                                                                                        
+          110        205                                                                                                                                                                                                                        
+           90        100                                                                                                                                                                                                                        
+           50        124                                                                                                                                                                                                                        
+           20        201                                                                                                                                                                                                                        
+
+6 rows selected.
+
+SQL> SPOOL OFF

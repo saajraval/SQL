@@ -1,0 +1,719 @@
+SQL> 
+SQL> REM TABLE LEVEL CONSTRAINTS
+SQL> 
+SQL> REM RELATIONSHIP TYPES BETWEEN TABLES
+SQL> 
+SQL> REM CREATE TABLE USING SUB QUERY
+SQL> 
+SQL> REM SCHOOL : STD DIV RNO
+SQL> 
+SQL> 
+SQL> CREATE TABLE SCHOOL(STD NUMBER(2) CHECK(STD BETWEEN 1 AND 12),DIV CHAR CHECK(DIV IN ('A','B','C')),RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30),
+  2  NAME VARCHAR2(30),BDT DATE, PRIMARY KEY (STD,DIV,RNO));
+
+Table created.
+
+SQL> 
+SQL> REM COMPOSITE CONSTRAINT : IN INCLUDES MULTIPLE COLUMNS
+SQL> 
+SQL> REM ANY KEY WHICH IS PART OF COMPOSITE CONSTRAINT IS CALLED CANDIDATE KEY
+SQL> 
+SQL> REM IN ABOVE EXAMPLE STD, DIV AND RNO ARE CANDIDATE KEYS
+SQL> 
+SQL> 
+SQL> INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT');
+Enter value for std: 5
+Enter value for div: A
+Enter value for rno: 1
+Enter value for nm: GANESH
+Enter value for bdt: 4-APR-04
+old   1: INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT')
+new   1: INSERT INTO SCHOOL VALUES (5,'A',1,'GANESH','4-APR-04')
+
+1 row created.
+
+SQL> /
+Enter value for std: 5
+Enter value for div: A
+Enter value for rno: 1
+Enter value for nm: RIDDHI
+Enter value for bdt: 5-AUG-05
+old   1: INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT')
+new   1: INSERT INTO SCHOOL VALUES (5,'A',1,'RIDDHI','5-AUG-05')
+INSERT INTO SCHOOL VALUES (5,'A',1,'RIDDHI','5-AUG-05')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0016825) violated 
+
+
+SQL> /
+Enter value for std: 5
+Enter value for div: A
+Enter value for rno: 2
+Enter value for nm: RIDDHI
+Enter value for bdt: 5-AUG-05
+old   1: INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT')
+new   1: INSERT INTO SCHOOL VALUES (5,'A',2,'RIDDHI','5-AUG-05')
+
+1 row created.
+
+SQL> /
+Enter value for std: 6
+Enter value for div: A
+Enter value for rno: 1
+Enter value for nm: SIDDHI
+Enter value for bdt: 30-AUG-05
+old   1: INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT')
+new   1: INSERT INTO SCHOOL VALUES (6,'A',1,'SIDDHI','30-AUG-05')
+
+1 row created.
+
+SQL> /
+Enter value for std: 5B
+Enter value for div: 
+Enter value for rno: 
+Enter value for nm: 
+Enter value for bdt: 
+old   1: INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT')
+new   1: INSERT INTO SCHOOL VALUES (5B,'',,'','')
+INSERT INTO SCHOOL VALUES (5B,'',,'','')
+                            *
+ERROR at line 1:
+ORA-00917: missing comma 
+
+
+SQL> /
+Enter value for std: 5
+Enter value for div: B
+Enter value for rno: 1
+Enter value for nm: LABH
+Enter value for bdt: 20-JAN-02
+old   1: INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT')
+new   1: INSERT INTO SCHOOL VALUES (5,'B',1,'LABH','20-JAN-02')
+
+1 row created.
+
+SQL> /
+Enter value for std: NULL
+Enter value for div: A
+Enter value for rno: 4
+Enter value for nm: SHUBH
+Enter value for bdt: 5-MAR-09
+old   1: INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT')
+new   1: INSERT INTO SCHOOL VALUES (NULL,'A',4,'SHUBH','5-MAR-09')
+INSERT INTO SCHOOL VALUES (NULL,'A',4,'SHUBH','5-MAR-09')
+                           *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."SCHOOL"."STD") 
+
+
+SQL> /
+Enter value for std: 13
+Enter value for div: A
+Enter value for rno: 5
+Enter value for nm: SHUBH
+Enter value for bdt: 5-JUN-90
+old   1: INSERT INTO SCHOOL VALUES (&STD,'&DIV',&RNO,'&NM','&BDT')
+new   1: INSERT INTO SCHOOL VALUES (13,'A',5,'SHUBH','5-JUN-90')
+INSERT INTO SCHOOL VALUES (13,'A',5,'SHUBH','5-JUN-90')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016822) violated 
+
+
+SQL> SELECT * FROM SCHOOL;
+
+       STD D        RNO NAME                           BDT                      
+---------- - ---------- ------------------------------ ---------                
+         5 A          1 GANESH                         04-APR-04                
+         5 A          2 RIDDHI                         05-AUG-05                
+         6 A          1 SIDDHI                         30-AUG-05                
+         5 B          1 LABH                           20-JAN-02                
+
+SQL> REM STD 1-8 DIV A B C
+SQL> 
+SQL> REM STD 910 DIV A B
+SQL> 
+SQL> REM STD 9-10 DIV A B
+SQL> 
+SQL> REM STD 11-12 DIV A
+SQL> 
+SQL> CREATE TABLE SCHOOL1(STD NUMBER(2),DIV CHAR,RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30),NAME VARCHAR2(10),
+  2  PRIMARY KEY (STD,DIV,RNO) CHECK((STD BETWEEN 1 AND 8 AND DIV IN ('A','B','C')) OR (STD BETWEEN 9 AND 10 AND DIV IN ('A','B'))
+  3  OR (STD BETWEEN 11 AND 12 AND DIV = 'A')));
+PRIMARY KEY (STD,DIV,RNO) CHECK((STD BETWEEN 1 AND 8 AND DIV IN ('A','B','C')) OR (STD BETWEEN 9 AND 10 AND DIV IN ('A','B'))
+                          *
+ERROR at line 2:
+ORA-00907: missing right parenthesis 
+
+
+SQL> CREATE TABLE SCHOOL1(STD NUMBER(2),DIV CHAR,RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30),NAME VARCHAR2(10),
+  2  PRIMARY KEY (STD,DIV,RNO), CHECK((STD BETWEEN 1 AND 8 AND DIV IN ('A','B','C')) OR (STD BETWEEN 9 AND 10 AND DIV IN ('A','B'))
+  3  OR (STD BETWEEN 11 AND 12 AND DIV = 'A')));
+
+Table created.
+
+SQL> INSERT INTO SCHOOL1 VALUES (&STD,'&DIV',&RNO,'&NM');
+Enter value for std: 5
+Enter value for div: A
+Enter value for rno: 1
+Enter value for nm: GANESH
+old   1: INSERT INTO SCHOOL1 VALUES (&STD,'&DIV',&RNO,'&NM')
+new   1: INSERT INTO SCHOOL1 VALUES (5,'A',1,'GANESH')
+
+1 row created.
+
+SQL> 5
+SP2-0226: Invalid line number 
+SQL> /
+Enter value for std: 5
+Enter value for div: D
+Enter value for rno: 2
+Enter value for nm: RIDDHI
+old   1: INSERT INTO SCHOOL1 VALUES (&STD,'&DIV',&RNO,'&NM')
+new   1: INSERT INTO SCHOOL1 VALUES (5,'D',2,'RIDDHI')
+INSERT INTO SCHOOL1 VALUES (5,'D',2,'RIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016831) violated 
+
+
+SQL> /
+Enter value for std: 9
+Enter value for div: B
+Enter value for rno: 1
+Enter value for nm: RIDDHI
+old   1: INSERT INTO SCHOOL1 VALUES (&STD,'&DIV',&RNO,'&NM')
+new   1: INSERT INTO SCHOOL1 VALUES (9,'B',1,'RIDDHI')
+
+1 row created.
+
+SQL> /
+Enter value for std: 9
+Enter value for div: C
+Enter value for rno: 1
+Enter value for nm: SIDDHI
+old   1: INSERT INTO SCHOOL1 VALUES (&STD,'&DIV',&RNO,'&NM')
+new   1: INSERT INTO SCHOOL1 VALUES (9,'C',1,'SIDDHI')
+INSERT INTO SCHOOL1 VALUES (9,'C',1,'SIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016831) violated 
+
+
+SQL> /
+Enter value for std: 11
+Enter value for div: B
+Enter value for rno: 1
+Enter value for nm: SIDDHI
+old   1: INSERT INTO SCHOOL1 VALUES (&STD,'&DIV',&RNO,'&NM')
+new   1: INSERT INTO SCHOOL1 VALUES (11,'B',1,'SIDDHI')
+INSERT INTO SCHOOL1 VALUES (11,'B',1,'SIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016831) violated 
+
+
+SQL> SELECT * FROM SCHOOL1;
+
+       STD D        RNO NAME                                                    
+---------- - ---------- ----------                                              
+         5 A          1 GANESH                                                  
+         9 B          1 RIDDHI                                                  
+
+SQL> CREATE TABLE RESULTS(STD NUMBER(2),DIV CHAR,ROLLNO NUMBER(2),PERCENT NUMBER(5,2) CHECK (PERCENT BETWEEN 0 AND 100),
+  2  FOREIGN KEY(STD,DIV,ROLLNO) REFERENCES SCHOOL(STD,DIV,RNO));
+
+Table created.
+
+SQL> SELECT * FROM SCHOOL;
+
+       STD D        RNO NAME                           BDT                      
+---------- - ---------- ------------------------------ ---------                
+         5 A          1 GANESH                         04-APR-04                
+         5 A          2 RIDDHI                         05-AUG-05                
+         6 A          1 SIDDHI                         30-AUG-05                
+         5 B          1 LABH                           20-JAN-02                
+
+SQL> INSERT INTO RESULTS VALUES (&STD,'&DIV',&RNO,&PERC);
+Enter value for std: 5
+Enter value for div: A
+Enter value for rno: 1
+Enter value for perc: 78
+old   1: INSERT INTO RESULTS VALUES (&STD,'&DIV',&RNO,&PERC)
+new   1: INSERT INTO RESULTS VALUES (5,'A',1,78)
+
+1 row created.
+
+SQL> /
+Enter value for std: 5
+Enter value for div: A
+Enter value for rno: 1
+Enter value for perc: 79
+old   1: INSERT INTO RESULTS VALUES (&STD,'&DIV',&RNO,&PERC)
+new   1: INSERT INTO RESULTS VALUES (5,'A',1,79)
+
+1 row created.
+
+SQL> /
+Enter value for std: 5
+Enter value for div: A
+Enter value for rno: 3
+Enter value for perc: 68
+old   1: INSERT INTO RESULTS VALUES (&STD,'&DIV',&RNO,&PERC)
+new   1: INSERT INTO RESULTS VALUES (5,'A',3,68)
+INSERT INTO RESULTS VALUES (5,'A',3,68)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0016834) violated - parent key not 
+found 
+
+
+SQL> REM NOT NULL CONSTRAINT IS AVAILABLE ONLY ON COLUMN LEVEL
+SQL> 
+SQL> REM REFERENCES CONSTRAINT HAS DIFFERENT SYNTAXES FOR BOTH COLUMN AND TABLE LEVEL
+SQL> 
+SQL> REM RELATIONSHIP TYPES BETWEEN TABLES
+SQL> 
+SQL> DROP TABLE P1 CASCADE CONSTRAINT PURGE;
+DROP TABLE P1 CASCADE CONSTRAINT PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE P2 CASCADE CONSTRAINT PURGE;
+DROP TABLE P2 CASCADE CONSTRAINT PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE P3 CASCADE CONSTRAINT PURGE;
+DROP TABLE P3 CASCADE CONSTRAINT PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE C1 CASCADE CONSTRAINT PURGE;
+DROP TABLE C1 CASCADE CONSTRAINT PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE C2 CASCADE CONSTRAINT PURGE;
+DROP TABLE C2 CASCADE CONSTRAINT PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE C3 CASCADE CONSTRAINT PURGE;
+DROP TABLE C3 CASCADE CONSTRAINT PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> 
+SQL> 
+SQL> REM WE CAN SET RELATIONSHIP TYPE WHILE CREATING CHILD TABLE
+SQL> 
+SQL> REM RELATIONSHIP TYPE MATTERS WHEN WE TRY TO DELETE ROWS FROM PARENT TABLE.
+SQL> 
+SQL> 
+SQL> REM TYPES OF RELATION : 1 NO ACTION/DEFAULT 2 ON DELETE CASCADE 3 ON DELETE SET NULL
+SQL> 
+SQL> REM NO ACTION/DEFAULT : WHEN WE TRY TO DELETE ROW(S) FROM PARENT TABLE, IF CORRESPONDING CHILD ROWS EXIST, IT WILL NOT DELETE FROM PARENT TABLE.
+SQL> 
+SQL> REM ON DELETE CASCADE : WHEN WE TRY TO DELETE ROW(S) FROM PARENT TABLE, IF CORRESPONDING CHILD ROWS EXIST, IT WILL FIRST DELETE ALL CORRESPONDING CHILD ROWS FROM CHILD TABLE AND THEN WILL DELETE ROWS FROM PARENT TABLE.
+SQL> 
+SQL> REM ON DELETE SET NULL : WHEN WE TRY TO DELETE ROW(S) FROM PARENT TABLE, IF CORRESPONDING CHILD ROWS EXIST, IT WILL FIRST UPDATE REFERENCE COLUMN VALUE WITH NULL AND THEN WILL DELETE ROWS FROM PARENT TABLE.
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE P1(NO NUMBER PRIMARY KEY,NM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE P2(NO NUMBER PRIMARY KEY,NM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE P3(NO NUMBER PRIMARY KEY,NM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE C1(NO NUMBER REFERENCES P1,NM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE C2(NO NUMBER REFERENCES P2 ON DELETE CASCADE,NM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE C3(NO NUMBER REFERENCES P3 ON DELETE SET NULL,NM VARCHAR2(10));
+
+Table created.
+
+SQL> 
+SQL> INSERT INTO P1 VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO P1 VALUES (2,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO P1 VALUES (3,'SIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO P2 SELECT * FROM P1;
+
+3 rows created.
+
+SQL> INSERT INTO P3 SELECT * FROM P1;
+
+3 rows created.
+
+SQL> INSERT INTO C1 VALUES (1,'P');
+
+1 row created.
+
+SQL> INSERT INTO C1 VALUES (1,'A');
+
+1 row created.
+
+SQL> INSERT INTO C1 VALUES (2,'A');
+
+1 row created.
+
+SQL> INSERT INTO C2 SELECT * FROM C1;
+
+3 rows created.
+
+SQL> INSERT INTO C3 SELECT * FROM C1;
+
+3 rows created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM P1;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         1 GANESH                                                               
+         2 RIDDHI                                                               
+         3 SIDDHI                                                               
+
+SQL> SELECT * FROM C1;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         1 P                                                                    
+         1 A                                                                    
+         2 A                                                                    
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTARINT_TYPE , R_CONSTRAINT_NAME ,
+  2  
+SQL> 
+SQL> DESC USER_CONSTRAINTS
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ OWNER                                              VARCHAR2(128)
+ CONSTRAINT_NAME                                    VARCHAR2(128)
+ CONSTRAINT_TYPE                                    VARCHAR2(1)
+ TABLE_NAME                                         VARCHAR2(128)
+ SEARCH_CONDITION                                   LONG
+ SEARCH_CONDITION_VC                                VARCHAR2(4000)
+ R_OWNER                                            VARCHAR2(128)
+ R_CONSTRAINT_NAME                                  VARCHAR2(128)
+ DELETE_RULE                                        VARCHAR2(9)
+ STATUS                                             VARCHAR2(8)
+ DEFERRABLE                                         VARCHAR2(14)
+ DEFERRED                                           VARCHAR2(9)
+ VALIDATED                                          VARCHAR2(13)
+ GENERATED                                          VARCHAR2(14)
+ BAD                                                VARCHAR2(3)
+ RELY                                               VARCHAR2(4)
+ LAST_CHANGE                                        DATE
+ INDEX_OWNER                                        VARCHAR2(128)
+ INDEX_NAME                                         VARCHAR2(128)
+ INVALID                                            VARCHAR2(7)
+ VIEW_RELATED                                       VARCHAR2(14)
+ ORIGIN_CON_ID                                      NUMBER
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTARINT_TYPE , R_CONSTRAINT_NAME ,  DELETE_RULE FROM USER_COSTRAINTS WHERE TABLE_NAME IN ('P1','C1');
+SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTARINT_TYPE , R_CONSTRAINT_NAME ,  DELETE_RULE FROM USER_COSTRAINTS WHERE TABLE_NAME IN ('P1','C1')
+                                                                                              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTARINT_TYPE , R_CONSTRAINT_NAME ,  DELETE_RULE FROM USER_CONSTRAINTS WHERE TABLE_NAME IN ('P1','C1');
+SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTARINT_TYPE , R_CONSTRAINT_NAME ,  DELETE_RULE FROM USER_CONSTRAINTS WHERE TABLE_NAME IN ('P1','C1')
+                                      *
+ERROR at line 1:
+ORA-00904: "CONSTARINT_TYPE": invalid identifier 
+
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME ,  DELETE_RULE FROM USER_CONSTRAINTS WHERE TABLE_NAME IN ('P1','C1');
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+C                                                                               
+-                                                                               
+R_CONSTRAINT_NAME                                                               
+--------------------------------------------------------------------------------
+DELETE_RU                                                                       
+---------                                                                       
+P1                                                                              
+SYS_C0016843                                                                    
+P                                                                               
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+C                                                                               
+-                                                                               
+R_CONSTRAINT_NAME                                                               
+--------------------------------------------------------------------------------
+DELETE_RU                                                                       
+---------                                                                       
+                                                                                
+                                                                                
+                                                                                
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+C                                                                               
+-                                                                               
+R_CONSTRAINT_NAME                                                               
+--------------------------------------------------------------------------------
+DELETE_RU                                                                       
+---------                                                                       
+C1                                                                              
+SYS_C0016846                                                                    
+R                                                                               
+
+TABLE_NAME                                                                      
+--------------------------------------------------------------------------------
+CONSTRAINT_NAME                                                                 
+--------------------------------------------------------------------------------
+C                                                                               
+-                                                                               
+R_CONSTRAINT_NAME                                                               
+--------------------------------------------------------------------------------
+DELETE_RU                                                                       
+---------                                                                       
+SYS_C0016843                                                                    
+NO ACTION                                                                       
+                                                                                
+
+SQL> COL TABLE_NAME A10
+SP2-0158: unknown COLUMN option "A10"
+SQL> COL TABLE_NAME FORMAT A10
+SQL> COL CONSTRAINT_NAME FORMAT A15
+SQL> COL R_CONSTRAINT_NAME FORMAT A15
+SQL> COL DELETE_RULE FORMAT A15
+SQL> 
+SQL> R
+  1* SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME ,  DELETE_RULE FROM USER_CONSTRAINTS WHERE TABLE_NAME IN ('P1','C1')
+
+TABLE_NAME CONSTRAINT_NAME C R_CONSTRAINT_NA DELETE_RULE                        
+---------- --------------- - --------------- ---------------                    
+P1         SYS_C0016843    P                                                    
+C1         SYS_C0016846    R SYS_C0016843    NO ACTION                          
+
+SQL> REM NO ACTION/DEFAULT : WHEN WE TRY TO DELETE ROW(S) FROM PARENT TABLE, IF CORRESPONDING CHILD ROWS EXIST, IT WILL NOT DELETE FROM PARENT TABLE.
+SQL> 
+SQL> SELECT * FROM P1;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         1 GANESH                                                               
+         2 RIDDHI                                                               
+         3 SIDDHI                                                               
+
+SQL> SELECT * FROM C1;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         1 P                                                                    
+         1 A                                                                    
+         2 A                                                                    
+
+SQL> DELETE P1 WHERE NO = 1;
+DELETE P1 WHERE NO = 1
+*
+ERROR at line 1:
+ORA-02292: integrity constraint (SCOTT.SYS_C0016846) violated - child record 
+found 
+
+
+SQL> DELETE P1 WHERE NO = 3;
+
+1 row deleted.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME ,  DELETE_RULE FROM USER_CONSTRAINTS WHERE TABLE_NAME IN ('P2','C2');
+
+TABLE_NAME CONSTRAINT_NAME C R_CONSTRAINT_NA DELETE_RULE                        
+---------- --------------- - --------------- ---------------                    
+P2         SYS_C0016844    P                                                    
+C2         SYS_C0016847    R SYS_C0016844    CASCADE                            
+
+SQL> SELECT * FROM P2;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         1 GANESH                                                               
+         2 RIDDHI                                                               
+         3 SIDDHI                                                               
+
+SQL> SELECT * FROM C2;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         1 P                                                                    
+         1 A                                                                    
+         2 A                                                                    
+
+SQL> REM ON DELETE CASCADE : WHEN WE TRY TO DELETE ROW(S) FROM PARENT TABLE, IF CORRESPONDING CHILD ROWS EXIST, IT WILL FIRST DELETE ALL CORRESPONDING CHILD ROWS FROM CHILD TABLE AND THEN WILL DELETE ROWS FROM PARENT TABLE.
+SQL> 
+SQL> DELETE P2 WHERE NO = 1;
+
+1 row deleted.
+
+SQL> SELECT * FROM P2;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         2 RIDDHI                                                               
+         3 SIDDHI                                                               
+
+SQL> SELECT * FROM C2;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         2 A                                                                    
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME ,  DELETE_RULE FROM USER_CONSTRAINTS WHERE TABLE_NAME IN ('P3','C3');
+
+TABLE_NAME CONSTRAINT_NAME C R_CONSTRAINT_NA DELETE_RULE                        
+---------- --------------- - --------------- ---------------                    
+P3         SYS_C0016845    P                                                    
+C3         SYS_C0016848    R SYS_C0016845    SET NULL                           
+
+SQL> SELECT * FROM P3;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         1 GANESH                                                               
+         2 RIDDHI                                                               
+         3 SIDDHI                                                               
+
+SQL> SELECT * FROM C3;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         1 P                                                                    
+         1 A                                                                    
+         2 A                                                                    
+
+SQL> REM ON DELETE SET NULL : WHEN WE TRY TO DELETE ROW(S) FROM PARENT TABLE, IF CORRESPONDING CHILD ROWS EXIST, IT WILL FIRST UPDATE REFERENCE COLUMN VALUE WITH NULL AND THEN WILL DELETE ROWS FROM PARENT TABLE.
+SQL> 
+SQL> DELETE P3 WHERE NO = 1;
+
+1 row deleted.
+
+SQL> SELECT * FROM P3;
+
+        NO NM                                                                   
+---------- ----------                                                           
+         2 RIDDHI                                                               
+         3 SIDDHI                                                               
+
+SQL> SELECT * FROM C3;
+
+        NO NM                                                                   
+---------- ----------                                                           
+           P                                                                    
+           A                                                                    
+         2 A                                                                    
+
+SQL> REM P1 -> I1 -> C1
+SQL> 
+SQL> REM P1 -> I1 : ON DELETE CASCADE
+SQL> 
+SQL> REM I1 -> C1 : DEFAULT
+SQL> 
+SQL> REM P1 : 1 , 2 , 3 , 4
+SQL> 
+SQL> REM C1 : 1 , 1 , 2 , 3
+SQL> 
+SQL> REM
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> REM P1 -> I1 -> C1
+SQL> 
+SQL> REM P1 -> I1 : ON DELETE CASCADE
+SQL> 
+SQL> REM I1 -> C1 : DEFAULT
+SQL> 
+SQL> REM P1 : 1 , 2 , 3 , 4
+SQL> 
+SQL> REM I1 : 1 , 1 , 2 , 3
+SQL> 
+SQL> REM C1 : 2 , 3 , 3
+SQL> 
+SQL> REM I1 : DELETE :
+SQL> 
+SQL> CL SCR
+
+SQL> REM CH1 : AO , BEDMCAS , POWER , || , Q , UNIQUE/DISTINCT , * , COLUMN ALIAS
+SQL> 
+SQL> REM CH2 : WHERE , ORDER BY , OFFSET ... FETCH ...
+SQL> 
+SQL> REM CH3 : CHARACTER , NUMBER , DATE
+SQL> 
+SQL> REM CHARACTER FUNCTIONS : UPPER LOWER INITCAP SUBSTR LPAD RPAD LTRIM TRIM RTRIM CONCAT TRANSLATE LENGTH REPLACE INSTR
+SQL> 
+SQL> REM NUMBER FUNCTIONS : SQRT POWER CEIL FLOOR TRUNC ROUND MOD
+SQL> 
+SQL> REM DATE FUNCTIONS : SYSDATE CURRENT_DATE ROUND TRUNC MONTHS_BETWEEN ADD_MONTHS NEXT_DAY LASTDAY
+SQL> 
+SQL> REM CH4 : CONVERSION , GENERAL
+SQL> 
+SQL> REM CONVERSION FUNCTIONS : TO_CHAR , TO_NUMBER , TO_DATE
+SQL> 
+SQL> REM GENERAL FUNCTIONS : NVL NULLIF NVL2 COALESCE DECODE   CASE
+SQL> 
+SQL> REM CH5 : SUMMARY FUNCTIONS : MIN MAX AVG SUM COUNT : HAVING , GROUP BY , NESTED SUMMARY , PIVOTE/CROSSTAB/MATRIX REPORT
+SQL> 
+SQL> REM CH6 : JOINS : CROSS NATURAL INNER OUTER (LEFT/RIGHT/FULL)    SELF
+SQL> 
+SQL> REM CH7: SUBQUERY
+SQL> 
+SQL> REM CH8: SET OPERATORS : UNION , UNION ALL, INTERSECT , MINUS
+SQL> 
+SQL> REM CH9 : DML (INSERT UPDATE DELETE) , TCL (COMMIT ROLLBACK SAVEPOINT) LOCKING READ CONSISTANCY DEAD LOCK TRUNCATE FLASHBACK VERSIONS QUERY
+SQL> 
+SQL> SPOOL OFF

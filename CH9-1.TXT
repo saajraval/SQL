@@ -1,0 +1,676 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM TYPES OF STATEMENTS : 1 DRL/DQL 2 DDL 3 DML 4 TCL 5 DCL
+SQL> 
+SQL> 
+SQL> REM DRL/DQL : DATA RETRIEVAL/QUERY LANGUAGE : SELECT
+SQL> 
+SQL> REM DML : DATA MANIPULATION LANGUAGE : INSERT UPDATE DELETE      MERGE
+SQL> 
+SQL> REM TCL : TRANSACTION CONTROL LANGUAGE : COMMIT ROLLBACK SAVEPOINT
+SQL> 
+SQL> 
+SQL> REM DCL : DATA CONTROL LANGUAGE : GRANT REVOKE
+SQL> 
+SQL> REM DDL : DATA DEFINITION LANGUAGE : CREATE ALTER DROP TRUNCATE PURGE FLASHBACK RENAME COMMENT
+SQL> 
+SQL> 
+SQL> 
+SQL> REM INSERT : TO ADD NEW ROWS TO THE EXISTING TABLE
+SQL> 
+SQL> REM UPDATE : TO MODIFY/EDIT/CHANGE/UPDATE ROW VALUES FOR EXISTING ROWS
+SQL> 
+SQL> REM DELETE : TO REMOVE/DELETE EXISTING ROWS FROM TABLE
+SQL> 
+SQL> 
+SQL> REM ALL CHANGES DONE THRU ABOVE 3 STATEMENTS ARE DONE TO ONLY MEMORY.
+SQL> 
+SQL> 
+SQL> 
+SQL> REM TRANSACTION : IS NOTHING BUT BUNCH OF DML STATEMENTS EXECUTED WITHIN SESSION
+SQL> 
+SQL> 
+SQL> REM COMMIT : TO SAVE CHANGES DONE THRU DML STATEMENTS PERMANENT IN DATABASE/HARD DISK/STORAGE MEDIA
+SQL> 
+SQL> 
+SQL> REM ROLLBACK : TO UNDO CHANGES DONE THRU DML STATEMENTS FROM MEMORY
+SQL> 
+SQL> 
+SQL> 
+SQL> REM SAVEPOINT : IS USED TO BREAK TRANSACTION INTO PARTS
+SQL> 
+SQL> REM TABLE 4 ROWS : INSERT : 5 ROWS : INSERT 6 ROWS : 4 ROWS DATABASE + 2 ROWS MEMORY : TOTAL 6 ROWS : COMMIT : 2 MEMORY -> DATABASE : DATABASE WILL 6 ROWS
+SQL> 
+SQL> REM TABLE 4 ROWS : INSERT : 5 ROWS : INSERT 6 ROWS : 4 ROWS DATABASE + 2 ROWS MEMORY : TOTAL 6 ROWS : ROLLBACK : IT WILL REMOVE 2 ROWS FROM MEMORY -> ONLY 4 ROWS IN DATABASE
+SQL> 
+SQL> 
+SQL> 
+SQL> REM TABLE 4 ROWS : INSERT : 5 ROWS : SAVEPOINT A IS CREATED HERE : INSERT 6 ROWS : 4 ROWS DATABASE + 2 ROWS MEMORY : TOTAL 6 ROWS : ROLLBACK TO A : IT WILL REMOVE 1 ROW FROM MEMORY (6TH ROW) -> 4 ROWS IN DATABASE + 1 ROW IN MEMORY : COMMIT : 5 ROWS IN DATABASE
+SQL> 
+SQL> 
+SQL> REM ROLLBACK WORKS IN LIFO METHOD : LAST IN FIRST OUT
+SQL> 
+SQL> REM TYPES OF INSERT COMMAND : 1 INSERT ... VALUES 2 INSERT ... SUB QUERY 3 MULTI TABLE INSERT (COMING CHAPTER)
+SQL> 
+SQL> 
+SQL> REM INSERT ... VALUES : IT CAN ADD SINGLE ROW PER SINGLE STATEMENT EXECUTION
+SQL> 
+SQL> REM INSERT ... SUB QUERY : IT CAN ADD 0 , 1 , MULTIPLE OR ALL ROWS FROM SUB QUERY TABLE
+SQL> 
+SQL> 
+SQL> SELECT * FROM EMPLOYEES WHERE SALARY > 30000;
+
+no rows selected
+
+SQL> SELECT * FROM EMPLOYEES WHERE SALARY = 24000;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+
+SQL> SELECT * FROM EMPLOYEES WHERE SALARY > 12000;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> CREATE TABLE D1 AS SELECT * FROM DEPARTMENTS WHERE 1 = 2;
+
+Table created.
+
+SQL> DESC D1
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+ DEPARTMENT_NAME                                                                                                                           NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ LOCATION_ID                                                                                                                                        NUMBER(4)
+
+SQL> SET LINES 100
+SQL> 
+SQL> 
+SQL> DESC D1
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ DEPARTMENT_ID                                                  NUMBER(4)
+ DEPARTMENT_NAME                                       NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                     NUMBER(6)
+ LOCATION_ID                                                    NUMBER(4)
+
+SQL> DESC DEPARTMENTS
+ Name                                                  Null?    Type
+ ----------------------------------------------------- -------- ------------------------------------
+ DEPARTMENT_ID                                         NOT NULL NUMBER(4)
+ DEPARTMENT_NAME                                       NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                     NUMBER(6)
+ LOCATION_ID                                                    NUMBER(4)
+
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                 
+------------- ------------------------------ ---------- -----------                                 
+           10 Administration                        200        1700                                 
+           20 Marketing                             201        1800                                 
+           50 Shiping                               124        1500                                 
+           60 IT                                    103        1400                                 
+           80 Sales                                 149        2500                                 
+           90 Executive                             100        1700                                 
+          110 Accounting                            205        1700                                 
+          190 Contracting                                      1700                                 
+
+8 rows selected.
+
+SQL> INSERT INTO D1 VALUES (10,'ADMN',200,1700);
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                 
+------------- ------------------------------ ---------- -----------                                 
+           10 ADMN                                  200        1700                                 
+
+SQL> INSERT INTO D1 VALUES (20,'MKT',NULL,'');
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                 
+------------- ------------------------------ ---------- -----------                                 
+           10 ADMN                                  200        1700                                 
+           20 MKT                                                                                   
+
+SQL> INSERT INTO D1 VALUES (20,'MKT',NULL,DEFAULT);
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                 
+------------- ------------------------------ ---------- -----------                                 
+           10 ADMN                                  200        1700                                 
+           20 MKT                                                                                   
+           20 MKT                                                                                   
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , DEPARTMENT_ID , LOCATION_ID , MANAGER_ID ) VALUES ('RES',30,NULL,124);
+
+1 row created.
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , DEPARTMENT_ID , LOCATION_ID , MANAGER_ID ) VALUES ('RES',30,124,1500);
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                 
+------------- ------------------------------ ---------- -----------                                 
+           10 ADMN                                  200        1700                                 
+           20 MKT                                                                                   
+           20 MKT                                                                                   
+           30 RES                                   124                                             
+           30 RES                                  1500         124                                 
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('NET',1400);
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                 
+------------- ------------------------------ ---------- -----------                                 
+           10 ADMN                                  200        1700                                 
+           20 MKT                                                                                   
+           20 MKT                                                                                   
+           30 RES                                   124                                             
+           30 RES                                  1500         124                                 
+              NET                                              1400                                 
+
+6 rows selected.
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('',1400);
+INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('',1400)
+                                                        *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."D1"."DEPARTMENT_NAME") 
+
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('&DN',&LID);
+Enter value for dn: IT
+Enter value for lid: 1300
+old   1: INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('&DN',&LID)
+new   1: INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('IT',1300)
+
+1 row created.
+
+SQL> /
+Enter value for dn: SHIP
+Enter value for lid: 1700
+old   1: INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('&DN',&LID)
+new   1: INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('SHIP',1700)
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                 
+------------- ------------------------------ ---------- -----------                                 
+           10 ADMN                                  200        1700                                 
+           20 MKT                                                                                   
+           20 MKT                                                                                   
+           30 RES                                   124                                             
+           30 RES                                  1500         124                                 
+              NET                                              1400                                 
+              IT                                               1300                                 
+              SHIP                                             1700                                 
+
+8 rows selected.
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('NET',(SELECT LOCATION_ID FROM LOCATIONS WHERE CITY = 'Toronto'));
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                 
+------------- ------------------------------ ---------- -----------                                 
+           10 ADMN                                  200        1700                                 
+           20 MKT                                                                                   
+           20 MKT                                                                                   
+           30 RES                                   124                                             
+           30 RES                                  1500         124                                 
+              NET                                              1400                                 
+              IT                                               1300                                 
+              SHIP                                             1700                                 
+              NET                                              1800                                 
+
+9 rows selected.
+
+SQL> select * FROM LOCATIONS;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                              
+----------- ---------------------------------------- ------------ ------------------------------    
+STATE_PROVINCE            CO                                                                        
+------------------------- --                                                                        
+       1400 2014 Jabberwocky Rd                      26192        Southlake                         
+Texas                     US                                                                        
+                                                                                                    
+       1500 2011 Interiors Blvd                      99236        South San Francisco               
+California                US                                                                        
+                                                                                                    
+       1700 2004 Charade Rd                          98199        Seattle                           
+Washington                US                                                                        
+                                                                                                    
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                           
+Ontario                   CA                                                                        
+                                                                                                    
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                            
+Oxford                    UK                                                                        
+                                                                                                    
+
+SQL> SET LINES 240
+SQL> R
+  1* select * FROM LOCATIONS
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO                                                                                                                   
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --                                                                                                                   
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US                                                                                                                   
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US                                                                                                                   
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US                                                                                                                   
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA                                                                                                                   
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK                                                                                                                   
+
+SQL> REM VALUES : LITERAL , NULL , '' , DEFAULT , SUBSTITUION VARIABLE , SCALAR SUB QUERY , FUNCTION , EXPRESSION ...
+SQL> 
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('',POWER(100,2));
+INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('',POWER(100,2))
+                                                        *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."D1"."DEPARTMENT_NAME") 
+
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('XYZ',POWER(100,2));
+INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('XYZ',POWER(100,2))
+                                                              *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column 
+
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('XYZ',POWER(10,2));
+
+1 row created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 ADMN                                  200        1700                                                                                                                                                                             
+           20 MKT                                                                                                                                                                                                                               
+           20 MKT                                                                                                                                                                                                                               
+           30 RES                                   124                                                                                                                                                                                         
+           30 RES                                  1500         124                                                                                                                                                                             
+              NET                                              1400                                                                                                                                                                             
+              IT                                               1300                                                                                                                                                                             
+              SHIP                                             1700                                                                                                                                                                             
+              NET                                              1800                                                                                                                                                                             
+              XYZ                                               100                                                                                                                                                                             
+
+10 rows selected.
+
+SQL> SELECT LOCATION_ID FROM LOCATIONS WHERE CITY = 'Toronto';
+
+LOCATION_ID                                                                                                                                                                                                                                     
+-----------                                                                                                                                                                                                                                     
+       1800                                                                                                                                                                                                                                     
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('NET',(SELECT LOCATION_ID FROM LOCATIONS));
+INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('NET',(SELECT LOCATION_ID FROM LOCATIONS))
+                                                               *
+ERROR at line 1:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> SAVEPOINT A;
+
+Savepoint created.
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID IN (10,50,90);
+
+3 rows created.
+
+SQL> INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('NET',(SELECT LOCATION_ID FROM LOCATIONS));
+INSERT INTO D1 (DEPARTMENT_NAME , LOCATION_ID ) VALUES ('NET',(SELECT LOCATION_ID FROM LOCATIONS))
+                                                               *
+ERROR at line 1:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 ADMN                                  200        1700                                                                                                                                                                             
+           20 MKT                                                                                                                                                                                                                               
+           20 MKT                                                                                                                                                                                                                               
+           30 RES                                   124                                                                                                                                                                                         
+           30 RES                                  1500         124                                                                                                                                                                             
+              NET                                              1400                                                                                                                                                                             
+              IT                                               1300                                                                                                                                                                             
+              SHIP                                             1700                                                                                                                                                                             
+              NET                                              1800                                                                                                                                                                             
+              XYZ                                               100                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+
+13 rows selected.
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS;
+
+8 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 ADMN                                  200        1700                                                                                                                                                                             
+           20 MKT                                                                                                                                                                                                                               
+           20 MKT                                                                                                                                                                                                                               
+           30 RES                                   124                                                                                                                                                                                         
+           30 RES                                  1500         124                                                                                                                                                                             
+              NET                                              1400                                                                                                                                                                             
+              IT                                               1300                                                                                                                                                                             
+              SHIP                                             1700                                                                                                                                                                             
+              NET                                              1800                                                                                                                                                                             
+              XYZ                                               100                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+21 rows selected.
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE MANAGER_ID IS NULL;
+
+1 row created.
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID IS NULL;
+
+0 rows created.
+
+SQL> 
+SQL> ROLLBACK TO A;
+
+Rollback complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 ADMN                                  200        1700                                                                                                                                                                             
+           20 MKT                                                                                                                                                                                                                               
+           20 MKT                                                                                                                                                                                                                               
+           30 RES                                   124                                                                                                                                                                                         
+           30 RES                                  1500         124                                                                                                                                                                             
+              NET                                              1400                                                                                                                                                                             
+              IT                                               1300                                                                                                                                                                             
+              SHIP                                             1700                                                                                                                                                                             
+              NET                                              1800                                                                                                                                                                             
+              XYZ                                               100                                                                                                                                                                             
+
+10 rows selected.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 ADMN                                  200        1700                                                                                                                                                                             
+           20 MKT                                                                                                                                                                                                                               
+           20 MKT                                                                                                                                                                                                                               
+           30 RES                                   124                                                                                                                                                                                         
+           30 RES                                  1500         124                                                                                                                                                                             
+              NET                                              1400                                                                                                                                                                             
+              IT                                               1300                                                                                                                                                                             
+              SHIP                                             1700                                                                                                                                                                             
+              NET                                              1800                                                                                                                                                                             
+              XYZ                                               100                                                                                                                                                                             
+
+10 rows selected.
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 ADMN                                  200        1700                                                                                                                                                                             
+           20 MKT                                                                                                                                                                                                                               
+           20 MKT                                                                                                                                                                                                                               
+           30 RES                                   124                                                                                                                                                                                         
+           30 RES                                  1500         124                                                                                                                                                                             
+              NET                                              1400                                                                                                                                                                             
+              IT                                               1300                                                                                                                                                                             
+              SHIP                                             1700                                                                                                                                                                             
+              NET                                              1800                                                                                                                                                                             
+              XYZ                                               100                                                                                                                                                                             
+
+10 rows selected.
+
+SQL> REM ROLLBACK : TO UNDO ALL CHANGES OF CURRENT TRANSACTION
+SQL> 
+SQL> REM ROLLBACK TO SAVEPOINT : TO UNDO ALL CHANGES MADE AFTER SAVEPOINT (IT WILL KEEP CHANGES DONE BEFORE SAVEPOINT IN OPEN STATE)
+SQL> 
+SQL> REM COMMIT : IT WILL COMMIT/SAVE ALL OPEN STATE CHANGES OF CURRENT TRANSACTION
+SQL> 
+SQL> REM T1 : INSERT SAVEPOINT A INSERT : 1 COMMIT 2 ROLLBACK 3 ROLLBACK TO A + COMMIT
+SQL> 
+SQL> REM T2 : INSERT : ROLLBACK
+SQL> 
+SQL> DELETE D1;
+
+10 rows deleted.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM D1;
+
+no rows selected
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID < 50;
+
+2 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+
+SQL> SAVEPOINT A;
+
+Savepoint created.
+
+SQL> INSERT INTO D1 (DEPARTMENT_ID , DEPARTMENT_NAME) SELECT DEPARTMENT_ID , DEPARTMENT_NAME FROM DEPARTMENTS WHERE DEPARTMENT_ID IN (60,110);
+
+2 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           60 IT                                                                                                                                                                                                                                
+          110 Accounting                                                                                                                                                                                                                        
+
+SQL> SAVEPOINT B;
+
+Savepoint created.
+
+SQL> INSERT INTO D1 SELECT * FROM DEPARTMENTS WHERE DEPARTMENT_ID NOT IN (50,90);
+
+6 rows created.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           60 IT                                                                                                                                                                                                                                
+          110 Accounting                                                                                                                                                                                                                        
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+10 rows selected.
+
+SQL> REM 1 COMMIT
+SQL> 
+SQL> REM 2 ROLLBACK
+SQL> 
+SQL> REM 3 ROLLBACK TO B + COMMIT
+SQL> 
+SQL> REM 4 ROLLBACK TO A + COMMIT
+SQL> 
+SQL> 
+SQL> ROLLBACK TO B;
+
+Rollback complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           60 IT                                                                                                                                                                                                                                
+          110 Accounting                                                                                                                                                                                                                        
+
+SQL> ROLLBACK TO A;
+
+Rollback complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM D1;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+
+SQL> DROP TABLE D1;
+
+Table dropped.
+
+SQL> DESC D1
+ERROR:
+ORA-04043: object D1 does not exist 
+
+
+SQL> SELECT * FROM D1;
+SELECT * FROM D1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> REM DELETE FROM TABLE; : WILL DELETE ALL ROWS, KEEPING DEFINITION INTACT
+SQL> 
+SQL> REM DROP TABLE TABLE_NAME; : WILL DELETE BOTH ROWS AS WELL AS DEFINITION
+SQL> 
+SQL> CREATE TABLE D1 AS SELECT * FROM DEPARTMENTS WHERE 1 = 2;
+
+Table created.
+
+SQL> CREATE TABLE R1 AS SELECT * FROM REGIONS WHERE 1 = 2;
+CREATE TABLE R1 AS SELECT * FROM REGIONS WHERE 1 = 2
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> DROP TABLE R1;
+
+Table dropped.
+
+SQL> CREATE TABLE R1 AS SELECT * FROM REGIONS WHERE 1 = 2;
+
+Table created.
+
+SQL> SPOOL OFF

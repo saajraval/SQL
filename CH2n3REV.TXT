@@ -1,0 +1,535 @@
+SQL> 
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT LAST_NAME , SALARY FROM EMPLOYEES;
+
+LAST_NAME                     SALARY                                                                                                                                                                                                            
+------------------------- ----------                                                                                                                                                                                                            
+King                           24000                                                                                                                                                                                                            
+Kochhar                        17000                                                                                                                                                                                                            
+De Haan                        17000                                                                                                                                                                                                            
+Hunold                          9000                                                                                                                                                                                                            
+Ernst                           6000                                                                                                                                                                                                            
+Lorentz                         4200                                                                                                                                                                                                            
+Mourgos                         5800                                                                                                                                                                                                            
+Rajs                            3500                                                                                                                                                                                                            
+Davies                          3100                                                                                                                                                                                                            
+Matos                           2600                                                                                                                                                                                                            
+Vargas                          2500                                                                                                                                                                                                            
+Zlotkey                        10500                                                                                                                                                                                                            
+Abel                           11000                                                                                                                                                                                                            
+Taylor                          8600                                                                                                                                                                                                            
+Grant                           7000                                                                                                                                                                                                            
+Whalen                          4400                                                                                                                                                                                                            
+Hartstein                      13000                                                                                                                                                                                                            
+Fay                             6000                                                                                                                                                                                                            
+Higgins                        12000                                                                                                                                                                                                            
+Gietz                           8300                                                                                                                                                                                                            
+
+20 rows selected.
+
+SQL> SELECT SALARY CURRENT_SALARY , SALARY + 5000 NEW_SALARY FROM EMPLOYEES;
+
+CURRENT_SALARY NEW_SALARY                                                                                                                                                                                                                       
+-------------- ----------                                                                                                                                                                                                                       
+         24000      29000                                                                                                                                                                                                                       
+         17000      22000                                                                                                                                                                                                                       
+         17000      22000                                                                                                                                                                                                                       
+          9000      14000                                                                                                                                                                                                                       
+          6000      11000                                                                                                                                                                                                                       
+          4200       9200                                                                                                                                                                                                                       
+          5800      10800                                                                                                                                                                                                                       
+          3500       8500                                                                                                                                                                                                                       
+          3100       8100                                                                                                                                                                                                                       
+          2600       7600                                                                                                                                                                                                                       
+          2500       7500                                                                                                                                                                                                                       
+         10500      15500                                                                                                                                                                                                                       
+         11000      16000                                                                                                                                                                                                                       
+          8600      13600                                                                                                                                                                                                                       
+          7000      12000                                                                                                                                                                                                                       
+          4400       9400                                                                                                                                                                                                                       
+         13000      18000                                                                                                                                                                                                                       
+          6000      11000                                                                                                                                                                                                                       
+         12000      17000                                                                                                                                                                                                                       
+          8300      13300                                                                                                                                                                                                                       
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY * 12 AS ANNUAL_SALARY , (SALARY + 2000) * 12 AS NEW_ANNUAL_SALARY FROM EMPLOYEES;
+
+FIRST_NAME           ANNUAL_SALARY NEW_ANNUAL_SALARY                                                                                                                                                                                            
+-------------------- ------------- -----------------                                                                                                                                                                                            
+Steven                      288000            312000                                                                                                                                                                                            
+Neena                       204000            228000                                                                                                                                                                                            
+Lex                         204000            228000                                                                                                                                                                                            
+Alexander                   108000            132000                                                                                                                                                                                            
+Bruce                        72000             96000                                                                                                                                                                                            
+Diana                        50400             74400                                                                                                                                                                                            
+Kevin                        69600             93600                                                                                                                                                                                            
+Trenna                       42000             66000                                                                                                                                                                                            
+Curtis                       37200             61200                                                                                                                                                                                            
+Randall                      31200             55200                                                                                                                                                                                            
+Peter                        30000             54000                                                                                                                                                                                            
+Eleni                       126000            150000                                                                                                                                                                                            
+Ellen                       132000            156000                                                                                                                                                                                            
+Jonathon                    103200            127200                                                                                                                                                                                            
+Kimerely                     84000            108000                                                                                                                                                                                            
+Jennifer                     52800             76800                                                                                                                                                                                            
+Michael                     156000            180000                                                                                                                                                                                            
+Pat                          72000             96000                                                                                                                                                                                            
+Shelley                     144000            168000                                                                                                                                                                                            
+William                      99600            123600                                                                                                                                                                                            
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || ' ' || FIRST_NAME AS FULLNAME FROM EMPLOYEES;
+
+FULLNAME                                                                                                                                                                                                                                        
+----------------------------------------------                                                                                                                                                                                                  
+King Steven                                                                                                                                                                                                                                     
+Kochhar Neena                                                                                                                                                                                                                                   
+De Haan Lex                                                                                                                                                                                                                                     
+Hunold Alexander                                                                                                                                                                                                                                
+Ernst Bruce                                                                                                                                                                                                                                     
+Lorentz Diana                                                                                                                                                                                                                                   
+Mourgos Kevin                                                                                                                                                                                                                                   
+Rajs Trenna                                                                                                                                                                                                                                     
+Davies Curtis                                                                                                                                                                                                                                   
+Matos Randall                                                                                                                                                                                                                                   
+Vargas Peter                                                                                                                                                                                                                                    
+Zlotkey Eleni                                                                                                                                                                                                                                   
+Abel Ellen                                                                                                                                                                                                                                      
+Taylor Jonathon                                                                                                                                                                                                                                 
+Grant Kimerely                                                                                                                                                                                                                                  
+Whalen Jennifer                                                                                                                                                                                                                                 
+Hartstein Michael                                                                                                                                                                                                                               
+Fay Pat                                                                                                                                                                                                                                         
+Higgins Shelley                                                                                                                                                                                                                                 
+Gietz William                                                                                                                                                                                                                                   
+
+20 rows selected.
+
+SQL> SELECT DISTINCT DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                                                                                                                                                                                   
+-------------                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                
+           90                                                                                                                                                                                                                                   
+           20                                                                                                                                                                                                                                   
+          110                                                                                                                                                                                                                                   
+           50                                                                                                                                                                                                                                   
+           80                                                                                                                                                                                                                                   
+           60                                                                                                                                                                                                                                   
+           10                                                                                                                                                                                                                                   
+
+8 rows selected.
+
+SQL> SELECT UNIQUE MANAGER_ID , JOB_ID;
+SELECT UNIQUE MANAGER_ID , JOB_ID
+                                *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT UNIQUE MANAGER_ID , JOB_ID FROM EMPLOYEES;
+
+MANAGER_ID JOB_ID                                                                                                                                                                                                                               
+---------- ----------                                                                                                                                                                                                                           
+       201 MK_REP                                                                                                                                                                                                                               
+       124 ST_CLERK                                                                                                                                                                                                                             
+       100 SA_MAN                                                                                                                                                                                                                               
+       101 AC_MGR                                                                                                                                                                                                                               
+       205 AC_ACCOUNT                                                                                                                                                                                                                           
+       100 AD_VP                                                                                                                                                                                                                                
+       102 IT_PROG                                                                                                                                                                                                                              
+       149 SA_REP                                                                                                                                                                                                                               
+       100 MK_MAN                                                                                                                                                                                                                               
+           AD_PRES                                                                                                                                                                                                                              
+       103 IT_PROG                                                                                                                                                                                                                              
+       100 ST_MAN                                                                                                                                                                                                                               
+       101 AD_ASST                                                                                                                                                                                                                              
+
+13 rows selected.
+
+SQL> SELECT * FROM REGIONS;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> SELECT ROWID , R.* FROM REGIONS R;
+
+ROWID               REGION_ID REGION_NAME                                                                                                                                                                                                       
+------------------ ---------- -------------------------                                                                                                                                                                                         
+AAAR7OAAHAAAAGrAAA          1 Europe                                                                                                                                                                                                            
+AAAR7OAAHAAAAGrAAB          2 Americas                                                                                                                                                                                                          
+AAAR7OAAHAAAAGrAAC          3 Asia                                                                                                                                                                                                              
+AAAR7OAAHAAAAGrAAD          4 Middle East and Africa                                                                                                                                                                                            
+
+SQL> SELECT ROWID , REGIONS.* FROM REGIONS;
+
+ROWID               REGION_ID REGION_NAME                                                                                                                                                                                                       
+------------------ ---------- -------------------------                                                                                                                                                                                         
+AAAR7OAAHAAAAGrAAA          1 Europe                                                                                                                                                                                                            
+AAAR7OAAHAAAAGrAAB          2 Americas                                                                                                                                                                                                          
+AAAR7OAAHAAAAGrAAC          3 Asia                                                                                                                                                                                                              
+AAAR7OAAHAAAAGrAAD          4 Middle East and Africa                                                                                                                                                                                            
+
+SQL> SELECT ROWID , * FROM REGIONS;
+SELECT ROWID , * FROM REGIONS
+               *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT ROWID , R.* FROM REGIONS AS R;
+SELECT ROWID , R.* FROM REGIONS AS R
+                                *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT LAST_NAME || ' works as ' || job_id || '.' "EMPLOYEE INFO." FROM EMPLOYEES;
+
+EMPLOYEE INFO.                                                                                                                                                                                                                                  
+----------------------------------------------                                                                                                                                                                                                  
+King works as AD_PRES.                                                                                                                                                                                                                          
+Kochhar works as AD_VP.                                                                                                                                                                                                                         
+De Haan works as AD_VP.                                                                                                                                                                                                                         
+Hunold works as IT_PROG.                                                                                                                                                                                                                        
+Ernst works as IT_PROG.                                                                                                                                                                                                                         
+Lorentz works as IT_PROG.                                                                                                                                                                                                                       
+Mourgos works as ST_MAN.                                                                                                                                                                                                                        
+Rajs works as ST_CLERK.                                                                                                                                                                                                                         
+Davies works as ST_CLERK.                                                                                                                                                                                                                       
+Matos works as ST_CLERK.                                                                                                                                                                                                                        
+Vargas works as ST_CLERK.                                                                                                                                                                                                                       
+Zlotkey works as SA_MAN.                                                                                                                                                                                                                        
+Abel works as SA_REP.                                                                                                                                                                                                                           
+Taylor works as SA_REP.                                                                                                                                                                                                                         
+Grant works as SA_REP.                                                                                                                                                                                                                          
+Whalen works as AD_ASST.                                                                                                                                                                                                                        
+Hartstein works as MK_MAN.                                                                                                                                                                                                                      
+Fay works as MK_REP.                                                                                                                                                                                                                            
+Higgins works as AC_MGR.                                                                                                                                                                                                                        
+Gietz works as AC_ACCOUNT.                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || '''s monthly salary is Rs.' || SALARY || '/-.' FROM EMPLOYEES;
+
+LAST_NAME||'''SMONTHLYSALARYISRS.'||SALARY||'/-.'                                                                                                                                                                                               
+--------------------------------------------------------------------------------------------                                                                                                                                                    
+King's monthly salary is Rs.24000/-.                                                                                                                                                                                                            
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                                                         
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                                                         
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                                                           
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                                                            
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                                                          
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                                                          
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                                                             
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                                                           
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                                                            
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                                                           
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                                                         
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                                                            
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                                                           
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                                                            
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                                                           
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                                                                       
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                                                              
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                                                         
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                                                            
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || $'s monthly salary is Rs.'$ || SALARY || '/-.' FROM EMPLOYEES;
+SELECT LAST_NAME || $'s monthly salary is Rs.'$ || SALARY || '/-.' FROM EMPLOYEES
+                    *
+ERROR at line 1:
+ORA-00911: invalid character 
+
+
+SQL> SELECT LAST_NAME || '$s monthly salary is Rs.$' || SALARY || '/-.' FROM EMPLOYEES;
+
+LAST_NAME||'$SMONTHLYSALARYISRS.$'||SALARY||'/-.'                                                                                                                                                                                               
+---------------------------------------------------------------------------------------------                                                                                                                                                   
+King$s monthly salary is Rs.$24000/-.                                                                                                                                                                                                           
+Kochhar$s monthly salary is Rs.$17000/-.                                                                                                                                                                                                        
+De Haan$s monthly salary is Rs.$17000/-.                                                                                                                                                                                                        
+Hunold$s monthly salary is Rs.$9000/-.                                                                                                                                                                                                          
+Ernst$s monthly salary is Rs.$6000/-.                                                                                                                                                                                                           
+Lorentz$s monthly salary is Rs.$4200/-.                                                                                                                                                                                                         
+Mourgos$s monthly salary is Rs.$5800/-.                                                                                                                                                                                                         
+Rajs$s monthly salary is Rs.$3500/-.                                                                                                                                                                                                            
+Davies$s monthly salary is Rs.$3100/-.                                                                                                                                                                                                          
+Matos$s monthly salary is Rs.$2600/-.                                                                                                                                                                                                           
+Vargas$s monthly salary is Rs.$2500/-.                                                                                                                                                                                                          
+Zlotkey$s monthly salary is Rs.$10500/-.                                                                                                                                                                                                        
+Abel$s monthly salary is Rs.$11000/-.                                                                                                                                                                                                           
+Taylor$s monthly salary is Rs.$8600/-.                                                                                                                                                                                                          
+Grant$s monthly salary is Rs.$7000/-.                                                                                                                                                                                                           
+Whalen$s monthly salary is Rs.$4400/-.                                                                                                                                                                                                          
+Hartstein$s monthly salary is Rs.$13000/-.                                                                                                                                                                                                      
+Fay$s monthly salary is Rs.$6000/-.                                                                                                                                                                                                             
+Higgins$s monthly salary is Rs.$12000/-.                                                                                                                                                                                                        
+Gietz$s monthly salary is Rs.$8300/-.                                                                                                                                                                                                           
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q'$s monthly salary is Rs.$' || SALARY || '/-.' FROM EMPLOYEES;
+
+LAST_NAME||Q'$SMONTHLYSALARYISRS.$'||SALARY||'/-.'                                                                                                                                                                                              
+-------------------------------------------------------------------------------------------                                                                                                                                                     
+Kings monthly salary is Rs.24000/-.                                                                                                                                                                                                             
+Kochhars monthly salary is Rs.17000/-.                                                                                                                                                                                                          
+De Haans monthly salary is Rs.17000/-.                                                                                                                                                                                                          
+Hunolds monthly salary is Rs.9000/-.                                                                                                                                                                                                            
+Ernsts monthly salary is Rs.6000/-.                                                                                                                                                                                                             
+Lorentzs monthly salary is Rs.4200/-.                                                                                                                                                                                                           
+Mourgoss monthly salary is Rs.5800/-.                                                                                                                                                                                                           
+Rajss monthly salary is Rs.3500/-.                                                                                                                                                                                                              
+Daviess monthly salary is Rs.3100/-.                                                                                                                                                                                                            
+Matoss monthly salary is Rs.2600/-.                                                                                                                                                                                                             
+Vargass monthly salary is Rs.2500/-.                                                                                                                                                                                                            
+Zlotkeys monthly salary is Rs.10500/-.                                                                                                                                                                                                          
+Abels monthly salary is Rs.11000/-.                                                                                                                                                                                                             
+Taylors monthly salary is Rs.8600/-.                                                                                                                                                                                                            
+Grants monthly salary is Rs.7000/-.                                                                                                                                                                                                             
+Whalens monthly salary is Rs.4400/-.                                                                                                                                                                                                            
+Hartsteins monthly salary is Rs.13000/-.                                                                                                                                                                                                        
+Fays monthly salary is Rs.6000/-.                                                                                                                                                                                                               
+Higginss monthly salary is Rs.12000/-.                                                                                                                                                                                                          
+Gietzs monthly salary is Rs.8300/-.                                                                                                                                                                                                             
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q'$'s monthly salary is Rs.$' || SALARY || '/-.' FROM EMPLOYEES;
+
+LAST_NAME||Q'$'SMONTHLYSALARYISRS.$'||SALARY||'/-.'                                                                                                                                                                                             
+--------------------------------------------------------------------------------------------                                                                                                                                                    
+King's monthly salary is Rs.24000/-.                                                                                                                                                                                                            
+Kochhar's monthly salary is Rs.17000/-.                                                                                                                                                                                                         
+De Haan's monthly salary is Rs.17000/-.                                                                                                                                                                                                         
+Hunold's monthly salary is Rs.9000/-.                                                                                                                                                                                                           
+Ernst's monthly salary is Rs.6000/-.                                                                                                                                                                                                            
+Lorentz's monthly salary is Rs.4200/-.                                                                                                                                                                                                          
+Mourgos's monthly salary is Rs.5800/-.                                                                                                                                                                                                          
+Rajs's monthly salary is Rs.3500/-.                                                                                                                                                                                                             
+Davies's monthly salary is Rs.3100/-.                                                                                                                                                                                                           
+Matos's monthly salary is Rs.2600/-.                                                                                                                                                                                                            
+Vargas's monthly salary is Rs.2500/-.                                                                                                                                                                                                           
+Zlotkey's monthly salary is Rs.10500/-.                                                                                                                                                                                                         
+Abel's monthly salary is Rs.11000/-.                                                                                                                                                                                                            
+Taylor's monthly salary is Rs.8600/-.                                                                                                                                                                                                           
+Grant's monthly salary is Rs.7000/-.                                                                                                                                                                                                            
+Whalen's monthly salary is Rs.4400/-.                                                                                                                                                                                                           
+Hartstein's monthly salary is Rs.13000/-.                                                                                                                                                                                                       
+Fay's monthly salary is Rs.6000/-.                                                                                                                                                                                                              
+Higgins's monthly salary is Rs.12000/-.                                                                                                                                                                                                         
+Gietz's monthly salary is Rs.8300/-.                                                                                                                                                                                                            
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT ,
+  2  
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander            Hunold                    AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce                Ernst                     BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana                Lorentz                   DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin                Mourgos                   KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon             Taylor                    JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely             Grant                     KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer             Whalen                    JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat                  Fay                       PFAY                      603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William              Gietz                     WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT 'COMMISSION AMOUNT' FROM EMPLOYEES;
+SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT 'COMMISSION AMOUNT' FROM EMPLOYEES
+                                                                      *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT "COMMISSION AMOUNT" FROM EMPLOYEES;
+
+FIRST_NAME               SALARY COMMISSION_PCT COMMISSION AMOUNT                                                                                                                                                                                
+-------------------- ---------- -------------- -----------------                                                                                                                                                                                
+Steven                    24000                                                                                                                                                                                                                 
+Neena                     17000                                                                                                                                                                                                                 
+Lex                       17000                                                                                                                                                                                                                 
+Alexander                  9000                                                                                                                                                                                                                 
+Bruce                      6000                                                                                                                                                                                                                 
+Diana                      4200                                                                                                                                                                                                                 
+Kevin                      5800                                                                                                                                                                                                                 
+Trenna                     3500                                                                                                                                                                                                                 
+Curtis                     3100                                                                                                                                                                                                                 
+Randall                    2600                                                                                                                                                                                                                 
+Peter                      2500                                                                                                                                                                                                                 
+Eleni                     10500             .2              2100                                                                                                                                                                                
+Ellen                     11000             .3              3300                                                                                                                                                                                
+Jonathon                   8600             .3              2580                                                                                                                                                                                
+Kimerely                   7000            .15              1050                                                                                                                                                                                
+Jennifer                   4400                                                                                                                                                                                                                 
+Michael                   13000                                                                                                                                                                                                                 
+Pat                        6000                                                                                                                                                                                                                 
+Shelley                   12000                                                                                                                                                                                                                 
+William                    8300                                                                                                                                                                                                                 
+
+20 rows selected.
+
+SQL> SELECT * FROM DEPARTMENTS ORDER BY 2;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_NAME AS DNM , LOCATION_ID FROM DEPARTMENTS ORDER BY 1 DESC;
+
+DNM                            LOCATION_ID                                                                                                                                                                                                      
+------------------------------ -----------                                                                                                                                                                                                      
+Shiping                               1500                                                                                                                                                                                                      
+Sales                                 2500                                                                                                                                                                                                      
+Marketing                             1800                                                                                                                                                                                                      
+IT                                    1400                                                                                                                                                                                                      
+Executive                             1700                                                                                                                                                                                                      
+Contracting                           1700                                                                                                                                                                                                      
+Administration                        1700                                                                                                                                                                                                      
+Accounting                            1700                                                                                                                                                                                                      
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_NAME AS DNM , LOCATION_ID FROM DEPARTMENTS ORDER BY DNM;
+
+DNM                            LOCATION_ID                                                                                                                                                                                                      
+------------------------------ -----------                                                                                                                                                                                                      
+Accounting                            1700                                                                                                                                                                                                      
+Administration                        1700                                                                                                                                                                                                      
+Contracting                           1700                                                                                                                                                                                                      
+Executive                             1700                                                                                                                                                                                                      
+IT                                    1400                                                                                                                                                                                                      
+Marketing                             1800                                                                                                                                                                                                      
+Sales                                 2500                                                                                                                                                                                                      
+Shiping                               1500                                                                                                                                                                                                      
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , JOB_ID , SALARY AS S , FIRST_NAME FROM EMPLOYEES ORDER BY 1 NULLS FIRST,JOB_ID ASC,S,FIRST_NAME DESC;
+
+DEPARTMENT_ID JOB_ID              S FIRST_NAME                                                                                                                                                                                                  
+------------- ---------- ---------- --------------------                                                                                                                                                                                        
+              SA_REP           7000 Kimerely                                                                                                                                                                                                    
+           10 AD_ASST          4400 Jennifer                                                                                                                                                                                                    
+           20 MK_MAN          13000 Michael                                                                                                                                                                                                     
+           20 MK_REP           6000 Pat                                                                                                                                                                                                         
+           50 ST_CLERK         2500 Peter                                                                                                                                                                                                       
+           50 ST_CLERK         2600 Randall                                                                                                                                                                                                     
+           50 ST_CLERK         3100 Curtis                                                                                                                                                                                                      
+           50 ST_CLERK         3500 Trenna                                                                                                                                                                                                      
+           50 ST_MAN           5800 Kevin                                                                                                                                                                                                       
+           60 IT_PROG          4200 Diana                                                                                                                                                                                                       
+           60 IT_PROG          6000 Bruce                                                                                                                                                                                                       
+           60 IT_PROG          9000 Alexander                                                                                                                                                                                                   
+           80 SA_MAN          10500 Eleni                                                                                                                                                                                                       
+           80 SA_REP           8600 Jonathon                                                                                                                                                                                                    
+           80 SA_REP          11000 Ellen                                                                                                                                                                                                       
+           90 AD_PRES         24000 Steven                                                                                                                                                                                                      
+           90 AD_VP           17000 Neena                                                                                                                                                                                                       
+           90 AD_VP           17000 Lex                                                                                                                                                                                                         
+          110 AC_ACCOUNT       8300 William                                                                                                                                                                                                     
+          110 AC_MGR          12000 Shelley                                                                                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT * FROM &TN;
+old   1: SELECT * FROM &TN
+new   1: SELECT * FROM DEPARTMENTS
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> UNDEFINE TN
+SQL> 
+SQL> SELECT * FROM &TN;
+Enter value for tn: DEPARTMENTS
+old   1: SELECT * FROM &TN
+new   1: SELECT * FROM DEPARTMENTS
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> /
+Enter value for tn: REGIONS
+old   1: SELECT * FROM &TN
+new   1: SELECT * FROM REGIONS
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> SPOOL OFF

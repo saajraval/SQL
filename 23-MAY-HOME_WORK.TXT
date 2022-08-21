@@ -1,0 +1,106 @@
+SQL> 
+SQL> REM  DISPLAY FIRST_NAME OF THOSE WHO WORKS IN Shiping DEPARTMENT
+SQL> 
+SQL> SELECT FIRST_NAME  FROM EMPLOYEES WHERE DEPARTMENT_ID = (SELECT DEPARTMENT_ID FROM DEPARTMENTS WHERE DEPARTMENT_NAME = 'Shiping');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+--------------------                                                                                                                                                                                                                            
+Kevin                                                                                                                                                                                                                                           
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+
+SQL> 
+SQL> REM DISPLAY THOSE WHO REPORTS TO Kevin
+SQL> SELECT FIRST_NAME  FROM EMPLOYEES WHERE DEPARTMENT_ID = (SELECT DEPARTMENT_ID FROM EMPLOYEES WHERE FIRST_NAME = 'Kevin');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+--------------------                                                                                                                                                                                                                            
+Kevin                                                                                                                                                                                                                                           
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+
+SQL> 
+SQL> REM DISPLAY THOSE WHOSE SALARY IS HIGHER THAN Eleni
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES WHERE SALARY > (SELECT SALARY FROM EMPLOYEES WHERE FIRST_NAME = 'Eleni');
+
+FIRST_NAME               SALARY                                                                                                                                                                                                                 
+-------------------- ----------                                                                                                                                                                                                                 
+Steven                    24000                                                                                                                                                                                                                 
+Neena                     17000                                                                                                                                                                                                                 
+Lex                       17000                                                                                                                                                                                                                 
+Ellen                     11000                                                                                                                                                                                                                 
+Michael                   13000                                                                                                                                                                                                                 
+Shelley                   12000                                                                                                                                                                                                                 
+
+6 rows selected.
+
+SQL> REM DISPLAY THOSE WHO WERE HIRED AFTER Pat
+SQL> 
+SQL> SELECT FIRST_NAME , HIRE_DATE FROM EMPLOYEES WHERE HIRE_DATE > (SELECT HIRE_DATE FROM EMPLOYEES WHERE FIRST_NAME = 'Pat');
+
+FIRST_NAME           HIRE_DATE                                                                                                                                                                                                                  
+-------------------- ---------                                                                                                                                                                                                                  
+Diana                07-FEB-99                                                                                                                                                                                                                  
+Kevin                16-NOV-99                                                                                                                                                                                                                  
+Randall              15-MAR-98                                                                                                                                                                                                                  
+Peter                09-JUL-98                                                                                                                                                                                                                  
+Eleni                29-JAN-00                                                                                                                                                                                                                  
+Jonathon             24-MAR-98                                                                                                                                                                                                                  
+Kimerely             24-MAY-99                                                                                                                                                                                                                  
+
+7 rows selected.
+
+SQL> REM DISPLAY THOSE WHO GOES TO Toronto
+SQL> SELECT FIRST_NAME FROM EMPLOYEES JOIN DEPARTMENTS USING(DEPARTMENT_ID) WHERE LOCATION_ID=(SELECT LOCATION_ID FROM LOCATIONS WHERE  CITY='Toronto');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+--------------------                                                                                                                                                                                                                            
+Michael                                                                                                                                                                                                                                         
+Pat                                                                                                                                                                                                                                             
+
+SQL> 
+SQL> REM DISPLAY THOSE WHOSE GETS SALARY IN GRADE_LEVEL 'D'
+SQL> 
+SQL> SELECT FIRST_NAME FROM EMPLOYEES WHERE SALARY BETWEEN (SELECT LOWEST_SAL FROM JOB_GRADES WHERE GRADE_LEVEL='D') AND (SELECT HIGHEST_SAL FROM JOB_GRADES WHERE GRADE_LEVEL='D');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+--------------------                                                                                                                                                                                                                            
+Eleni                                                                                                                                                                                                                                           
+Ellen                                                                                                                                                                                                                                           
+Michael                                                                                                                                                                                                                                         
+Shelley                                                                                                                                                                                                                                         
+
+SQL> REM DISPLAY THOSE WHO HAVE GOT PROMOTION
+SQL>  SELECT DISTINCT FIRST_NAME FROM EMPLOYEES E JOIN JOB_HISTORY J USING(EMPLOYEE_ID);
+
+FIRST_NAME                                                                                                                                                                                                                                      
+--------------------                                                                                                                                                                                                                            
+Michael                                                                                                                                                                                                                                         
+Jonathon                                                                                                                                                                                                                                        
+Lex                                                                                                                                                                                                                                             
+Neena                                                                                                                                                                                                                                           
+Jennifer                                                                                                                                                                                                                                        
+
+SQL> REM  DISPLAY THOSE WHO GOES TO Canada
+SQL> SELECT FIRST_NAME FROM EMPLOYEES JOIN DEPARTMENTS USING(DEPARTMENT_ID) WHERE LOCATION_ID=(SELECT LOCATION_ID FROM LOCATIONS WHERE COUNTRY_ID=(SELECT COUNTRY_ID FROM COUNTRIES WHERE COUNTRY_NAME='Canada'));
+
+FIRST_NAME                                                                                                                                                                                                                                      
+--------------------                                                                                                                                                                                                                            
+Michael                                                                                                                                                                                                                                         
+Pat                                                                                                                                                                                                                                             
+
+SQL> REM  DISPLAY THOSE WHOSE JOB_TITLE IS Stock Manager
+SQL> SELECT  FIRST_NAME
+  2        FROM EMPLOYEES
+  3        NATURAL JOIN JOBS WHERE JOB_TITLE = 'Stock Manager';
+
+FIRST_NAME                                                                                                                                                                                                                                      
+--------------------                                                                                                                                                                                                                            
+Kevin                                                                                                                                                                                                                                           
+
+SQL> 
+SQL> SPOOL OFF

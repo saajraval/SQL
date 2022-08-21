@@ -1,0 +1,990 @@
+SQL> 
+SQL> REM HAVING , NESTED SUMMARY FUNCTIONS , CROSS TAB/MATRIX/PIVOTE REPORT
+SQL> 
+SQL> 
+SQL> SELECT COUNT(*) FROM EMPLOYEES;
+
+  COUNT(*)                                                                      
+----------                                                                      
+        20                                                                      
+
+SQL> 
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE DEPARTMENT_ID = 60;
+
+  COUNT(*)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE JOB_ID IN ('IT_PROG','ST_CLERK');
+
+  COUNT(*)                                                                      
+----------                                                                      
+         7                                                                      
+
+SQL> REM DISPLAY NO. OF EMPLOYEES WHO WERE HIRED IN YEAR 1998
+SQL> 
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE HIRE_daTE LIKE '%98';
+
+  COUNT(*)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE SUBSTR(HIRE_daTE,-2) = 98;
+
+  COUNT(*)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE SUBSTR(HIRE_daTE,-2) = '98';
+
+  COUNT(*)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE TO_CHAR(HIRE_daTE,'RR') = 98;;
+SELECT COUNT(*) FROM EMPLOYEES WHERE TO_CHAR(HIRE_daTE,'RR') = 98;
+                                                                 *
+ERROR at line 1:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE TO_CHAR(HIRE_daTE,'RR') = 98;
+
+  COUNT(*)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE HIRE_DATE BETWEEN '01-JAN-98' AND '31-DEC-98';
+
+  COUNT(*)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE HIRE_DATE >= '01-JAN-98' AND HIRE_DATE <= '31-DEC-98';
+
+  COUNT(*)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID MAX(SALARY)                                                       
+------------- -----------                                                       
+                     7000                                                       
+           90       24000                                                       
+           20       13000                                                       
+          110       12000                                                       
+           50        5800                                                       
+           80       11000                                                       
+           60        9000                                                       
+           10        4400                                                       
+
+8 rows selected.
+
+SQL> REM SYNTACTICAL PRECEDENCE OF SELECT : SELECT ... FROM ... WHERE ... GROUP BY/HAVING ... ORDER BY ... OFFSET ... FETCH ...;
+SQL> 
+SQL> REM EXECUTION PRECEDENCE OF SELECT : FROM ... WHERE ... GROUP BY ... HAVING ... COLUMN ALIAS ... ORDER BY ... OFFSET ... FETCH ... SELECT ...;
+SQL> 
+SQL> REM FROM : TO READ ALL ROWS OF TABLE AND PUT IT INTO MEMORY
+SQL> 
+SQL> REM WHERE : TO FILTER OUT UNWANTED ROWS FROM MEMORY
+SQL> 
+SQL> REM GROUP BY : 1 TO GROUP ROWS BASED ON COLUMN(S) SPECIFIED IN GROUP BY CLAUSE 2 TO GENERATE SUMMARY ROWS FOR EACH GROUP
+SQL> 
+SQL> REM HAVING : TO FILTER OUT UNWANTED SUMMARY ROWS DEVELOPED BY GROUP BY
+SQL> 
+SQL> REM COLUMN ALIAS : TO ATTACH NEW COLUMN HEADINGS TO COLUMNS
+SQL> 
+SQL> REM ORDER BY : TO SORT ROWS BASED ON COLUMNS SPECIFIED IN ORDER BY CLAUSE
+SQL> 
+SQL> REM OFFSET : TO SET STARTING POSITION OF ROW TO BE PRINTED FIRST
+SQL> 
+SQL> REM FETCH : TO FETCH SOME OF THE ROWS
+SQL> 
+SQL> REM SELECT : TO DISPLAY RESULT ON SCREEN
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID MAX(SALARY)                                                       
+------------- -----------                                                       
+                     7000                                                       
+           90       24000                                                       
+           20       13000                                                       
+          110       12000                                                       
+           50        5800                                                       
+           80       11000                                                       
+           60        9000                                                       
+           10        4400                                                       
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES WHERE MAX(SALARY) > 10000 GROUP BY DEPARTMENT_ID;
+SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES WHERE MAX(SALARY) > 10000 GROUP BY DEPARTMENT_ID
+                                                        *
+ERROR at line 1:
+ORA-00934: group function is not allowed here 
+
+
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES HAVING MAX(SALARY) > 10000 GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID MAX(SALARY)                                                       
+------------- -----------                                                       
+           90       24000                                                       
+           20       13000                                                       
+          110       12000                                                       
+           80       11000                                                       
+
+SQL> REM FROM ... WHERE ... GROUP BY ... : WORKS ON ORIGINAL TABLE ROWS
+SQL> 
+SQL> REM HAVING ... COLUMN ALIAS ... ORDER BY ... OFFSET ... FETCH ... SELECT ... : WORKS ON SUMMARY ROWS
+SQL> 
+SQL> SELECT JOB_ID , AVG(SALARY) FROM EMPLOYEES GROUP BY JOB_ID;
+
+JOB_ID     AVG(SALARY)                                                          
+---------- -----------                                                          
+IT_PROG           6400                                                          
+AC_MGR           12000                                                          
+AC_ACCOUNT        8300                                                          
+ST_MAN            5800                                                          
+AD_ASST           4400                                                          
+AD_VP            17000                                                          
+SA_MAN           10500                                                          
+MK_MAN           13000                                                          
+AD_PRES          24000                                                          
+SA_REP      8866.66667                                                          
+MK_REP            6000                                                          
+
+JOB_ID     AVG(SALARY)                                                          
+---------- -----------                                                          
+ST_CLERK          2925                                                          
+
+12 rows selected.
+
+SQL> SELECT JOB_ID , AVG(SALARY) FROM EMPLOYEES GROUP BY JOB_ID HAVING AVG(SALARY) < 10000;
+
+JOB_ID     AVG(SALARY)                                                          
+---------- -----------                                                          
+IT_PROG           6400                                                          
+AC_ACCOUNT        8300                                                          
+ST_MAN            5800                                                          
+AD_ASST           4400                                                          
+SA_REP      8866.66667                                                          
+MK_REP            6000                                                          
+ST_CLERK          2925                                                          
+
+7 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) MAXSALARY
+  2  FROM EMPLOYEES
+  3  WHERE DEPARTMENT_ID NOT IN (90,110)
+  4  HAVING MAX(SALARY) < 10000
+  5  GROUP BY JOB_ID
+  6  ORDER BY MAXSALARY DESC;
+SELECT DEPARTMENT_ID , MAX(SALARY) MAXSALARY
+       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) MAXSALARY
+  2  FROM EMPLOYEES
+  3  WHERE DEPARTMENT_ID NOT IN (90,110)
+  4  HAVING MAX(SALARY) < 10000
+  5  GROUP BY DEPARTMENT_ID
+  6  ORDER BY MAXSALARY DESC;
+
+DEPARTMENT_ID  MAXSALARY                                                        
+------------- ----------                                                        
+           60       9000                                                        
+           50       5800                                                        
+           10       4400                                                        
+
+SQL> SELECT JOB_ID , AVG(SALARY) , MANAGER_ID , COUNT(*)
+  2  FROM EMPLOYEES
+  3  WHERE MANAGER_ID , JOB_ID , DEPARTMENT_ID
+  4  HAVING MAX(SALARY) > 10000 AND MIN(SALARY) < 8000
+  5  
+SQL> 
+SQL> 
+SQL> FROM EMPLOYEES
+SP2-0734: unknown command beginning "FROM EMPLO..." - rest of line ignored.
+SQL> 
+SQL> 
+SQL> SELECT JOB_ID , AVG(SALARY) , MANAGER_ID , COUNT(*)
+  2  FROM EMPLOYEES
+  3  WHERE DEPARTMENT_ID IS NOT NULL AND MANAGER_ID IS NOT NULL
+  4  GROUP BY MANAGER_ID , JOB_ID , DEPARTMENT_ID
+  5  HAVING MAX(SALARY) > 10000 AND MIN(SALARY) < 8000
+  6  ORDER BY 5;
+ORDER BY 5
+         *
+ERROR at line 6:
+ORA-01785: ORDER BY item must be the number of a SELECT-list expression 
+
+
+SQL> SELECT JOB_ID , AVG(SALARY) , MANAGER_ID , COUNT(*)
+  2  FROM EMPLOYEES
+  3  WHERE DEPARTMENT_ID IS NOT NULL AND MANAGER_ID IS NOT NULL
+  4  GROUP BY MANAGER_ID , JOB_ID , DEPARTMENT_ID
+  5  HAVING MAX(SALARY) > 10000 AND MIN(SALARY) < 8000
+  6  ORDER BY 2,4 DESC;
+
+no rows selected
+
+SQL> REM DISPLAY AVERAGE SALARY FOR EACH DEPARTMENT
+SQL> 
+SQL> SELECT DEPARTMENT_ID , AVG(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID AVG(SALARY)                                                       
+------------- -----------                                                       
+                     7000                                                       
+           90  19333.3333                                                       
+           20        9500                                                       
+          110       10150                                                       
+           50        3500                                                       
+           80  10033.3333                                                       
+           60        6400                                                       
+           10        4400                                                       
+
+8 rows selected.
+
+SQL> REM DISPLAY LOWEST AND HIGHEST SALARY FOR EACH JOB
+SQL> 
+SQL> SELECT JOB_ID , MIN(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY JOB_ID;
+
+JOB_ID     MIN(SALARY) MAX(SALARY)                                              
+---------- ----------- -----------                                              
+IT_PROG           4200        9000                                              
+AC_MGR           12000       12000                                              
+AC_ACCOUNT        8300        8300                                              
+ST_MAN            5800        5800                                              
+AD_ASST           4400        4400                                              
+1AD_VP            17000       17000                                              
+SA_MAN           10500       10500                                              
+MK_MAN           13000       13000                                              
+AD_PRES          24000       24000                                              
+SA_REP            7000       11000                                              
+MK_REP            6000        6000                                              
+
+JOB_ID     MIN(SALARY) MAX(SALARY)                                              
+---------- ----------- -----------                                              
+ST_CLERK          2500        3500                                              
+
+12 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , AVG(SALARY)
+  2  FROM EMPLOYEES
+  3  HAVING AVG(SALARY) > 10000
+  4  GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID AVG(SALARY)                                                       
+------------- -----------                                                       
+           90  19333.3333                                                       
+          110       10150                                                       
+           80  10033.3333                                                       
+
+SQL> REM LOWEST SALARY UPTO 8000
+SQL> 
+SQL> SELECT JOB_ID , MIN(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY JOB_ID
+  4  HAVING MIN(SALARY) <= 8000L
+  5  
+SQL> SELECT JOB_ID , MIN(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY JOB_ID
+  4  HAVING MIN(SALARY) <= 8000;
+
+JOB_ID     MIN(SALARY) MAX(SALARY)                                              
+---------- ----------- -----------                                              
+IT_PROG           4200        9000                                              
+ST_MAN            5800        5800                                              
+AD_ASST           4400        4400                                              
+SA_REP            7000       11000                                              
+MK_REP            6000        6000                                              
+ST_CLERK          2500        3500                                              
+
+6 rows selected.
+
+SQL> SELECT JOB_ID , MIN(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY JOB_ID
+  4  HAVING COUNT(*) > 2;
+
+JOB_ID     MIN(SALARY) MAX(SALARY)                                              
+---------- ----------- -----------                                              
+IT_PROG           4200        9000                                              
+SA_REP            7000       11000                                              
+ST_CLERK          2500        3500                                              
+
+SQL> SELECT JOB_ID , MIN(SALARY) , MAX(SALARY) , COUNT(*)
+  2  FROM EMPLOYEES
+  3  GROUP BY JOB_ID
+  4  HAVING COUNT(*) > 2;
+
+JOB_ID     MIN(SALARY) MAX(SALARY)   COUNT(*)                                   
+---------- ----------- ----------- ----------                                   
+IT_PROG           4200        9000          3                                   
+SA_REP            7000       11000          3                                   
+ST_CLERK          2500        3500          4                                   
+
+SQL> 
+SQL> 
+SQL> REM DISPLAY AVERAGE SALARY AND TOTAL SALARY FOR EACH DEPARTMENT, DISPLAY ONLY THOSE ROWS WHICH HAS 3 OR MORE EMPLOYEES
+SQL> 
+SQL> REM DISPLAY AVERAGE SALARY AND TOTAL SALARY FOR EACH DEPARTMENT, DISPLAY ONLY THOSE ROWS WHICH HAS 3 OR MORE EMPLOYEES IN DEPARTMENT
+SQL> 
+SQL> SELECT AVG(SALARY) , SUM(SALARY)
+  2  FROM EMPLOYEES
+  3  HAVING COUNT(*) >= 3;
+
+AVG(SALARY) SUM(SALARY)                                                         
+----------- -----------                                                         
+       8775      175500                                                         
+
+SQL> ELECT AVG(SALARY) , SUM(SALARY)
+SP2-0734: unknown command beginning "ELECT AVG(..." - rest of line ignored.
+SQL> ROM EMPLOYEES
+SP2-0734: unknown command beginning "ROM EMPLOY..." - rest of line ignored.
+SQL> 
+SQL> SELECT AVG(SALARY) , SUM(SALARY)
+  2  FROM EMPLOYEES;
+
+AVG(SALARY) SUM(SALARY)                                                         
+----------- -----------                                                         
+       8775      175500                                                         
+
+SQL> SELECT AVG(SALARY) , SALARY
+  2  FROM EMPLOYEES
+  3  HAVING COUNT(*) >= 3
+  4  GROUP BY DEPARTMENT_ID;
+SELECT AVG(SALARY) , SALARY
+                     *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT AVG(SALARY) , SALARY
+  2  FROM EMPLOYEES
+  3  HAVING COUNT(*) >= 3;
+SELECT AVG(SALARY) , SALARY
+                     *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT AVG(SALARY) , SUM(SALARY)
+  2  , DEPARTMENT_ID
+  3  FROM EMPLOYEES
+  4  HAVING COUNT(*) >= 3
+  5  GROUP BY DEPARTMENT_ID;
+
+AVG(SALARY) SUM(SALARY) DEPARTMENT_ID                                           
+----------- ----------- -------------                                           
+ 19333.3333       58000            90                                           
+       3500       17500            50                                           
+ 10033.3333       30100            80                                           
+       6400       19200            60                                           
+
+SQL> REM DISPLAY DEPARTMENT WISE , JOB WISE , NO. OF EMPLOYEES WORKING , LOWEST SALARY , HIGHEST SALARY , DISPLAY ONLY THOSE ROWS WHICH HAS AVERAGE SALARY HIGHER THAN 8000
+SQL> 
+SQL> SELECT MIN(SALARY) , MAX(SALARY) , DEPARTMENT_ID , JOB_ID
+  2  , COUNT(*)
+  3  FROM EMPLOYEES
+  4  GROUP BY DEPARTMENT_ID , JOB_ID
+  5  HAVING AVG(SALARY) > 8000
+  6  ORDER BY 3,4;
+
+MIN(SALARY) MAX(SALARY) DEPARTMENT_ID JOB_ID       COUNT(*)                     
+----------- ----------- ------------- ---------- ----------                     
+      13000       13000            20 MK_MAN              1                     
+      10500       10500            80 SA_MAN              1                     
+       8600       11000            80 SA_REP              2                     
+      24000       24000            90 AD_PRES             1                     
+      17000       17000            90 AD_VP               2                     
+       8300        8300           110 AC_ACCOUNT          1                     
+      12000       12000           110 AC_MGR              1                     
+
+7 rows selected.
+
+SQL> REM NESTED SUMMARY ITEMS
+SQL> 
+SQL> SELECT MAX(SALARY) FROM EMPLOYEES;
+
+MAX(SALARY)                                                                     
+-----------                                                                     
+      24000                                                                     
+
+SQL> SELECT MAX(SALARY) , MIN(SALARY) FROM EMPLOYEES;
+
+MAX(SALARY) MIN(SALARY)                                                         
+----------- -----------                                                         
+      24000        2500                                                         
+
+SQL> SELECT MAX(SALARY) FROM EMPLOYEES;
+
+MAX(SALARY)                                                                     
+-----------                                                                     
+      24000                                                                     
+
+SQL> SELECT AVG(MAX(SALARY)) FROM EMPLOYEES;
+SELECT AVG(MAX(SALARY)) FROM EMPLOYEES
+           *
+ERROR at line 1:
+ORA-00978: nested group function without GROUP BY 
+
+
+SQL> SELECT MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+MAX(SALARY)                                                                     
+-----------                                                                     
+       7000                                                                     
+      24000                                                                     
+      13000                                                                     
+      12000                                                                     
+       5800                                                                     
+      11000                                                                     
+       9000                                                                     
+       4400                                                                     
+
+8 rows selected.
+
+SQL> SELECT AVG(MAX(SALARY)) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+AVG(MAX(SALARY))                                                                
+----------------                                                                
+           10775                                                                
+
+SQL> SELECT MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+MAX(AVG(SALARY)) MIN(AVG(SALARY))                                               
+---------------- ----------------                                               
+      19333.3333             3500                                               
+
+SQL> SELECT MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES;
+SELECT MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES
+                              *
+ERROR at line 1:
+ORA-00978: nested group function without GROUP BY 
+
+
+SQL> SELECT SUM(SALARY) , MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+SELECT SUM(SALARY) , MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES GROUP BY DEPARTMENT_ID
+           *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> 
+SQL> SELECT COUNT(*) , MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+  COUNT(*) MAX(AVG(SALARY)) MIN(AVG(SALARY))                                    
+---------- ---------------- ----------------                                    
+         8       19333.3333             3500                                    
+
+SQL> SELECT COUNT(DEPARTMENT_ID) , MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+COUNT(DEPARTMENT_ID) MAX(AVG(SALARY)) MIN(AVG(SALARY))                          
+-------------------- ---------------- ----------------                          
+                   7       19333.3333             3500                          
+
+SQL> SELECT DEPARTMENT_ID , MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+SELECT DEPARTMENT_ID , MAX(AVG(SALARY)) , MIN(AVG(SALARY)) FROM EMPLOYEES GROUP BY DEPARTMENT_ID
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT MAX(AVG(SALARY)) , JOB_ID , MIN(AVG(SALARY)) , COUNT(*)  , DEPARTMENT_ID , COUNT(DEPARTMENT_ID) , SUM(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+SELECT MAX(AVG(SALARY)) , JOB_ID , MIN(AVG(SALARY)) , COUNT(*)  , DEPARTMENT_ID , COUNT(DEPARTMENT_ID) , SUM(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID
+                          *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT MAX(AVG(SALARY)) , JOB_ID , MIN(AVG(SALARY)) , COUNT(*)  , DEPARTMENT_ID , COUNT(DEPARTMENT_ID) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+SELECT MAX(AVG(SALARY)) , JOB_ID , MIN(AVG(SALARY)) , COUNT(*)  , DEPARTMENT_ID , COUNT(DEPARTMENT_ID) FROM EMPLOYEES GROUP BY DEPARTMENT_ID
+                          *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT MAX(AVG(SALARY)) , JOB_ID , MIN(AVG(SALARY)) , COUNT(*)  , COUNT(DEPARTMENT_ID) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+SELECT MAX(AVG(SALARY)) , JOB_ID , MIN(AVG(SALARY)) , COUNT(*)  , COUNT(DEPARTMENT_ID) FROM EMPLOYEES GROUP BY DEPARTMENT_ID
+                          *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT MAX(AVG(SALARY)) , MIN(AVG(SALARY)) , COUNT(*)  , COUNT(DEPARTMENT_ID) FROM EMPLOYEES GROUP BY DEPARTMENT_ID
+  2  /
+
+MAX(AVG(SALARY)) MIN(AVG(SALARY))   COUNT(*) COUNT(DEPARTMENT_ID)               
+---------------- ---------------- ---------- --------------------               
+      19333.3333             3500          8                    7               
+
+SQL> REM CROSS TAB REPORT
+SQL> 
+SQL> SELECT COUNT(*) FROM EMPLOYEES;
+
+  COUNT(*)                                                                      
+----------                                                                      
+        20                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE DEPARTMENT_ID = 90;
+
+  COUNT(*)                                                                      
+----------                                                                      
+         3                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE DEPARTMENT_ID = 110;
+
+  COUNT(*)                                                                      
+----------                                                                      
+         2                                                                      
+
+SQL> SELECT COUNT(*) FROM EMPLOYEES WHERE DEPARTMENT_ID = 50;
+
+  COUNT(*)                                                                      
+----------                                                                      
+         5                                                                      
+
+SQL> SELECT DEPARTMENT_ID , COUNT(*)
+  2  FROM EMPLOYEES
+  3  GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID   COUNT(*)                                                        
+------------- ----------                                                        
+                       1                                                        
+           90          3                                                        
+           20          2                                                        
+          110          2                                                        
+           50          5                                                        
+           80          3                                                        
+           60          3                                                        
+           10          1                                                        
+
+8 rows selected.
+
+SQL> SELECT COUNT(*) , DEPARTMENT_ID
+  2  FROM EMPLOYEES
+  3  GROUP BY DEPARTMENT_ID;
+
+  COUNT(*) DEPARTMENT_ID                                                        
+---------- -------------                                                        
+         1                                                                      
+         3            90                                                        
+         2            20                                                        
+         2           110                                                        
+         5            50                                                        
+         3            80                                                        
+         3            60                                                        
+         1            10                                                        
+
+8 rows selected.
+
+SQL> REM DEPT50   DEPT90   DEPT110
+SQL> REM ------   ------   -------
+> 
+SQL> REM      5        3         2
+SQL> 
+SQL> 
+SQL> SELECT DEPARTMENT_ID FROM EMPLOYEES WHERE DEPARTMENT_ID IN (50,90,110);
+
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+           90                                                                   
+           90                                                                   
+           90                                                                   
+           50                                                                   
+           50                                                                   
+           50                                                                   
+           50                                                                   
+           50                                                                   
+          110                                                                   
+          110                                                                   
+
+10 rows selected.
+
+SQL> SELECT DEPARTMENT_ID FROM EMPLOYEES WHERE DEPARTMENT_ID IN (50,90,110) GROUP BY DEPARTMENT_ID HAVING COUNT(*);
+SELECT DEPARTMENT_ID FROM EMPLOYEES WHERE DEPARTMENT_ID IN (50,90,110) GROUP BY DEPARTMENT_ID HAVING COUNT(*)
+                                                                                                            *
+ERROR at line 1:
+ORA-00920: invalid relational operator 
+
+
+SQL> SELECT COUNT(CASE WHEN DEPARTMENT_ID = 50 THEN '*' END) DEPT50,
+  2         COUNT(CASE WHEN DEPARTMENT_ID = 90 THEN '*' END) DEPT90,
+  3         COUNT(CASE WHEN DEPARTMENT_ID = 110 THEN '*' END) DEPT110
+  4  FROM EMPLOYEES;
+
+    DEPT50     DEPT90    DEPT110                                                
+---------- ---------- ----------                                                
+         5          3          2                                                
+
+SQL> SELECT DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+           90                                                                   
+           90                                                                   
+           90                                                                   
+           60                                                                   
+           60                                                                   
+           60                                                                   
+           50                                                                   
+           50                                                                   
+           50                                                                   
+           50                                                                   
+           50                                                                   
+
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+           80                                                                   
+           80                                                                   
+           80                                                                   
+                                                                                
+           10                                                                   
+           20                                                                   
+           20                                                                   
+          110                                                                   
+          110                                                                   
+
+20 rows selected.
+
+SQL> REM IT_PROG   ST_CLERK   SA_REP
+SQL> REM  11000      5000     8500     HIGHEST SALARY
+SQL> 
+SQL> 
+SQL> SELECT MAX(CASE WHEN JOB_ID = 'IT_PROG' THEN SALARY END) IT_PROG,
+  2         MAX(CASE WHEN JOB_ID = 'ST_CLERK' THEN SALARY END) ST_CLERK,
+  3         MAX(CASE WHEN JOB_ID = 'SA_REP' THEN SALARY END) SA_REP
+  4  FROM EMPLOYEES;
+
+   IT_PROG   ST_CLERK     SA_REP                                                
+---------- ---------- ----------                                                
+      9000       3500      11000                                                
+
+SQL> REM  100    124   149   MANAGER_ID
+SQL> REM    5      4     3
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT COUNT(CASE WHEN MANAGER_ID = 100 THEN 1 END) "100",
+  2         COUNT(DECODE(MANAGER_ID,124,SYSDATE)) "124",
+  3         COUNT(CASE MANAGER_ID WHEN 149 THEN 'SAAJ' END)
+  4  FROM EMPLOYEES;
+
+       100        124 COUNT(CASEMANAGER_IDWHEN149THEN'SAAJ'END)                 
+---------- ---------- -----------------------------------------                 
+         5          4                                         3                 
+
+SQL> SELECT COUNT(CASE WHEN MANAGER_ID = 100 THEN 1 END) "100",
+  2         COUNT(DECODE(MANAGER_ID,124,SYSDATE)) "124",
+  3         COUNT(CASE MANAGER_ID WHEN 149 THEN 'SAAJ' END) "149"
+  4  FROM EMPLOYEES;
+
+       100        124        149                                                
+---------- ---------- ----------                                                
+         5          4          3                                                
+
+SQL> REM DEPARTMENT_ID   IT_PROG  SA_REP AD_VP ST_CLERK
+SQL> REM            10         0       1     0        2
+SQL> REM            20         2       0     0        0
+SQL> REM            30         2       0     1        0
+SQL> 
+SQL> 
+SQL> SELECT DEPARTMENT_ID ,COUNT(CASE WHEN JOB_ID = 'IT_PROG' THEN 1 END) "IT_PROG",
+  2                        COUNT(CASE WHEN JOB_ID = 'SA_REP' THEN 1 END) "SA_REP",
+  3                        COUNT(CASE WHEN JOB_ID = 'AD_VP' THEN 1 END) "AD_VP",
+  4                        COUNT(CASE WHEN JOB_ID = 'ST_CLERK' THEN 1 END) "ST_CLERK"
+  5  FROM EMPLOYEES
+  6  GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID    IT_PROG     SA_REP      AD_VP   ST_CLERK                       
+------------- ---------- ---------- ---------- ----------                       
+                       0          1          0          0                       
+           90          0          0          2          0                       
+           20          0          0          0          0                       
+          110          0          0          0          0                       
+           50          0          0          0          4                       
+           80          0          2          0          0                       
+           60          3          0          0          0                       
+           10          0          0          0          0                       
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , JOB_ID , COUNT(*)
+  2  FROM EMPLOYEES
+  3  WHERE JOB_ID IN ('IT_PROG','SA_REP','AD_VP','ST_CLERK')
+  4  GROUP BY DEPARTMENT_ID;
+SELECT DEPARTMENT_ID , JOB_ID , COUNT(*)
+                       *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT DEPARTMENT_ID , JOB_ID , COUNT(*)
+  2  FROM EMPLOYEES
+  3  WHERE JOB_ID IN ('IT_PROG','SA_REP','AD_VP','ST_CLERK')
+  4  GROUP BY DEPARTMENT_ID, JOB_ID;
+
+DEPARTMENT_ID JOB_ID       COUNT(*)                                             
+------------- ---------- ----------                                             
+           90 AD_VP               2                                             
+           50 ST_CLERK            4                                             
+           80 SA_REP              2                                             
+           60 IT_PROG             3                                             
+              SA_REP              1                                             
+
+SQL> REM MANAGER_ID    50 , 80 , 110
+SQL> REM        124  9000 6000
+SQL> REM        100 17000       8000    HIGHEST SALARY
+SQL> 
+SQL> 
+SQL> SELECT MANAGER_ID , MAX(CASE WHEN DEPARTMENT_ID = 50 THEN SALARY END) "DEPT50"
+  2  
+SQL> 
+SQL> SELECT MANAGER_ID , MAX(CASE WHEN DEPARTMENT_ID = 50 THEN SALARY END) "DEPT50",
+  2                      MAX(CASE WHEN DEPARTMENT_ID = 80 THEN SALARY END) "DEPT80",
+  3                      MAX(CASE WHEN DEPARTMENT_ID = 110 THEN SALARY END) "DEPT110"
+  4  FROM EMPLOYEES
+  5  GROUP BY MANAGER_ID;
+
+MANAGER_ID     DEPT50     DEPT80    DEPT110                                     
+---------- ---------- ---------- ----------                                     
+                                                                                
+       100       5800      10500                                                
+       149                 11000                                                
+       205                             8300                                     
+       102                                                                      
+       201                                                                      
+       101                            12000                                     
+       124       3500                                                           
+       103                                                                      
+
+9 rows selected.
+
+SQL> REM MULTI ROW FUNCTIONS : MAX AVG SUM COUNT MIN
+SQL> 
+SQL> REM NESTING : 2 LEVEL
+SQL> 
+SQL> SELECT SUM(MIN(AVG(SALARY))) FROM EMPOYEES GROUP BY DEPARTMENT_ID;
+SELECT SUM(MIN(AVG(SALARY))) FROM EMPOYEES GROUP BY DEPARTMENT_ID
+               *
+ERROR at line 1:
+ORA-00935: group function is nested too deeply 
+
+
+SQL> REM HAVING , GROUP BY
+SQL> 
+SQL> REM SYNTAX PRECEDENCE
+SQL> 
+SQL> REM EXECUTION PRECEDENCE
+SQL> 
+SQL> REM MATRIX/CROSS TAB/PIVOTE REPORT
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER             
+----------- --------------- --------------- ---------- --------------------     
+HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID         
+--------- ---------- ---------- -------------- ---------- -------------         
+        100 Steven          King            SKING      515.123.4567             
+17-JUL-87 AD_PRES         24000                                      90         
+                                                                                
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568             
+21-SEP-89 AD_VP           17000                       100            90         
+                                                                                
+        102 Lex             De Haan         LDEHAAN    515.123.4569             
+13-JAN-93 AD_VP           17000                       100            90         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER             
+----------- --------------- --------------- ---------- --------------------     
+HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID         
+--------- ---------- ---------- -------------- ---------- -------------         
+        103 Alexander       Hunold          AHUNOLD    590.423.4567             
+03-JAN-90 IT_PROG          9000                       102            60         
+                                                                                
+        104 Bruce           Ernst           BERNST     590.423.4568             
+21-MAY-91 IT_PROG          6000                       103            60         
+                                                                                
+        107 Diana           Lorentz         DLORENTZ   590.423.5567             
+07-FEB-99 IT_PROG          4200                       103            60         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER             
+----------- --------------- --------------- ---------- --------------------     
+HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID         
+--------- ---------- ---------- -------------- ---------- -------------         
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234             
+16-NOV-99 ST_MAN           5800                       100            50         
+                                                                                
+        141 Trenna          Rajs            TRAJS      650.121.8009             
+17-OCT-95 ST_CLERK         3500                       124            50         
+                                                                                
+        142 Curtis          Davies          CDAVIES    650.121.2994             
+29-JAN-97 ST_CLERK         3100                       124            50         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER             
+----------- --------------- --------------- ---------- --------------------     
+HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID         
+--------- ---------- ---------- -------------- ---------- -------------         
+        143 Randall         Matos           RMATOS     650.121.2874             
+15-MAR-98 ST_CLERK         2600                       124            50         
+                                                                                
+        144 Peter           Vargas          PVARGAS    650.121.2004             
+09-JUL-98 ST_CLERK         2500                       124            50         
+                                                                                
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018       
+29-JAN-00 SA_MAN          10500             .2        100            80         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER             
+----------- --------------- --------------- ---------- --------------------     
+HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID         
+--------- ---------- ---------- -------------- ---------- -------------         
+        174 Ellen           Abel            EABEL      011.44.1644.429267       
+11-MAY-96 SA_REP          11000             .3        149            80         
+                                                                                
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265       
+24-MAR-98 SA_REP           8600             .3        149            80         
+                                                                                
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263       
+24-MAY-99 SA_REP           7000            .15        149                       
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER             
+----------- --------------- --------------- ---------- --------------------     
+HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID         
+--------- ---------- ---------- -------------- ---------- -------------         
+        200 Jennifer        Whalen          JWAHLEN    515.123.4444             
+17-SEP-87 AD_ASST          4400                       101            10         
+                                                                                
+        201 Michael         Hartstein       MHARTSTE   515.123.5555             
+17-FEB-96 MK_MAN          13000                       100            20         
+                                                                                
+        202 Pat             Fay             PFAY       603.123.6666             
+17-AUG-97 MK_REP           6000                       201            20         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER             
+----------- --------------- --------------- ---------- --------------------     
+HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID         
+--------- ---------- ---------- -------------- ---------- -------------         
+        205 Shelley         Higgins         SHIGGINS   515.123.8080             
+07-JUN-94 AC_MGR          12000                       101           110         
+                                                                                
+        206 William         Gietz           WGIETZ     515.123.8181             
+07-JUN-94 AC_ACCOUNT       8300                       205           110         
+                                                                                
+
+20 rows selected.
+
+SQL> SET LINES 240 PAGES 24
+SQL> 
+SQL> R
+  1* SELECT * FROM EMPLOYEES
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWAHLEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> REM YEAR WISE , COUNT OF EMPLOYEES HIRED
+SQL> 
+SQL> 
+SQL> SELECT HIRE_DATE , COUNT(*)
+  2  FROM EMPLOYEES
+  3  GROUP BY HIRE_DATE
+  4  ORDER BY HIRE_DATE;
+
+HIRE_DATE   COUNT(*)                                                                                                                                                                                                                            
+--------- ----------                                                                                                                                                                                                                            
+17-JUL-87          1                                                                                                                                                                                                                            
+17-SEP-87          1                                                                                                                                                                                                                            
+21-SEP-89          1                                                                                                                                                                                                                            
+03-JAN-90          1                                                                                                                                                                                                                            
+21-MAY-91          1                                                                                                                                                                                                                            
+13-JAN-93          1                                                                                                                                                                                                                            
+07-JUN-94          2                                                                                                                                                                                                                            
+17-OCT-95          1                                                                                                                                                                                                                            
+17-FEB-96          1                                                                                                                                                                                                                            
+11-MAY-96          1                                                                                                                                                                                                                            
+29-JAN-97          1                                                                                                                                                                                                                            
+17-AUG-97          1                                                                                                                                                                                                                            
+15-MAR-98          1                                                                                                                                                                                                                            
+24-MAR-98          1                                                                                                                                                                                                                            
+09-JUL-98          1                                                                                                                                                                                                                            
+07-FEB-99          1                                                                                                                                                                                                                            
+24-MAY-99          1                                                                                                                                                                                                                            
+16-NOV-99          1                                                                                                                                                                                                                            
+29-JAN-00          1                                                                                                                                                                                                                            
+
+19 rows selected.
+
+SQL> SELECT TO_CHAR(HIRE_DATE,'RRRR') , COUNT(*)
+  2  FROM EMPLOYEES
+  3  GROUP BY TO_CHAR(HIRE_DATE,'RRRR')
+  4  ORDER BY 1;
+
+TO_C   COUNT(*)                                                                                                                                                                                                                                 
+---- ----------                                                                                                                                                                                                                                 
+1987          2                                                                                                                                                                                                                                 
+1989          1                                                                                                                                                                                                                                 
+1990          1                                                                                                                                                                                                                                 
+1991          1                                                                                                                                                                                                                                 
+1993          1                                                                                                                                                                                                                                 
+1994          2                                                                                                                                                                                                                                 
+1995          1                                                                                                                                                                                                                                 
+1996          2                                                                                                                                                                                                                                 
+1997          2                                                                                                                                                                                                                                 
+1998          3                                                                                                                                                                                                                                 
+1999          3                                                                                                                                                                                                                                 
+2000          1                                                                                                                                                                                                                                 
+
+12 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT TO_CHAR(HIRE_DATE,'RRRR') , COUNT(*)
+  2  FROM EMPLOYEES
+  3  GROUP BY TO_CHAR(HIRE_DATE,'YYYY')
+  4* ORDER BY 1
+SQL> /
+SELECT TO_CHAR(HIRE_DATE,'RRRR') , COUNT(*)
+               *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SPOOL OFF

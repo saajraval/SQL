@@ -1,0 +1,692 @@
+SQL> 
+SQL> 
+SQL> REM SQLPLUS IS IDE : INTEGRATED DEVELOPMENT ENVIRONMENT
+SQL> 
+SQL> REM SQLPLUS SUPPORTS 3 TYPE OF COMMANDS : 1 SQLPLUS 2 SQL 3 PL/SQL
+SQL> 
+SQL> REM TO GET LIST OF SQLPLUS COMMANDS : HELP INDEX
+SQL> 
+SQL> HELP INDEX
+
+Enter Help [topic] for help.
+
+ @             COPY         PASSWORD                 SHOW
+ @@            DEFINE       PAUSE                    SHUTDOWN
+ /             DEL          PRINT                    SPOOL
+ ACCEPT        DESCRIBE     PROMPT                   SQLPLUS
+ APPEND        DISCONNECT   QUIT                     START
+ ARCHIVE LOG   EDIT         RECOVER                  STARTUP
+ ATTRIBUTE     EXECUTE      REMARK                   STORE
+ BREAK         EXIT         REPFOOTER                TIMING
+ BTITLE        GET          REPHEADER                TTITLE
+ CHANGE        HELP         RESERVED WORDS (SQL)     UNDEFINE
+ CLEAR         HISTORY      RESERVED WORDS (PL/SQL)  VARIABLE
+ COLUMN        HOST         RUN                      WHENEVER OSERROR
+ COMPUTE       INPUT        SAVE                     WHENEVER SQLERROR
+ CONNECT       LIST         SET                      XQUERY
+
+
+SQL> REM TO GET LIST OF SQL COMMANDS : HELP RESERVED WORDS (SQL)
+SQL> 
+SQL> HELP RESERVED WORDS (SQL)
+
+ RESERVED WORDS (SQL)
+ --------------------
+
+ SQL Reserved Words have special meaning in SQL, and may not be used for
+ identifier names unless enclosed in "quotes".
+
+ An asterisk (*) indicates words are also ANSI Reserved Words.
+
+ Oracle prefixes implicitly generated schema object and subobject names
+ with "SYS_". To avoid name resolution conflict, Oracle discourages you
+ from prefixing your schema object and subobject names with "SYS_".
+
+ ACCESS          DEFAULT*         INTEGER*        ONLINE          START
+ ADD*            DELETE*          INTERSECT*      OPTION*         SUCCESSFUL
+ ALL*            DESC*            INTO*           OR*             SYNONYM
+ ALTER*          DISTINCT*        IS*             ORDER*          SYSDATE
+ AND*            DROP*            LEVEL*          PCTFREE         TABLE*
+ ANY*            ELSE*            LIKE*           PRIOR*          THEN*
+ AS*             EXCLUSIVE        LOCK            PRIVILEGES*     TO*
+ ASC*            EXISTS           LONG            PUBLIC*         TRIGGER
+ AUDIT           FILE             MAXEXTENTS      RAW             UID
+ BETWEEN*        FLOAT*           MINUS           RENAME          UNION*
+ BY*             FOR*             MLSLABEL        RESOURCE        UNIQUE*
+ CHAR*           FROM*            MODE            REVOKE*         UPDATE*
+ CHECK*          GRANT*           MODIFY          ROW             USER*
+ CLUSTER         GROUP*           NOAUDIT         ROWID           VALIDATE
+ COLUMN          HAVING*          NOCOMPRESS      ROWNUM          VALUES*
+ COMMENT         IDENTIFIED       NOT*            ROWS*           VARCHAR*
+ COMPRESS        IMMEDIATE*       NOWAIT          SELECT*         VARCHAR2
+ CONNECT*        IN*              NULL*           SESSION*        VIEW*
+ CREATE*         INCREMENT        NUMBER          SET*            WHENEVER*
+ CURRENT*        INDEX            OF*             SHARE           WHERE
+ DATE*           INITIAL          OFFLINE         SIZE*           WITH*
+ DECIMAL*        INSERT*          ON*             SMALLINT*
+
+
+SQL> REM TO GET LIST OF PL/SQL COMMANDS : HELP RESERVED WORDS (PL/SQL)
+SQL> 
+SQL> HELP RESERVED WORDS (PL/SQL)
+
+ RESERVED WORDS (PL/SQL)
+ -----------------------
+
+ PL/SQL Reserved Words have special meaning in PL/SQL, and may not be used
+ for identifier names (unless enclosed in "quotes").
+
+ An asterisk (*) indicates words are also SQL Reserved Words.
+
+ ALL*            DESC*           JAVA            PACKAGE         SUBTYPE
+ ALTER*          DISTINCT*       LEVEL*          PARTITION       SUCCESSFUL*
+ AND*            DO              LIKE*           PCTFREE*        SUM
+ ANY*            DROP*           LIMITED         PLS_INTEGER     SYNONYM*
+ ARRAY           ELSE*           LOCK*           POSITIVE        SYSDATE*
+ AS*             ELSIF           LONG*           POSITIVEN       TABLE*
+ ASC*            END             LOOP            PRAGMA          THEN*
+ AT              EXCEPTION       MAX             PRIOR*          TIME
+ AUTHID          EXCLUSIVE*      MIN             PRIVATE         TIMESTAMP
+ AVG             EXECUTE         MINUS*          PROCEDURE       TIMEZONE_ABBR
+ BEGIN           EXISTS*         MINUTE          PUBLIC*         TIMEZONE_HOUR
+ BETWEEN*        EXIT            MLSLABEL*       RAISE           TIMEZONE_MINUTE
+ BINARY_INTEGER  EXTENDS         MOD             RANGE           TIMEZONE_REGION
+ BODY            EXTRACT         MODE*           RAW*            TO*
+ BOOLEAN         FALSE           MONTH           REAL            TRIGGER*
+ BULK            FETCH           NATURAL         RECORD          TRUE
+ BY*             FLOAT*          NATURALN        REF             TYPE
+ CHAR*           FOR*            NEW             RELEASE         UI
+ CHAR_BASE       FORALL          NEXTVAL         RETURN          UNION*
+ CHECK*          FROM*           NOCOPY          REVERSE         UNIQUE*
+ CLOSE           FUNCTION        NOT*            ROLLBACK        UPDATE*
+ CLUSTER*        GOTO            NOWAIT*         ROW*            USE
+ COALESCE        GROUP*          NULL*           ROWID*          USER*
+ COLLECT         HAVING*         NULLIF          ROWNUM*         VALIDATE*
+ COMMENT*        HEAP            NUMBER*         ROWTYPE         VALUES*
+ COMMIT          HOUR            NUMBER_BASE     SAVEPOINT       VARCHAR*
+ COMPRESS*       IF              OCIROWID        SECOND          VARCHAR2*
+ CONNECT*        IMMEDIATE*      OF*             SELECT*         VARIANCE
+ CONSTANT        IN*             ON*             SEPERATE        VIEW*
+ CREATE*         INDEX*          OPAQUE          SET*            WHEN
+ CURRENT*        INDICATOR       OPEN            SHARE*          WHENEVER*
+ CURRVAL         INSERT*         OPERATOR        SMALLINT*       WHERE*
+ CURSOR          INTEGER*        OPTION*         SPACE           WHILE
+ DATE*           INTERFACE       OR*             SQL             WITH*
+ DAY             INTERSECT*      ORDER*          SQLCODE         WORK
+ DECIMAL*        INTERVAL        ORGANIZATION    SQLERRM         WRITE
+ DECLARE         INTO*           OTHERS          START*          YEAR
+ DEFAULT*        IS*             OUT             STDDEV          ZONE
+ DELETE*         ISOLATION
+
+
+SQL> 
+SQL> REM SQLPLUS COMMANDS CAN BE ENDED WITH ; OPTIONALLY
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        100 Steven               King                                           
+SKING                     515.123.4567         17-JUL-87 AD_PRES         24000  
+                                     90                                         
+                                                                                
+        101 Neena                Kochhar                                        
+NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000  
+                      100            90                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        102 Lex                  De Haan                                        
+LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000  
+                      100            90                                         
+                                                                                
+        103 Alexander            Hunold                                         
+AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      102            60                                         
+                                                                                
+        104 Bruce                Ernst                                          
+BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000  
+                      103            60                                         
+                                                                                
+        107 Diana                Lorentz                                        
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200  
+                      103            60                                         
+                                                                                
+        124 Kevin                Mourgos                                        
+KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800  
+                      100            50                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        141 Trenna               Rajs                                           
+TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500  
+                      124            50                                         
+                                                                                
+        142 Curtis               Davies                                         
+CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100  
+                      124            50                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        143 Randall              Matos                                          
+RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600  
+                      124            50                                         
+                                                                                
+        144 Peter                Vargas                                         
+PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      124            50                                         
+                                                                                
+        149 Eleni                Zlotkey                                        
+EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500  
+            .2        100            80                                         
+                                                                                
+        174 Ellen                Abel                                           
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000  
+            .3        149            80                                         
+                                                                                
+        176 Jonathon             Taylor                                         
+JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600  
+            .3        149            80                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        178 Kimerely             Grant                                          
+KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000  
+           .15        149                                                       
+                                                                                
+        200 Jennifer             Whalen                                         
+JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400  
+                      101            10                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        201 Michael              Hartstein                                      
+MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000  
+                      100            20                                         
+                                                                                
+        202 Pat                  Fay                                            
+PFAY                      603.123.6666         17-AUG-97 MK_REP           6000  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      201            20                                         
+                                                                                
+        205 Shelley              Higgins                                        
+SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000  
+                      101           110                                         
+                                                                                
+        206 William              Gietz                                          
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300  
+                      205           110                                         
+                                                                                
+
+20 rows selected.
+
+SQL> SHOW LINESIZE
+linesize 80
+SQL> SET LINESIZE 240
+SQL> /
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander            Hunold                    AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce                Ernst                     BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana                Lorentz                   DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin                Mourgos                   KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon             Taylor                    JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely             Grant                     KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer             Whalen                    JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat                  Fay                       PFAY                      603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William              Gietz                     WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> SHOW PAGESIZE
+pagesize 14
+SQL> SET PAGESIZE 24
+SQL> /
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander            Hunold                    AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce                Ernst                     BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana                Lorentz                   DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin                Mourgos                   KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon             Taylor                    JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely             Grant                     KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer             Whalen                    JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat                  Fay                       PFAY                      603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William              Gietz                     WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> SELECT * FROM REGIONS
+  2  
+SQL> /
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> RUN
+  1* SELECT * FROM REGIONS
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> REM / OR RUN CAN BE USED TO EXECUTE LAST SQL OR PL/SQL COMMANDS
+SQL> 
+SQL> 
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> DESC DEPARTMENTS
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                                             NOT NULL NUMBER(4)
+ DEPARTMENT_NAME                                                                                                                           NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ LOCATION_ID                                                                                                                                        NUMBER(4)
+
+SQL> SELECT DEPARTMENT_ID , DEPARTMENT_NAME , MANAGER_ID , LOCATION_ID FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander            Hunold                    AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce                Ernst                     BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana                Lorentz                   DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin                Mourgos                   KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon             Taylor                    JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely             Grant                     KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer             Whalen                    JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat                  Fay                       PFAY                      603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William              Gietz                     WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> REM * IS CALLED META CHARACTER
+SQL> 
+SQL> REM * REPRESENTS ALL COLUMNS OF THE TABLE
+SQL> 
+SQL> SELECT * FROM DEPARTMENTS
+  2  ;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT * FROM ;
+SELECT * FROM 
+             *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> SELECT * FROM DEPATMENTS;
+SELECT * FROM DEPATMENTS
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT * DEPARTMENTS;
+SELECT * DEPARTMENTS
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT * FRM DEPARTMENTS;
+SELECT * FRM DEPARTMENTS
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT FROM DEPARTMENTS;
+SELECT FROM DEPARTMENTS
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELCT * FROM DEPARTMENTS;
+SP2-0734: unknown command beginning "SELCT * FR..." - rest of line ignored.
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> REM SQL IS CASE INSENSITIVE/RETENTIVE
+SQL> 
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> select * from departments;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECt * froM DEPARtments;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> REM SQL COMMANDS CAN BE SPLITTED IN MULTIPLE LINES
+SQL> 
+SQL> select
+  2  *
+  3  FROM
+  4  DEpartments
+  5  ;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                 EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- -------------------- ------------------------- ------------------------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven               King                      SKING                     515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena                Kochhar                   NKOCHHAR                  515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex                  De Haan                   LDEHAAN                   515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander            Hunold                    AHUNOLD                   590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce                Ernst                     BERNST                    590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana                Lorentz                   DLORENTZ                  590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin                Mourgos                   KMOURGOS                  650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna               Rajs                      TRAJS                     650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis               Davies                    CDAVIES                   650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall              Matos                     RMATOS                    650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter                Vargas                    PVARGAS                   650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni                Zlotkey                   EZLOTKEY                  011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen                Abel                      EABEL                     011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon             Taylor                    JTAYLOR                   011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely             Grant                     KGRANT                    011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer             Whalen                    JWAHLEN                   515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael              Hartstein                 MHARTSTE                  515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat                  Fay                       PFAY                      603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley              Higgins                   SHIGGINS                  515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William              Gietz                     WGIETZ                    515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> REM DD-MON-RR : Rounding yeaR
+SQL> 
+SQL> select * from departments;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                             
+------------- ------------------------------ ---------- -----------                                                                                                                                                                             
+           10 Administration                        200        1700                                                                                                                                                                             
+           20 Marketing                             201        1800                                                                                                                                                                             
+           50 Shiping                               124        1500                                                                                                                                                                             
+           60 IT                                    103        1400                                                                                                                                                                             
+           80 Sales                                 149        2500                                                                                                                                                                             
+           90 Executive                             100        1700                                                                                                                                                                             
+          110 Accounting                            205        1700                                                                                                                                                                             
+          190 Contracting                                      1700                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> select * from LOCATIONS;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO                                                                                                                   
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --                                                                                                                   
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US                                                                                                                   
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US                                                                                                                   
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US                                                                                                                   
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA                                                                                                                   
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK                                                                                                                   
+
+SQL> select * from COUNTRIES;
+
+CO COUNTRY_NAME                              REGION_ID                                                                                                                                                                                          
+-- ---------------------------------------- ----------                                                                                                                                                                                          
+CA Canada                                            2                                                                                                                                                                                          
+DE Germany                                           1                                                                                                                                                                                          
+UK United Kingdom                                    1                                                                                                                                                                                          
+US United States of America                          2                                                                                                                                                                                          
+
+SQL> select * from REGIONS;
+
+ REGION_ID REGION_NAME                                                                                                                                                                                                                          
+---------- -------------------------                                                                                                                                                                                                            
+         1 Europe                                                                                                                                                                                                                               
+         2 Americas                                                                                                                                                                                                                             
+         3 Asia                                                                                                                                                                                                                                 
+         4 Middle East and Africa                                                                                                                                                                                                               
+
+SQL> CL SCR
+
+SQL> HELP RUN
+
+ RUN
+ ---
+
+ Lists and executes the most recently executed SQL command or
+ PL/SQL block which is stored in the SQL buffer. The buffer has
+ no command history list and does not record SQL*Plus commands.
+
+ R[UN]
+
+
+SQL> SET LINES 10000
+SQL> SET LINES 100000
+SP2-0267: linesize option 100000 out of range (1 through 32767)
+SQL> SET PAGES 10000
+SQL> SET PAGES 100000
+SP2-0267: pagesize option 100000 out of range (0 through 50000)
+SQL> SPOOL OFF

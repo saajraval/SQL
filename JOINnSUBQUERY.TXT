@@ -1,0 +1,217 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM DISPLAY FIRST_NAME OF THOSE WHO WORKS IN Shiping DEPARTMENT
+SQL> 
+SQL> SELECT FIRST_NAME
+  2  FROM EMPLOYEES
+  3  JOIN DEPARTMENTS USING (DEPARTMENT_ID) WHERE DEPARTMENT_NAME = 'Shiping';
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Kevin                                                                                                                                                                                                                                           
+Peter                                                                                                                                                                                                                                           
+Randall                                                                                                                                                                                                                                         
+Curtis                                                                                                                                                                                                                                          
+Trenna                                                                                                                                                                                                                                          
+
+SQL> SELECT FIRST_NAME
+  2  FROM EMPLOYEES
+  3  JOIN DEPARTMENTS USING (DEPARTMENT_ID);
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Steven                                                                                                                                                                                                                                          
+Neena                                                                                                                                                                                                                                           
+Lex                                                                                                                                                                                                                                             
+Alexander                                                                                                                                                                                                                                       
+Bruce                                                                                                                                                                                                                                           
+Diana                                                                                                                                                                                                                                           
+Kevin                                                                                                                                                                                                                                           
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+Eleni                                                                                                                                                                                                                                           
+Ellen                                                                                                                                                                                                                                           
+Jonathon                                                                                                                                                                                                                                        
+Jennifer                                                                                                                                                                                                                                        
+Michael                                                                                                                                                                                                                                         
+Pat                                                                                                                                                                                                                                             
+Shelley                                                                                                                                                                                                                                         
+William                                                                                                                                                                                                                                         
+
+19 rows selected.
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  JOIN DEPARTMENTS USING (DEPARTMENT_ID) WHERE DEPARTMENT_NAME = 'Shiping';
+
+FIRST_NAME      DEPARTMENT_NAME                                                                                                                                                                                                                 
+--------------- ------------------------------                                                                                                                                                                                                  
+Kevin           Shiping                                                                                                                                                                                                                         
+Peter           Shiping                                                                                                                                                                                                                         
+Randall         Shiping                                                                                                                                                                                                                         
+Curtis          Shiping                                                                                                                                                                                                                         
+Trenna          Shiping                                                                                                                                                                                                                         
+
+SQL> SELECT FIRST_NAME
+  2  FROM EMPLOYEES WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID FROM DEPARTMENTS WHERE DEPARTMENT_NAME = 'Shiping');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Kevin                                                                                                                                                                                                                                           
+Peter                                                                                                                                                                                                                                           
+Randall                                                                                                                                                                                                                                         
+Curtis                                                                                                                                                                                                                                          
+Trenna                                                                                                                                                                                                                                          
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID FROM DEPARTMENTS WHERE DEPARTMENT_NAME = 'Shiping');
+SELECT FIRST_NAME , DEPARTMENT_NAME
+                    *
+ERROR at line 1:
+ORA-00904: "DEPARTMENT_NAME": invalid identifier 
+
+
+SQL> REM WHEN WE USE SUB QUERY : INNER STATEMENT CAN REFER THE COLUMN OF OUTER STATEMENT, BUT OUTER STATEMENT CAN'T REFER COLUMN OF INNER STATEMENT
+SQL> 
+SQL> REM DISPLAY THOSE WHO REPORTS TO Kevin
+SQL> 
+SQL> SELECT O.FIRST_NAME
+  2  FROM EMPLOYEES O
+  3  JOIN EMPLOYEES K ON K.FIRST_NAME = 'Kevin' AND K.EMPLOYEE_ID = O.MANAGER_ID;
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+
+SQL> SELECT FIRST_NAME
+  2  FROM EMPLOYEES
+  3  WHERE MANAGER_ID IN (SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE FIRST_NAME = 'Kevin');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+
+SQL> REM DISPLAY THOSE WHOSE SALARY IS HIGHER THAN Eleni
+SQL> 
+SQL> SELECT O.FIRST_NAME
+  2  FROM EMPLOYEES
+  3  
+SQL> 
+SQL> SELECT O.FIRST_NAME
+  2  FROM EMPLOYEES O
+  3  JOIN EMPLOYEES E ON E.FIRST_NAME = 'Eleni' AND O.SALARY > E.SALARY;
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Steven                                                                                                                                                                                                                                          
+Neena                                                                                                                                                                                                                                           
+Lex                                                                                                                                                                                                                                             
+Ellen                                                                                                                                                                                                                                           
+Michael                                                                                                                                                                                                                                         
+Shelley                                                                                                                                                                                                                                         
+
+6 rows selected.
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES
+  2  WHERE SALARY > (SELECT SALARY FROM EMPLOYEES WHERE FIRST_NAME = 'Eleni');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Steven                                                                                                                                                                                                                                          
+Neena                                                                                                                                                                                                                                           
+Lex                                                                                                                                                                                                                                             
+Ellen                                                                                                                                                                                                                                           
+Michael                                                                                                                                                                                                                                         
+Shelley                                                                                                                                                                                                                                         
+
+6 rows selected.
+
+SQL> REM DISPLAY THOSE WHO WERE HIRED AFTER Pat
+SQL> 
+SQL> SELECT E.FIRST_NAME
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES P ON P.FIRST_NAME = 'Pat' AND E.HIRE_DATE > P.HIRE_DATE;
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Diana                                                                                                                                                                                                                                           
+Kevin                                                                                                                                                                                                                                           
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+Eleni                                                                                                                                                                                                                                           
+Jonathon                                                                                                                                                                                                                                        
+Kimerely                                                                                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> SELECT FIRST_NAME
+  2  FROM EMPLOYEES
+  3  WHERE HIRE_dATE > (SELECT HIRE_DATE FROM EMPLOYEES WHERE FIRST_NAME = 'Pat');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Diana                                                                                                                                                                                                                                           
+Kevin                                                                                                                                                                                                                                           
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+Eleni                                                                                                                                                                                                                                           
+Jonathon                                                                                                                                                                                                                                        
+Kimerely                                                                                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> REM DISPLAY THOSE WHO GOES TO Toronto
+SQL> 
+SQL> SELECT FIRST_NAME
+  2  FROM EMPLOYEES
+  3  JOIN DEPARTMENTS USING (DEPARTMENT_ID)
+  4  JOIN LOCATIONS   USING (LOCATION_ID)
+  5  WHERE CITY = 'Toronto';
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Michael                                                                                                                                                                                                                                         
+Pat                                                                                                                                                                                                                                             
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES
+  2  WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID FROM DEPARTMENTS
+  3  WHERE LOCATION_ID   IN (SELECT LOCATION_ID   FROM LOCATIONS   WHERE CITY = 'Toronto'));
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Michael                                                                                                                                                                                                                                         
+Pat                                                                                                                                                                                                                                             
+
+SQL> REM DISPLAY THOSE WHOSE GETS SALARY IN GRADE_LEVEL 'D'
+SQL> 
+SQL> SELECT FIRST_NAME FROM EMPLOYEES
+  2  JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL AND GRADE_LEVEL = 'D';
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Eleni                                                                                                                                                                                                                                           
+Ellen                                                                                                                                                                                                                                           
+Michael                                                                                                                                                                                                                                         
+Shelley                                                                                                                                                                                                                                         
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES
+  2  WHERE SALARY BETWEEN (SELECT LOWEST_SAL FROM JOB_GRADES WHERE GRADE_LEVEL = 'D')
+  3                  AND  (SELECT HIGHEST_SAL FROM JOB_GRADES WHERE GRADE_LEVEL = 'D');
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Eleni                                                                                                                                                                                                                                           
+Ellen                                                                                                                                                                                                                                           
+Michael                                                                                                                                                                                                                                         
+Shelley                                                                                                                                                                                                                                         
+
+SQL> SPOOL OFF

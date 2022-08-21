@@ -1,0 +1,1301 @@
+SQL> 
+SQL> REM ALTER TABLE : CONSTRAINTS : ADD (TABLE LEVEL) MODIFY (ADD COLUMN LEVEL) RENAME DROP ENABLE/DISABLE VALIDATE/NO VALIDATE IMMEDIATE/DEFERRED DEFERRABLE/NOT DEFERRABLE
+SQL> 
+SQL> SELECT * FROM E1;
+
+EMPLOYEE_ID FIRST_NAME           JOINDATE                        SALARY                                                                                                                                                                         
+----------- -------------------- --------------------------- ----------                                                                                                                                                                         
+        100 Steven               17-JULY     -1987 FRIDAY         24000                                                                                                                                                                         
+        101 Neena                21-SEPTEMBER-1989 THURSDAY       17000                                                                                                                                                                         
+        102 Lex                  13-JANUARY  -1993 WEDNESDAY      17000                                                                                                                                                                         
+        103 Alexander            03-JANUARY  -1990 WEDNESDAY       9000                                                                                                                                                                         
+        104 Bruce                21-MAY      -1991 TUESDAY         6000                                                                                                                                                                         
+        107 Diana                07-FEBRUARY -1999 SUNDAY          4200                                                                                                                                                                         
+        124 Kevin                16-NOVEMBER -1999 TUESDAY         5800                                                                                                                                                                         
+        141 Trenna               17-OCTOBER  -1995 TUESDAY         3500                                                                                                                                                                         
+        142 Curtis               29-JANUARY  -1997 WEDNESDAY       3100                                                                                                                                                                         
+        143 Randall              15-MARCH    -1998 SUNDAY          2600                                                                                                                                                                         
+        144 Peter                09-JULY     -1998 THURSDAY        2500                                                                                                                                                                         
+        149 Eleni                29-JANUARY  -2000 SATURDAY       10500                                                                                                                                                                         
+        174 Ellen                11-MAY      -1996 SATURDAY       11000                                                                                                                                                                         
+        176 Jonathon             24-MARCH    -1998 TUESDAY         8600                                                                                                                                                                         
+        178 Kimerely             24-MAY      -1999 MONDAY          7000                                                                                                                                                                         
+        200 Jennifer             17-SEPTEMBER-1987 THURSDAY        4400                                                                                                                                                                         
+        201 Michael              17-FEBRUARY -1996 SATURDAY       13000                                                                                                                                                                         
+        202 Pat                  17-AUGUST   -1997 SUNDAY          6000                                                                                                                                                                         
+        205 Shelley              07-JUNE     -1994 TUESDAY        12000                                                                                                                                                                         
+        206 William              07-JUNE     -1994 TUESDAY         8300                                                                                                                                                                         
+        401 GANESH               24-JULY     -2021 SATURDAY       30000                                                                                                                                                                         
+
+EMPLOYEE_ID FIRST_NAME           JOINDATE                        SALARY                                                                                                                                                                         
+----------- -------------------- --------------------------- ----------                                                                                                                                                                         
+        402 RIDDHI               24-JULY     -2021 SATURDAY       25000                                                                                                                                                                         
+        403 SIDDHI               24-JULY     -2021 SATURDAY       26000                                                                                                                                                                         
+
+23 rows selected.
+
+SQL> SELECT * FROM E2;
+
+no rows selected
+
+SQL> DESC E2
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> DROP TABLE E1 PURGE;
+
+Table dropped.
+
+SQL> CREATE TABLE E1 AS SELECT * FROM EMPLOYEES;
+
+Table created.
+
+SQL> SELECT * FROM E1;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE                   JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                           
+----------- --------------- --------------- ---------- -------------------- --------------------------- ---------- ---------- -------------- ---------- -------------                                                                           
+        100 Steven          King            SKING      515.123.4567         17-JULY     -1987 FRIDAY    AD_PRES         24000                                      90                                                                           
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEPTEMBER-1989 THURSDAY  AD_VP           17000                       100            90                                                                           
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JANUARY  -1993 WEDNESDAY AD_VP           17000                       100            90                                                                           
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JANUARY  -1990 WEDNESDAY IT_PROG          9000                       102            60                                                                           
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY      -1991 TUESDAY   IT_PROG          6000                       103            60                                                                           
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEBRUARY -1999 SUNDAY    IT_PROG          4200                       103            60                                                                           
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOVEMBER -1999 TUESDAY   ST_MAN           5800                       100            50                                                                           
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCTOBER  -1995 TUESDAY   ST_CLERK         3500                       124            50                                                                           
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JANUARY  -1997 WEDNESDAY ST_CLERK         3100                       124            50                                                                           
+        143 Randall         Matos           RMATOS     650.121.2874         15-MARCH    -1998 SUNDAY    ST_CLERK         2600                       124            50                                                                           
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JULY     -1998 THURSDAY  ST_CLERK         2500                       124            50                                                                           
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JANUARY  -2000 SATURDAY  SA_MAN          10500             .2        100            80                                                                           
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY      -1996 SATURDAY  SA_REP          11000             .3        149            80                                                                           
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MARCH    -1998 TUESDAY   SA_REP           8600             .3        149            80                                                                           
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY      -1999 MONDAY    SA_REP           7000            .15        149                                                                                         
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEPTEMBER-1987 THURSDAY  AD_ASST          4400                       101            10                                                                           
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEBRUARY -1996 SATURDAY  MK_MAN          13000                       100            20                                                                           
+        202 Pat             Fay             PFAY       603.123.6666         17-AUGUST   -1997 SUNDAY    MK_REP           6000                       201            20                                                                           
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUNE     -1994 TUESDAY   AC_MGR          12000                       101           110                                                                           
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUNE     -1994 TUESDAY   AC_ACCOUNT       8300                       205           110                                                                           
+
+20 rows selected.
+
+SQL> SELECT * FROM E2;
+
+no rows selected
+
+SQL> DESC E1
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> DESC E2
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS FROM EMPLOYEES WHERE TABLE_NAME = 'E1';
+SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS FROM EMPLOYEES WHERE TABLE_NAME = 'E1'
+                                                                                          *
+ERROR at line 1:
+ORA-00904: "TABLE_NAME": invalid identifier 
+
+
+SQL> SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+CONSTRAINT_NAME                                                                                                                  C SEARCH_CONDITION                                                                 STATUS                      
+-------------------------------------------------------------------------------------------------------------------------------- - -------------------------------------------------------------------------------- --------                    
+SYS_C0019392                                                                                                                     C "EMPLOYEE_ID" IS NOT NULL                                                        ENABLED                     
+SYS_C0019393                                                                                                                     C "LAST_NAME" IS NOT NULL                                                          ENABLED                     
+SYS_C0019394                                                                                                                     C "EMAIL" IS NOT NULL                                                              ENABLED                     
+SYS_C0019395                                                                                                                     C "HIRE_DATE" IS NOT NULL                                                          ENABLED                     
+SYS_C0019396                                                                                                                     C "JOB_ID" IS NOT NULL                                                             ENABLED                     
+
+SQL> REM C = CHECK , C = NOT NULL (IS NOT NULL)
+SQL> 
+SQL> ALTER TABLE E1 ADD PRIMARY KEY (EMPLOYEE_ID);
+
+Table altered.
+
+SQL> SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+CONSTRAINT_NAME                                                                                                                  C SEARCH_CONDITION                                                                 STATUS                      
+-------------------------------------------------------------------------------------------------------------------------------- - -------------------------------------------------------------------------------- --------                    
+SYS_C0019392                                                                                                                     C "EMPLOYEE_ID" IS NOT NULL                                                        ENABLED                     
+SYS_C0019393                                                                                                                     C "LAST_NAME" IS NOT NULL                                                          ENABLED                     
+SYS_C0019394                                                                                                                     C "EMAIL" IS NOT NULL                                                              ENABLED                     
+SYS_C0019395                                                                                                                     C "HIRE_DATE" IS NOT NULL                                                          ENABLED                     
+SYS_C0019396                                                                                                                     C "JOB_ID" IS NOT NULL                                                             ENABLED                     
+SYS_C0019397                                                                                                                     P                                                                                  ENABLED                     
+
+6 rows selected.
+
+SQL> COL CONSTRAINT_NAME FORMAT A30
+SQL> 
+SQL> COL SEARCH_CONDITION FORMAT A30
+SQL> 
+SQL> R
+  1* SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1'
+
+CONSTRAINT_NAME                C SEARCH_CONDITION               STATUS                                                                                                                                                                          
+------------------------------ - ------------------------------ --------                                                                                                                                                                        
+SYS_C0019392                   C "EMPLOYEE_ID" IS NOT NULL      ENABLED                                                                                                                                                                         
+SYS_C0019393                   C "LAST_NAME" IS NOT NULL        ENABLED                                                                                                                                                                         
+SYS_C0019394                   C "EMAIL" IS NOT NULL            ENABLED                                                                                                                                                                         
+SYS_C0019395                   C "HIRE_DATE" IS NOT NULL        ENABLED                                                                                                                                                                         
+SYS_C0019396                   C "JOB_ID" IS NOT NULL           ENABLED                                                                                                                                                                         
+SYS_C0019397                   P                                ENABLED                                                                                                                                                                         
+
+6 rows selected.
+
+SQL> ALTER TABLE E1 DROP PRIMARY KEY;
+
+Table altered.
+
+SQL> SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+CONSTRAINT_NAME                C SEARCH_CONDITION               STATUS                                                                                                                                                                          
+------------------------------ - ------------------------------ --------                                                                                                                                                                        
+SYS_C0019392                   C "EMPLOYEE_ID" IS NOT NULL      ENABLED                                                                                                                                                                         
+SYS_C0019393                   C "LAST_NAME" IS NOT NULL        ENABLED                                                                                                                                                                         
+SYS_C0019394                   C "EMAIL" IS NOT NULL            ENABLED                                                                                                                                                                         
+SYS_C0019395                   C "HIRE_DATE" IS NOT NULL        ENABLED                                                                                                                                                                         
+SYS_C0019396                   C "JOB_ID" IS NOT NULL           ENABLED                                                                                                                                                                         
+
+SQL> ALTER TABLE E1 ADD PRIMARY KEY (EMPLOYEE_ID,MANAGER_ID);
+ALTER TABLE E1 ADD PRIMARY KEY (EMPLOYEE_ID,MANAGER_ID)
+                                            *
+ERROR at line 1:
+ORA-01449: column contains NULL values; cannot alter to NOT NULL 
+
+
+SQL> ALTER TABLE E1 ADD PRIMARY KEY (EMPLOYEE_ID,JOB_ID);
+
+Table altered.
+
+SQL> REM COMPOSITE PRIMARY KEY : (EMPLOYEE_ID,JOB_ID)
+SQL> 
+SQL> REM EMPLOYEE_ID AND JOB_ID ARE CALLED CANDIDATE KEYS OF THE ABOVE COMPOSITE PRIMARY KEY
+SQL> 
+SQL> SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+CONSTRAINT_NAME                C SEARCH_CONDITION               STATUS                                                                                                                                                                          
+------------------------------ - ------------------------------ --------                                                                                                                                                                        
+SYS_C0019392                   C "EMPLOYEE_ID" IS NOT NULL      ENABLED                                                                                                                                                                         
+SYS_C0019393                   C "LAST_NAME" IS NOT NULL        ENABLED                                                                                                                                                                         
+SYS_C0019394                   C "EMAIL" IS NOT NULL            ENABLED                                                                                                                                                                         
+SYS_C0019395                   C "HIRE_DATE" IS NOT NULL        ENABLED                                                                                                                                                                         
+SYS_C0019396                   C "JOB_ID" IS NOT NULL           ENABLED                                                                                                                                                                         
+SYS_C0019402                   P                                ENABLED                                                                                                                                                                         
+
+6 rows selected.
+
+SQL> DESC USER_CONS_COLUMNS
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ OWNER                                                                                                                                     NOT NULL VARCHAR2(128)
+ CONSTRAINT_NAME                                                                                                                           NOT NULL VARCHAR2(128)
+ TABLE_NAME                                                                                                                                NOT NULL VARCHAR2(128)
+ COLUMN_NAME                                                                                                                                        VARCHAR2(4000)
+ POSITION                                                                                                                                           NUMBER
+
+SQL> SELECT CONSTRAINT_NAME , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS WHERE TABLE_NAME = 'E1';
+
+CONSTRAINT_NAME                                                                                                                                                                                                                                 
+------------------------------                                                                                                                                                                                                                  
+COLUMN_NAME                                                                                                                                                                                                                                     
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  POSITION                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+SYS_C0019392                                                                                                                                                                                                                                    
+EMPLOYEE_ID                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                
+SYS_C0019393                                                                                                                                                                                                                                    
+LAST_NAME                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                
+SYS_C0019394                                                                                                                                                                                                                                    
+EMAIL                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                
+SYS_C0019395                                                                                                                                                                                                                                    
+HIRE_DATE                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                
+SYS_C0019396                                                                                                                                                                                                                                    
+
+CONSTRAINT_NAME                                                                                                                                                                                                                                 
+------------------------------                                                                                                                                                                                                                  
+COLUMN_NAME                                                                                                                                                                                                                                     
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  POSITION                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+JOB_ID                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                
+SYS_C0019402                                                                                                                                                                                                                                    
+JOB_ID                                                                                                                                                                                                                                          
+         2                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                
+SYS_C0019402                                                                                                                                                                                                                                    
+EMPLOYEE_ID                                                                                                                                                                                                                                     
+         1                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                
+
+7 rows selected.
+
+SQL> COL COLUMN_NAME FORMAT A30
+SQL> 
+SQL> R
+  1* SELECT CONSTRAINT_NAME , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS WHERE TABLE_NAME = 'E1'
+
+CONSTRAINT_NAME                COLUMN_NAME                      POSITION                                                                                                                                                                        
+------------------------------ ------------------------------ ----------                                                                                                                                                                        
+SYS_C0019392                   EMPLOYEE_ID                                                                                                                                                                                                      
+SYS_C0019393                   LAST_NAME                                                                                                                                                                                                        
+SYS_C0019394                   EMAIL                                                                                                                                                                                                            
+SYS_C0019395                   HIRE_DATE                                                                                                                                                                                                        
+SYS_C0019396                   JOB_ID                                                                                                                                                                                                           
+SYS_C0019402                   JOB_ID                                  2                                                                                                                                                                        
+SYS_C0019402                   EMPLOYEE_ID                             1                                                                                                                                                                        
+
+7 rows selected.
+
+SQL> SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS;
+
+CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                                                      
+------------------------------ - ------------------------------ ----------                                                                                                                                                                      
+EMPLOYEES_EMP_ID_NN            C EMPLOYEE_ID                                                                                                                                                                                                    
+SYS_C0017562                   C EMPLOYEE_ID                                                                                                                                                                                                    
+LOCATIONS_CITY_NN              C CITY                                                                                                                                                                                                           
+SYS_C0018166                   C HIRE_DATE                                                                                                                                                                                                      
+BIN$iPaLaQHKQ9mth67OkQGUTg==$0 C RNO                                                                                                                                                                                                            
+BIN$GcLHvN6xSgCT0FiSozJQrQ==$0 C RNO                                                                                                                                                                                                            
+FK_BRANCH_NAME                 R BRANCH_NAME                             1                                                                                                                                                                      
+SYS_C0017104                   C REGION_ID                                                                                                                                                                                                      
+BIN$0ElqmYHBTJCgzYHe3Ib5pg==$0 C LAST_NAME                                                                                                                                                                                                      
+SYS_C0017106                   C REGION_ID                                                                                                                                                                                                      
+SYS_C0018330                   C HIRE_DATE                                                                                                                                                                                                      
+JOB_HISTORY_JOB_ID_NN          C JOB_ID                                                                                                                                                                                                         
+BIN$SslofBqcQfijGJaHja0ZlA==$0 C STD                                                                                                                                                                                                            
+BIN$QEwIzYVISqKF5Dr6duNkoA==$0 C STD                                                                                                                                                                                                            
+MPSITMST_ITNO_PK               P ITNO                                    1                                                                                                                                                                      
+MPSITNO_FK                     R ITNO                                    1                                                                                                                                                                      
+SYS_C0017566                   C JOB_ID                                                                                                                                                                                                         
+BIN$50bzGtlrTEu6YV8Z/C1yoA==$0 U STD                                     1                                                                                                                                                                      
+EMPLOYEES_LAST_NAME_NN         C LAST_NAME                                                                                                                                                                                                      
+SYS_C0018307                   C HIRE_DATE                                                                                                                                                                                                      
+MPSITMST_CLASS_CH              C CLASS                                                                                                                                                                                                          
+
+CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                                                      
+------------------------------ - ------------------------------ ----------                                                                                                                                                                      
+JOB_HISTORY_START_DT_NN        C START_DATE                                                                                                                                                                                                     
+SYS_C0018306                   C EMAIL                                                                                                                                                                                                          
+SYS_C0018162                   C JOB_ID                                                                                                                                                                                                         
+BIN$uPHIufh9QuaPrZlJ3KV0qA==$0 C NM                                                                                                                                                                                                             
+SYS_C0017573                   C JOB_TITLE                                                                                                                                                                                                      
+SYS_C0018158                   C EMPLOYEE_ID                                                                                                                                                                                                    
+BIN$8KpAM6l0TEyccKH7tR2odw==$0 C ENO                                                                                                                                                                                                            
+BIN$lNl+l8cyTO+4YC3aTr0dnQ==$0 U ENO                                     1                                                                                                                                                                      
+SYS_C0015120                   P ID                                      1                                                                                                                                                                      
+SYS_C0018161                   C HIRE_DATE                                                                                                                                                                                                      
+SYS_C0018164                   C LAST_NAME                                                                                                                                                                                                      
+SYS_C0018308                   C JOB_ID                                                                                                                                                                                                         
+BIN$P8PBZaOlTy6CdXGj9Tgm2g==$0 P EID                                     1                                                                                                                                                                      
+SYS_C0019145                   C EMAIL                                                                                                                                                                                                          
+SYS_C0018305                   C LAST_NAME                                                                                                                                                                                                      
+MPSDEPT_DEPTNO_PK              P DEPTNO                                  1                                                                                                                                                                      
+CUSTOMER_NAME_FK               R CUSTOMER_NAME                           1                                                                                                                                                                      
+REGIONS_REG_ID_NN              C REGION_ID                                                                                                                                                                                                      
+SYS_C0017135                   C DEPTNO                                                                                                                                                                                                         
+BIN$AeoPFfnHS7+n253YguFedw==$0 P ENO                                     1                                                                                                                                                                      
+SYS_C0016831                   C DIV                                                                                                                                                                                                            
+
+CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                                                      
+------------------------------ - ------------------------------ ----------                                                                                                                                                                      
+SYS_C0016832                   P DIV                                     2                                                                                                                                                                      
+BIN$QEwIzYVISqKF5Dr6duNkoA==$0 C RNO                                                                                                                                                                                                            
+NEWEMP_EMPNO_PK                P EMPNO                                   1                                                                                                                                                                      
+MPSEMP_DEPTNO_NN               C DEPTNO                                                                                                                                                                                                         
+MPSDEPTNO_FK                   R DEPTNO                                  1                                                                                                                                                                      
+DEPARTMENTS_DEPT_ID_PK         P DEPARTMENT_ID                           1                                                                                                                                                                      
+BIN$WroyC3suTbWNMOUZkgknyA==$0 C JOB_ID                                                                                                                                                                                                         
+SYS_C0018165                   C EMAIL                                                                                                                                                                                                          
+SYS_C0019146                   C HIRE_DATE                                                                                                                                                                                                      
+SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                                                    
+SYS_C0019402                   P EMPLOYEE_ID                             1                                                                                                                                                                      
+FK_ACCOUNT_NUMBER              R ACCOUNT_NUMBER                          1                                                                                                                                                                      
+BIN$0n2avtXcQKebdR4N/LjItQ==$0 C DID                                                                                                                                                                                                            
+BIN$Ouy9dwjARSSI3G6i/YLhmQ==$0 P DID                                     1                                                                                                                                                                      
+SYS_C0019149                   C REGION_ID                                                                                                                                                                                                      
+EMPLOYEES_EMAIL_NN             C EMAIL                                                                                                                                                                                                          
+JOBS_JOB_TITLE_NN              C JOB_TITLE                                                                                                                                                                                                      
+SYS_C0018829                   R NO                                      1                                                                                                                                                                      
+BIN$JQJ8qxOtT8ic2zaCSvnGcg==$0 P ENO                                     1                                                                                                                                                                      
+FK_LOAN_NUMBER                 R LOAN_NUMBER                             1                                                                                                                                                                      
+MPSEMP_EMPNO_PK                P EMPNO                                   1                                                                                                                                                                      
+
+CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                                                      
+------------------------------ - ------------------------------ ----------                                                                                                                                                                      
+SYS_C0011069                   C REGION_ID                                                                                                                                                                                                      
+JOB_HISTORY_END_DT_NN          C END_DATE                                                                                                                                                                                                       
+LOCATIONS_LOC_ID_NN            C LOCATION_ID                                                                                                                                                                                                    
+BIN$5iMa8NJ8SFqCPFiwR7//1Q==$0 C EMPLOYEE_ID                                                                                                                                                                                                    
+SYS_C0018329                   C EMAIL                                                                                                                                                                                                          
+SYS_C0017134                   C DEPTNO                                                                                                                                                                                                         
+ACCOUNT_NUMBER_PK              P ACCOUNT_NUMBER                          1                                                                                                                                                                      
+SYS_C0018304                   C EMPLOYEE_ID                                                                                                                                                                                                    
+SYS_C0017571                   C DEPARTMENT_NAME                                                                                                                                                                                                
+SYS_C0016833                   C PERCENT                                                                                                                                                                                                        
+EMPLOYEES_HIRE_DATE_NN         C HIRE_DATE                                                                                                                                                                                                      
+BIN$nBYLYzfhTlCk5a54qGWcIQ==$0 P NO                                      1                                                                                                                                                                      
+BIN$Yos28EMGRTGgcZmTlh+YJA==$0 P NO                                      1                                                                                                                                                                      
+DEPARTMENTS_DEPT_NAME_NN       C DEPARTMENT_NAME                                                                                                                                                                                                
+NEWDEPT_DEPTNO_PK              P DEPTNO                                  1                                                                                                                                                                      
+BIN$VUzJbIo1S5OuVVUn1DFsKA==$0 C EMAIL                                                                                                                                                                                                          
+BIN$2c6/UHwZQ7exOb8Huv+dQQ==$0 P RNO                                     3                                                                                                                                                                      
+BIN$z2qitw1UQC6QuCupmRsoyA==$0 C REGION_ID                                                                                                                                                                                                      
+SYS_C0017105                   C REGION_ID                                                                                                                                                                                                      
+BIN$zuOE2DYVSo6L1hW6Kyq+Ew==$0 P EID                                     1                                                                                                                                                                      
+BRANCH_NAME_FK                 R BRANCH_NAME                             1                                                                                                                                                                      
+
+CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                                                      
+------------------------------ - ------------------------------ ----------                                                                                                                                                                      
+BIN$gdecWOCxQv60jhV7kXYQEA==$0 C REGION_ID                                                                                                                                                                                                      
+SYS_C0019394                   C EMAIL                                                                                                                                                                                                          
+SYS_C0016830                   C RNO                                                                                                                                                                                                            
+SYS_C0016832                   P RNO                                     3                                                                                                                                                                      
+BIN$50bzGtlrTEu6YV8Z/C1yoA==$0 U DIV                                     2                                                                                                                                                                      
+BRANCH_NAME_PK                 P BRANCH_NAME                             1                                                                                                                                                                      
+SYS_C0017042                   C NAME                                                                                                                                                                                                           
+SYS_C0017043                   C ROL                                                                                                                                                                                                            
+BIN$JWyTwkcwRiedDyOvx4D5MQ==$0 C RNO                                                                                                                                                                                                            
+BIN$Os9/os86Rk+QYOel/lPTvQ==$0 C RNO                                                                                                                                                                                                            
+BIN$yaahbFY0TEu63CWol5RNZg==$0 U RNO                                     1                                                                                                                                                                      
+BIN$kWY2IsoXQRWU3mIeyrkzgQ==$0 C ENO                                                                                                                                                                                                            
+BIN$2bXgjScRS1q0UlD71mzDoQ==$0 U ENO                                     1                                                                                                                                                                      
+BIN$Z+GX4p6fQvG8V5ZOINwIFw==$0 P DID                                     1                                                                                                                                                                      
+SYS_C0017565                   C HIRE_DATE                                                                                                                                                                                                      
+BIN$KyfkHCBtSrCsYMgwaMJAEw==$0 C RNO                                                                                                                                                                                                            
+BIN$bBlJpJR2SdihPQiDK4FTCg==$0 P RNO                                     1                                                                                                                                                                      
+JOBS_JOB_ID_PK                 P JOB_ID                                  1                                                                                                                                                                      
+SYS_C0018828                   P NO                                      1                                                                                                                                                                      
+CUSTOMER_NAME_PK               P CUSTOMER_NAME                           1                                                                                                                                                                      
+SYS_C0018163                   C EMPLOYEE_ID                                                                                                                                                                                                    
+
+CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                                                      
+------------------------------ - ------------------------------ ----------                                                                                                                                                                      
+SYS_C0018328                   C LAST_NAME                                                                                                                                                                                                      
+BIN$2c6/UHwZQ7exOb8Huv+dQQ==$0 P STD                                     1                                                                                                                                                                      
+JOB_HISTORY_EMP_ID_NN          C EMPLOYEE_ID                                                                                                                                                                                                    
+BIN$RqR76QcESWqQlbZwoMP1yQ==$0 P NO                                      1                                                                                                                                                                      
+SYS_C0019144                   C LAST_NAME                                                                                                                                                                                                      
+MPSEMP_MGR_EMPNO_RK            R MGR                                     1                                                                                                                                                                      
+EMPLOYEES_JOB_ID_NN            C JOB_ID                                                                                                                                                                                                         
+BIN$YajgBpCBTUyH73RcrFuTxw==$0 C HIRE_DATE                                                                                                                                                                                                      
+SYS_C0017563                   C LAST_NAME                                                                                                                                                                                                      
+MPSITMST_UOM_CH                C UOM                                                                                                                                                                                                            
+SYS_C0019395                   C HIRE_DATE                                                                                                                                                                                                      
+COUNTRIES_COUN_ID_NN           C COUNTRY_ID                                                                                                                                                                                                     
+SYS_C0017045                   C RATE                                                                                                                                                                                                           
+SYS_C0019147                   C JOB_ID                                                                                                                                                                                                         
+BIN$4xsdjNMaSwm9teqMMmGqVg==$0 C REGION_ID                                                                                                                                                                                                      
+SYS_C0019393                   C LAST_NAME                                                                                                                                                                                                      
+LOAN_NUMBER_PK                 P LOAN_NUMBER                             1                                                                                                                                                                      
+SYS_C0018331                   C JOB_ID                                                                                                                                                                                                         
+BIN$L23LNWGRQeqro7Wal5+wdw==$0 C RNO                                                                                                                                                                                                            
+FK_CUSTOMER_NAME               R CUSTOMER_NAME                           1                                                                                                                                                                      
+SYS_C0017572                   C JOB_ID                                                                                                                                                                                                         
+
+CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                                                      
+------------------------------ - ------------------------------ ----------                                                                                                                                                                      
+SYS_C0018327                   C EMPLOYEE_ID                                                                                                                                                                                                    
+BIN$50bzGtlrTEu6YV8Z/C1yoA==$0 U RNO                                     3                                                                                                                                                                      
+SYS_C0016831                   C STD                                                                                                                                                                                                            
+SYS_C0016832                   P STD                                     1                                                                                                                                                                      
+MPSEMP_ENAME_CH                C ENAME                                                                                                                                                                                                          
+SYS_C0016334                   C DEPTNO                                                                                                                                                                                                         
+SYS_C0017044                   C ROQ                                                                                                                                                                                                            
+SYS_C0017564                   C EMAIL                                                                                                                                                                                                          
+BIN$2c6/UHwZQ7exOb8Huv+dQQ==$0 P DIV                                     2                                                                                                                                                                      
+SYS_C0019292                   C RNO                                                                                                                                                                                                            
+SYS_C0019293                   P RNO                                     1                                                                                                                                                                      
+SYS_C0019396                   C JOB_ID                                                                                                                                                                                                         
+SYS_C0019402                   P JOB_ID                                  2                                                                                                                                                                      
+NEWEMP_DEPTNO_FK               R DEPTNO                                  1                                                                                                                                                                      
+SYS_C0018159                   C LAST_NAME                                                                                                                                                                                                      
+SYS_C0018160                   C EMAIL                                                                                                                                                                                                          
+SYS_C0018167                   C JOB_ID                                                                                                                                                                                                         
+SYS_C0018326                   C DEPARTMENT_NAME                                                                                                                                                                                                
+SYS_C0017087                   C DEPTNO                                                                                                                                                                                                         
+SYS_C0019143                   C EMPLOYEE_ID                                                                                                                                                                                                    
+
+146 rows selected.
+
+SQL> SELECT CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                                                      
+------------------------------ - ------------------------------ ----------                                                                                                                                                                      
+SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                                                    
+SYS_C0019393                   C LAST_NAME                                                                                                                                                                                                      
+SYS_C0019394                   C EMAIL                                                                                                                                                                                                          
+SYS_C0019395                   C HIRE_DATE                                                                                                                                                                                                      
+SYS_C0019396                   C JOB_ID                                                                                                                                                                                                         
+SYS_C0019402                   P JOB_ID                                  2                                                                                                                                                                      
+SYS_C0019402                   P EMPLOYEE_ID                             1                                                                                                                                                                      
+
+7 rows selected.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                                                                                                                       CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                     
+-------------------------------------------------------------------------------------------------------------------------------- ------------------------------ - ------------------------------ ----------                                     
+E1                                                                                                                               SYS_C0019392                   C EMPLOYEE_ID                                                                   
+E1                                                                                                                               SYS_C0019393                   C LAST_NAME                                                                     
+E1                                                                                                                               SYS_C0019394                   C EMAIL                                                                         
+E1                                                                                                                               SYS_C0019395                   C HIRE_DATE                                                                     
+E1                                                                                                                               SYS_C0019396                   C JOB_ID                                                                        
+E1                                                                                                                               SYS_C0019402                   P JOB_ID                                  2                                     
+E1                                                                                                                               SYS_C0019402                   P EMPLOYEE_ID                             1                                     
+
+7 rows selected.
+
+SQL> COL TABLE_NAME FORMAT A30
+SQL> 
+SQL> R
+  1  SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2* NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1'
+
+TABLE_NAME                     CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                       
+------------------------------ ------------------------------ - ------------------------------ ----------                                                                                                                                       
+E1                             SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                     
+E1                             SYS_C0019393                   C LAST_NAME                                                                                                                                                                       
+E1                             SYS_C0019394                   C EMAIL                                                                                                                                                                           
+E1                             SYS_C0019395                   C HIRE_DATE                                                                                                                                                                       
+E1                             SYS_C0019396                   C JOB_ID                                                                                                                                                                          
+E1                             SYS_C0019402                   P JOB_ID                                  2                                                                                                                                       
+E1                             SYS_C0019402                   P EMPLOYEE_ID                             1                                                                                                                                       
+
+7 rows selected.
+
+SQL> CREATE TABLE T101(NO NUMBER PRIMARY KEY, NM VARCHAR2(10) PRIMARY KEY);
+CREATE TABLE T101(NO NUMBER PRIMARY KEY, NM VARCHAR2(10) PRIMARY KEY)
+                                                         *
+ERROR at line 1:
+ORA-02260: table can have only one primary key 
+
+
+SQL> CREATE TABLE T101(NO NUMBER,NM VARCHAR2(10), PRIMARY KEY(NO,NM));
+
+Table created.
+
+SQL> REM COMPOSITE PRIMARY/UNIQUE/FOREIGN/REFERENCES : MULTIPLE COLUMNS
+SQL> 
+SQL> REM ANY COLUMN WHICH IS PART OF COMPOSITE CONSTRAINT IS CALLED CANDIDATE KEY
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE E1 DROP CONSTRAINT SYS_C0019402;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                       
+------------------------------ ------------------------------ - ------------------------------ ----------                                                                                                                                       
+E1                             SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                     
+E1                             SYS_C0019393                   C LAST_NAME                                                                                                                                                                       
+E1                             SYS_C0019394                   C EMAIL                                                                                                                                                                           
+E1                             SYS_C0019395                   C HIRE_DATE                                                                                                                                                                       
+E1                             SYS_C0019396                   C JOB_ID                                                                                                                                                                          
+
+SQL> ALTER TABLE E1 MODIFY EMPLOYEE_ID PRIMARY KEY;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                       
+------------------------------ ------------------------------ - ------------------------------ ----------                                                                                                                                       
+E1                             SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                     
+E1                             SYS_C0019393                   C LAST_NAME                                                                                                                                                                       
+E1                             SYS_C0019394                   C EMAIL                                                                                                                                                                           
+E1                             SYS_C0019395                   C HIRE_DATE                                                                                                                                                                       
+E1                             SYS_C0019396                   C JOB_ID                                                                                                                                                                          
+E1                             SYS_C0019408                   P EMPLOYEE_ID                             1                                                                                                                                       
+
+6 rows selected.
+
+SQL> ALTER TABLE E1 DROP PRIMARY KEY;
+
+Table altered.
+
+SQL> ALTER TABLE ADD UNIQUE(JOB_ID);
+ALTER TABLE ADD UNIQUE(JOB_ID)
+            *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> ALTER TABLE E1 ADD UNIQUE(JOB_ID);
+ALTER TABLE E1 ADD UNIQUE(JOB_ID)
+*
+ERROR at line 1:
+ORA-02299: cannot validate (SCOTT.SYS_C0019409) - duplicate keys found 
+
+
+SQL> ALTER TABLE E1 ADD UNIQUE(EMAIL);
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                       
+------------------------------ ------------------------------ - ------------------------------ ----------                                                                                                                                       
+E1                             SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                     
+E1                             SYS_C0019393                   C LAST_NAME                                                                                                                                                                       
+E1                             SYS_C0019394                   C EMAIL                                                                                                                                                                           
+E1                             SYS_C0019395                   C HIRE_DATE                                                                                                                                                                       
+E1                             SYS_C0019396                   C JOB_ID                                                                                                                                                                          
+E1                             SYS_C0019410                   U EMAIL                                   1                                                                                                                                       
+
+6 rows selected.
+
+SQL> REM C = CHECK/NOT NULL , U= UNIQUE , P=PRIMARY KEY , R=REFERENCES
+SQL> 
+SQL> SELECT EMAIL FROM EMPLOYEES;
+
+EMAIL                                                                                                                                                                                                                                           
+----------                                                                                                                                                                                                                                      
+SKING                                                                                                                                                                                                                                           
+NKOCHHAR                                                                                                                                                                                                                                        
+LDEHAAN                                                                                                                                                                                                                                         
+AHUNOLD                                                                                                                                                                                                                                         
+BERNST                                                                                                                                                                                                                                          
+DLORENTZ                                                                                                                                                                                                                                        
+KMOURGOS                                                                                                                                                                                                                                        
+TRAJS                                                                                                                                                                                                                                           
+CDAVIES                                                                                                                                                                                                                                         
+RMATOS                                                                                                                                                                                                                                          
+PVARGAS                                                                                                                                                                                                                                         
+EZLOTKEY                                                                                                                                                                                                                                        
+EABEL                                                                                                                                                                                                                                           
+JTAYLOR                                                                                                                                                                                                                                         
+KGRANT                                                                                                                                                                                                                                          
+JWHALEN                                                                                                                                                                                                                                         
+MHARTSTE                                                                                                                                                                                                                                        
+PFAY                                                                                                                                                                                                                                            
+SHIGGINS                                                                                                                                                                                                                                        
+WGIETZ                                                                                                                                                                                                                                          
+
+20 rows selected.
+
+SQL> SELECT UNIQUE EMAIL FROM EMPLOYEES;
+
+EMAIL                                                                                                                                                                                                                                           
+----------                                                                                                                                                                                                                                      
+AHUNOLD                                                                                                                                                                                                                                         
+KMOURGOS                                                                                                                                                                                                                                        
+SHIGGINS                                                                                                                                                                                                                                        
+EABEL                                                                                                                                                                                                                                           
+JWHALEN                                                                                                                                                                                                                                         
+LDEHAAN                                                                                                                                                                                                                                         
+DLORENTZ                                                                                                                                                                                                                                        
+RMATOS                                                                                                                                                                                                                                          
+PVARGAS                                                                                                                                                                                                                                         
+MHARTSTE                                                                                                                                                                                                                                        
+WGIETZ                                                                                                                                                                                                                                          
+SKING                                                                                                                                                                                                                                           
+NKOCHHAR                                                                                                                                                                                                                                        
+BERNST                                                                                                                                                                                                                                          
+EZLOTKEY                                                                                                                                                                                                                                        
+TRAJS                                                                                                                                                                                                                                           
+JTAYLOR                                                                                                                                                                                                                                         
+CDAVIES                                                                                                                                                                                                                                         
+KGRANT                                                                                                                                                                                                                                          
+PFAY                                                                                                                                                                                                                                            
+
+20 rows selected.
+
+SQL> SELECT JOB_ID FROM EMPLOYEES;
+
+JOB_ID                                                                                                                                                                                                                                          
+----------                                                                                                                                                                                                                                      
+AD_PRES                                                                                                                                                                                                                                         
+AD_VP                                                                                                                                                                                                                                           
+AD_VP                                                                                                                                                                                                                                           
+IT_PROG                                                                                                                                                                                                                                         
+IT_PROG                                                                                                                                                                                                                                         
+IT_PROG                                                                                                                                                                                                                                         
+ST_MAN                                                                                                                                                                                                                                          
+ST_CLERK                                                                                                                                                                                                                                        
+ST_CLERK                                                                                                                                                                                                                                        
+ST_CLERK                                                                                                                                                                                                                                        
+ST_CLERK                                                                                                                                                                                                                                        
+SA_MAN                                                                                                                                                                                                                                          
+SA_REP                                                                                                                                                                                                                                          
+SA_REP                                                                                                                                                                                                                                          
+SA_REP                                                                                                                                                                                                                                          
+AD_ASST                                                                                                                                                                                                                                         
+MK_MAN                                                                                                                                                                                                                                          
+MK_REP                                                                                                                                                                                                                                          
+AC_MGR                                                                                                                                                                                                                                          
+AC_ACCOUNT                                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> SELECT UNQIUE JOB_ID FROM EMPLOYEES;
+SELECT UNQIUE JOB_ID FROM EMPLOYEES
+       *
+ERROR at line 1:
+ORA-00904: "UNQIUE": invalid identifier 
+
+
+SQL> SELECT UNIQUE JOB_ID FROM EMPLOYEES;
+
+JOB_ID                                                                                                                                                                                                                                          
+----------                                                                                                                                                                                                                                      
+IT_PROG                                                                                                                                                                                                                                         
+AC_MGR                                                                                                                                                                                                                                          
+AC_ACCOUNT                                                                                                                                                                                                                                      
+ST_MAN                                                                                                                                                                                                                                          
+AD_ASST                                                                                                                                                                                                                                         
+AD_VP                                                                                                                                                                                                                                           
+SA_MAN                                                                                                                                                                                                                                          
+MK_MAN                                                                                                                                                                                                                                          
+AD_PRES                                                                                                                                                                                                                                         
+SA_REP                                                                                                                                                                                                                                          
+MK_REP                                                                                                                                                                                                                                          
+ST_CLERK                                                                                                                                                                                                                                        
+
+12 rows selected.
+
+SQL> ALTER TABLE E1 DROP UNIQUE(EMAIL);
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                       
+------------------------------ ------------------------------ - ------------------------------ ----------                                                                                                                                       
+E1                             SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                     
+E1                             SYS_C0019393                   C LAST_NAME                                                                                                                                                                       
+E1                             SYS_C0019394                   C EMAIL                                                                                                                                                                           
+E1                             SYS_C0019395                   C HIRE_DATE                                                                                                                                                                       
+E1                             SYS_C0019396                   C JOB_ID                                                                                                                                                                          
+
+SQL> DESC EMPLOYEES;
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE                   JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                           
+----------- --------------- --------------- ---------- -------------------- --------------------------- ---------- ---------- -------------- ---------- -------------                                                                           
+        100 Steven          King            SKING      515.123.4567         17-JULY     -1987 FRIDAY    AD_PRES         24000                                      90                                                                           
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEPTEMBER-1989 THURSDAY  AD_VP           17000                       100            90                                                                           
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JANUARY  -1993 WEDNESDAY AD_VP           17000                       100            90                                                                           
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JANUARY  -1990 WEDNESDAY IT_PROG          9000                       102            60                                                                           
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY      -1991 TUESDAY   IT_PROG          6000                       103            60                                                                           
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEBRUARY -1999 SUNDAY    IT_PROG          4200                       103            60                                                                           
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOVEMBER -1999 TUESDAY   ST_MAN           5800                       100            50                                                                           
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCTOBER  -1995 TUESDAY   ST_CLERK         3500                       124            50                                                                           
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JANUARY  -1997 WEDNESDAY ST_CLERK         3100                       124            50                                                                           
+        143 Randall         Matos           RMATOS     650.121.2874         15-MARCH    -1998 SUNDAY    ST_CLERK         2600                       124            50                                                                           
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JULY     -1998 THURSDAY  ST_CLERK         2500                       124            50                                                                           
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JANUARY  -2000 SATURDAY  SA_MAN          10500             .2        100            80                                                                           
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY      -1996 SATURDAY  SA_REP          11000             .3        149            80                                                                           
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MARCH    -1998 TUESDAY   SA_REP           8600             .3        149            80                                                                           
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY      -1999 MONDAY    SA_REP           7000            .15        149                                                                                         
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEPTEMBER-1987 THURSDAY  AD_ASST          4400                       101            10                                                                           
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEBRUARY -1996 SATURDAY  MK_MAN          13000                       100            20                                                                           
+        202 Pat             Fay             PFAY       603.123.6666         17-AUGUST   -1997 SUNDAY    MK_REP           6000                       201            20                                                                           
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUNE     -1994 TUESDAY   AC_MGR          12000                       101           110                                                                           
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUNE     -1994 TUESDAY   AC_ACCOUNT       8300                       205           110                                                                           
+
+20 rows selected.
+
+SQL> ALTER TABLE E1 MODIFY EMAIL UNIQUE;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                       
+------------------------------ ------------------------------ - ------------------------------ ----------                                                                                                                                       
+E1                             SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                     
+E1                             SYS_C0019393                   C LAST_NAME                                                                                                                                                                       
+E1                             SYS_C0019394                   C EMAIL                                                                                                                                                                           
+E1                             SYS_C0019395                   C HIRE_DATE                                                                                                                                                                       
+E1                             SYS_C0019396                   C JOB_ID                                                                                                                                                                          
+E1                             SYS_C0019415                   U EMAIL                                   1                                                                                                                                       
+
+6 rows selected.
+
+SQL> ALTER TABLE E1 DROP CONSTRAINT SYS_C0019415;
+
+Table altered.
+
+SQL> ALTER TABLE E1 MODIFY EMAIL CONSTRAINT SCOTT_E1_EMAIL_UK UNIQUE;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                       
+------------------------------ ------------------------------ - ------------------------------ ----------                                                                                                                                       
+E1                             SYS_C0019392                   C EMPLOYEE_ID                                                                                                                                                                     
+E1                             SYS_C0019393                   C LAST_NAME                                                                                                                                                                       
+E1                             SYS_C0019394                   C EMAIL                                                                                                                                                                           
+E1                             SYS_C0019395                   C HIRE_DATE                                                                                                                                                                       
+E1                             SYS_C0019396                   C JOB_ID                                                                                                                                                                          
+E1                             SCOTT_E1_EMAIL_UK              U EMAIL                                   1                                                                                                                                       
+
+6 rows selected.
+
+SQL> REM COSNSTRAINT NAME MUST BE UNIQUE IN WHOLE DATABASE
+SQL> 
+SQL> 
+SQL> ALTER TABLE E1 DROP CONSTRAINT SCOTT_E1_EMAIL_UK;
+
+Table altered.
+
+SQL> CREATE TABLE D1 AS SELECT * FROM DEPARTMENTS;
+
+Table created.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'D1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C COLUMN_NAME                      POSITION                                                                                                                                       
+------------------------------ ------------------------------ - ------------------------------ ----------                                                                                                                                       
+D1                             SYS_C0019421                   C DEPARTMENT_NAME                                                                                                                                                                 
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'D1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C SEARCH_CONDITION               COLUMN_NAME                      POSITION                                                                                                        
+------------------------------ ------------------------------ - ------------------------------ ------------------------------ ----------                                                                                                        
+D1                             SYS_C0019421                   C "DEPARTMENT_NAME" IS NOT NULL  DEPARTMENT_NAME                                                                                                                                  
+
+SQL> ALTER TABLE D1 MODIFY DEPARTMENT_ID PRIMARY KEY;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = 'D1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C SEARCH_CONDITION               COLUMN_NAME                      POSITION                                                                                                        
+------------------------------ ------------------------------ - ------------------------------ ------------------------------ ----------                                                                                                        
+D1                             SYS_C0019421                   C "DEPARTMENT_NAME" IS NOT NULL  DEPARTMENT_NAME                                                                                                                                  
+D1                             SYS_C0019422                   P                                DEPARTMENT_ID                           1                                                                                                        
+
+SQL> ALTER TABLE E1 MODIFY DEPARTMENT_ID REFERENCES D1;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME , SEARCH_CONDITION , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = ANY ('E1','D1');
+
+TABLE_NAME                     CONSTRAINT_NAME                C R_CONSTRAINT_NAME                                                                                                                SEARCH_CONDITION                               
+------------------------------ ------------------------------ - -------------------------------------------------------------------------------------------------------------------------------- ------------------------------                 
+COLUMN_NAME                      POSITION                                                                                                                                                                                                       
+------------------------------ ----------                                                                                                                                                                                                       
+E1                             SYS_C0019393                   C                                                                                                                                  "LAST_NAME" IS NOT NULL                        
+LAST_NAME                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                
+E1                             SYS_C0019394                   C                                                                                                                                  "EMAIL" IS NOT NULL                            
+EMAIL                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                
+E1                             SYS_C0019395                   C                                                                                                                                  "HIRE_DATE" IS NOT NULL                        
+HIRE_DATE                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                
+E1                             SYS_C0019396                   C                                                                                                                                  "JOB_ID" IS NOT NULL                           
+JOB_ID                                                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                
+D1                             SYS_C0019422                   P                                                                                                                                                                                 
+DEPARTMENT_ID                           1                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                
+E1                             SYS_C0019392                   C                                                                                                                                  "EMPLOYEE_ID" IS NOT NULL                      
+EMPLOYEE_ID                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                
+E1                             SYS_C0019423                   R SYS_C0019422                                                                                                                                                                    
+
+TABLE_NAME                     CONSTRAINT_NAME                C R_CONSTRAINT_NAME                                                                                                                SEARCH_CONDITION                               
+------------------------------ ------------------------------ - -------------------------------------------------------------------------------------------------------------------------------- ------------------------------                 
+COLUMN_NAME                      POSITION                                                                                                                                                                                                       
+------------------------------ ----------                                                                                                                                                                                                       
+DEPARTMENT_ID                           1                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                
+D1                             SYS_C0019421                   C                                                                                                                                  "DEPARTMENT_NAME" IS NOT NULL                  
+DEPARTMENT_NAME                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                
+
+8 rows selected.
+
+SQL> COL R_CONSTRAINT_NAME FORMAT A30
+SQL> 
+SQL> R
+  1  SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME , SEARCH_CONDITION , COLUMN_NAME , POSITION FROM USER_CONS_COLUMNS
+  2* NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = ANY ('E1','D1')
+
+TABLE_NAME                     CONSTRAINT_NAME                C R_CONSTRAINT_NAME              SEARCH_CONDITION               COLUMN_NAME                      POSITION                                                                         
+------------------------------ ------------------------------ - ------------------------------ ------------------------------ ------------------------------ ----------                                                                         
+E1                             SYS_C0019393                   C                                "LAST_NAME" IS NOT NULL        LAST_NAME                                                                                                         
+E1                             SYS_C0019394                   C                                "EMAIL" IS NOT NULL            EMAIL                                                                                                             
+E1                             SYS_C0019395                   C                                "HIRE_DATE" IS NOT NULL        HIRE_DATE                                                                                                         
+E1                             SYS_C0019396                   C                                "JOB_ID" IS NOT NULL           JOB_ID                                                                                                            
+D1                             SYS_C0019422                   P                                                               DEPARTMENT_ID                           1                                                                         
+E1                             SYS_C0019392                   C                                "EMPLOYEE_ID" IS NOT NULL      EMPLOYEE_ID                                                                                                       
+E1                             SYS_C0019423                   R SYS_C0019422                                                  DEPARTMENT_ID                           1                                                                         
+D1                             SYS_C0019421                   C                                "DEPARTMENT_NAME" IS NOT NULL  DEPARTMENT_NAME                                                                                                   
+
+8 rows selected.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME , SEARCH_CONDITION , COLUMN_NAME , DELETE_RULE FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = ANY ('E1','D1');
+
+TABLE_NAME                     CONSTRAINT_NAME                C R_CONSTRAINT_NAME              SEARCH_CONDITION               COLUMN_NAME                    DELETE_RU                                                                          
+------------------------------ ------------------------------ - ------------------------------ ------------------------------ ------------------------------ ---------                                                                          
+E1                             SYS_C0019393                   C                                "LAST_NAME" IS NOT NULL        LAST_NAME                                                                                                         
+E1                             SYS_C0019394                   C                                "EMAIL" IS NOT NULL            EMAIL                                                                                                             
+E1                             SYS_C0019395                   C                                "HIRE_DATE" IS NOT NULL        HIRE_DATE                                                                                                         
+E1                             SYS_C0019396                   C                                "JOB_ID" IS NOT NULL           JOB_ID                                                                                                            
+D1                             SYS_C0019422                   P                                                               DEPARTMENT_ID                                                                                                     
+E1                             SYS_C0019392                   C                                "EMPLOYEE_ID" IS NOT NULL      EMPLOYEE_ID                                                                                                       
+E1                             SYS_C0019423                   R SYS_C0019422                                                  DEPARTMENT_ID                  NO ACTION                                                                          
+D1                             SYS_C0019421                   C                                "DEPARTMENT_NAME" IS NOT NULL  DEPARTMENT_NAME                                                                                                   
+
+8 rows selected.
+
+SQL> ALTER TABLE E1 DROP CONSTRAINT SYS_C0019423;
+
+Table altered.
+
+SQL> ALTER TABLE E1 ADD FOREIGN KEY(DEPARTMENT_ID) REFERENCES D1(DEPARTMENT_ID);
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME , SEARCH_CONDITION , COLUMN_NAME , DELETE_RULE FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = ANY ('E1','D1');
+
+TABLE_NAME                     CONSTRAINT_NAME                C R_CONSTRAINT_NAME              SEARCH_CONDITION               COLUMN_NAME                    DELETE_RU                                                                          
+------------------------------ ------------------------------ - ------------------------------ ------------------------------ ------------------------------ ---------                                                                          
+E1                             SYS_C0019393                   C                                "LAST_NAME" IS NOT NULL        LAST_NAME                                                                                                         
+E1                             SYS_C0019394                   C                                "EMAIL" IS NOT NULL            EMAIL                                                                                                             
+E1                             SYS_C0019395                   C                                "HIRE_DATE" IS NOT NULL        HIRE_DATE                                                                                                         
+E1                             SYS_C0019396                   C                                "JOB_ID" IS NOT NULL           JOB_ID                                                                                                            
+D1                             SYS_C0019422                   P                                                               DEPARTMENT_ID                                                                                                     
+E1                             SYS_C0019392                   C                                "EMPLOYEE_ID" IS NOT NULL      EMPLOYEE_ID                                                                                                       
+E1                             SYS_C0019424                   R SYS_C0019422                                                  DEPARTMENT_ID                  NO ACTION                                                                          
+D1                             SYS_C0019421                   C                                "DEPARTMENT_NAME" IS NOT NULL  DEPARTMENT_NAME                                                                                                   
+
+8 rows selected.
+
+SQL> ALTER TABLE D1 DROP PRIMARY KEY;
+ALTER TABLE D1 DROP PRIMARY KEY
+*
+ERROR at line 1:
+ORA-02273: this unique/primary key is referenced by some foreign keys 
+
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME , SEARCH_CONDITION , COLUMN_NAME , DELETE_RULE FROM USER_CONS_COLUMNS
+  2  
+SQL> 
+SQL> SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'D1' AND CONSTRAINT_TYPE IN ('U','P');
+
+CONSTRAINT_NAME                                                                                                                                                                                                                                 
+------------------------------                                                                                                                                                                                                                  
+SYS_C0019422                                                                                                                                                                                                                                    
+
+SQL> ALTER TABLE E1 MODIFY UNIQUE(EMAIL);
+ALTER TABLE E1 MODIFY UNIQUE(EMAIL)
+                                  *
+ERROR at line 1:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ALTER TABLE E1 ADD UNIQUE(EMAIL);
+
+Table altered.
+
+SQL> SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'D1' AND CONSTRAINT_TYPE IN ('U','P');
+
+CONSTRAINT_NAME                                                                                                                                                                                                                                 
+------------------------------                                                                                                                                                                                                                  
+SYS_C0019422                                                                                                                                                                                                                                    
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME FROM USER_CONSTRAINTS
+  2  WHERE CONSTRAINT_NAME IN (SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'D1' AND CONSTRAINT_TYPE IN ('U','P'));
+
+TABLE_NAME                     CONSTRAINT_NAME                                                                                                                                                                                                  
+------------------------------ ------------------------------                                                                                                                                                                                   
+D1                             SYS_C0019422                                                                                                                                                                                                     
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME FROM USER_CONSTRAINTS
+  2  WHERE R_CONSTRAINT_NAME IN (SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'D1' AND CONSTRAINT_TYPE IN ('U','P'))
+  3  
+SQL> 
+SQL> SELECT TABLE_NAME , R_CONSTRAINT_NAME FROM USER_CONSTRAINTS
+  2  WHERE R_CONSTRAINT_NAME IN (SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'D1' AND CONSTRAINT_TYPE IN ('U','P'));
+
+TABLE_NAME                     R_CONSTRAINT_NAME                                                                                                                                                                                                
+------------------------------ ------------------------------                                                                                                                                                                                   
+E1                             SYS_C0019422                                                                                                                                                                                                     
+
+SQL> 
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME FROM USER_CONSTRAINTS
+  2  WHERE R_CONSTRAINT_NAME IN (SELECT CONSTRAINT_NAME FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'D1' AND CONSTRAINT_TYPE IN ('U','P'));
+
+TABLE_NAME                     CONSTRAINT_NAME                                                                                                                                                                                                  
+------------------------------ ------------------------------                                                                                                                                                                                   
+E1                             SYS_C0019424                                                                                                                                                                                                     
+
+SQL> 
+SQL> 
+SQL> ALTER TABLE E1 DROP CONSTRAINT SYS_C0019424;
+
+Table altered.
+
+SQL> ALTER TABLE D1 DROP CONSTRAINT SYS_C0019422;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME , SEARCH_CONDITION , COLUMN_NAME , DELETE_RULE FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = ANY ('E1','D1');
+
+TABLE_NAME                     CONSTRAINT_NAME                C R_CONSTRAINT_NAME              SEARCH_CONDITION               COLUMN_NAME                    DELETE_RU                                                                          
+------------------------------ ------------------------------ - ------------------------------ ------------------------------ ------------------------------ ---------                                                                          
+E1                             SYS_C0019393                   C                                "LAST_NAME" IS NOT NULL        LAST_NAME                                                                                                         
+E1                             SYS_C0019394                   C                                "EMAIL" IS NOT NULL            EMAIL                                                                                                             
+E1                             SYS_C0019395                   C                                "HIRE_DATE" IS NOT NULL        HIRE_DATE                                                                                                         
+E1                             SYS_C0019396                   C                                "JOB_ID" IS NOT NULL           JOB_ID                                                                                                            
+E1                             SYS_C0019392                   C                                "EMPLOYEE_ID" IS NOT NULL      EMPLOYEE_ID                                                                                                       
+D1                             SYS_C0019421                   C                                "DEPARTMENT_NAME" IS NOT NULL  DEPARTMENT_NAME                                                                                                   
+E1                             SYS_C0019429                   U                                                               EMAIL                                                                                                             
+
+7 rows selected.
+
+SQL> ALTER TABLE D1 ADD PRIMARY KEY (DEPARTMENT_ID);
+
+Table altered.
+
+SQL> ALTER TABLE E1 ADD FOREIGN KEY(DEPARTMENT_ID) REFERENCES D1;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME , SEARCH_CONDITION , COLUMN_NAME , DELETE_RULE FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = ANY ('E1','D1');
+
+TABLE_NAME                     CONSTRAINT_NAME                C R_CONSTRAINT_NAME              SEARCH_CONDITION               COLUMN_NAME                    DELETE_RU                                                                          
+------------------------------ ------------------------------ - ------------------------------ ------------------------------ ------------------------------ ---------                                                                          
+E1                             SYS_C0019393                   C                                "LAST_NAME" IS NOT NULL        LAST_NAME                                                                                                         
+E1                             SYS_C0019394                   C                                "EMAIL" IS NOT NULL            EMAIL                                                                                                             
+D1                             SYS_C0019434                   P                                                               DEPARTMENT_ID                                                                                                     
+E1                             SYS_C0019395                   C                                "HIRE_DATE" IS NOT NULL        HIRE_DATE                                                                                                         
+E1                             SYS_C0019396                   C                                "JOB_ID" IS NOT NULL           JOB_ID                                                                                                            
+E1                             SYS_C0019392                   C                                "EMPLOYEE_ID" IS NOT NULL      EMPLOYEE_ID                                                                                                       
+E1                             SYS_C0019435                   R SYS_C0019434                                                  DEPARTMENT_ID                  NO ACTION                                                                          
+D1                             SYS_C0019421                   C                                "DEPARTMENT_NAME" IS NOT NULL  DEPARTMENT_NAME                                                                                                   
+E1                             SYS_C0019429                   U                                                               EMAIL                                                                                                             
+
+9 rows selected.
+
+SQL> ALTER TABLE D1 DROP PRIMARY KEY;
+ALTER TABLE D1 DROP PRIMARY KEY
+*
+ERROR at line 1:
+ORA-02273: this unique/primary key is referenced by some foreign keys 
+
+
+SQL> ALTER TABLE D1 DROP PRIMARY KEY CASCADE;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , R_CONSTRAINT_NAME , SEARCH_CONDITION , COLUMN_NAME , DELETE_RULE FROM USER_CONS_COLUMNS
+  2  NATURAL JOIN USER_CONSTRAINTS WHERE TABLE_NAME = ANY ('E1','D1');
+
+TABLE_NAME                     CONSTRAINT_NAME                C R_CONSTRAINT_NAME              SEARCH_CONDITION               COLUMN_NAME                    DELETE_RU                                                                          
+------------------------------ ------------------------------ - ------------------------------ ------------------------------ ------------------------------ ---------                                                                          
+E1                             SYS_C0019393                   C                                "LAST_NAME" IS NOT NULL        LAST_NAME                                                                                                         
+E1                             SYS_C0019394                   C                                "EMAIL" IS NOT NULL            EMAIL                                                                                                             
+E1                             SYS_C0019395                   C                                "HIRE_DATE" IS NOT NULL        HIRE_DATE                                                                                                         
+E1                             SYS_C0019396                   C                                "JOB_ID" IS NOT NULL           JOB_ID                                                                                                            
+E1                             SYS_C0019392                   C                                "EMPLOYEE_ID" IS NOT NULL      EMPLOYEE_ID                                                                                                       
+D1                             SYS_C0019421                   C                                "DEPARTMENT_NAME" IS NOT NULL  DEPARTMENT_NAME                                                                                                   
+E1                             SYS_C0019429                   U                                                               EMAIL                                                                                                             
+
+7 rows selected.
+
+SQL> SELECT MIN(SALARY), MAX(SALARY) FROM EMPLOYEES;
+
+MIN(SALARY) MAX(SALARY)                                                                                                                                                                                                                         
+----------- -----------                                                                                                                                                                                                                         
+       2500       24000                                                                                                                                                                                                                         
+
+SQL> SELECT MIN(SALARY), MAX(SALARY) FROM E1;
+
+MIN(SALARY) MAX(SALARY)                                                                                                                                                                                                                         
+----------- -----------                                                                                                                                                                                                                         
+       2500       24000                                                                                                                                                                                                                         
+
+SQL> ALTER TABLE E1 MODIFY SALARY CHECK(SALARY BETWEEN 2000 AND 30000);
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C SEARCH_CONDITION                                                                                                                                                                
+------------------------------ ------------------------------ - ------------------------------                                                                                                                                                  
+E1                             SYS_C0019392                   C "EMPLOYEE_ID" IS NOT NULL                                                                                                                                                       
+E1                             SYS_C0019393                   C "LAST_NAME" IS NOT NULL                                                                                                                                                         
+E1                             SYS_C0019394                   C "EMAIL" IS NOT NULL                                                                                                                                                             
+E1                             SYS_C0019395                   C "HIRE_DATE" IS NOT NULL                                                                                                                                                         
+E1                             SYS_C0019396                   C "JOB_ID" IS NOT NULL                                                                                                                                                            
+E1                             SYS_C0019436                   C SALARY BETWEEN 2000 AND 30000                                                                                                                                                   
+E1                             SYS_C0019429                   U                                                                                                                                                                                 
+
+7 rows selected.
+
+SQL> ALTER TABLE E1 DROP CONSTRAINT SYS_C0019436;
+
+Table altered.
+
+SQL> ALTER TABLE E1 MODIFY SALARY CHECK(SALARY BETWEEN 3000 AND 30000);
+ALTER TABLE E1 MODIFY SALARY CHECK(SALARY BETWEEN 3000 AND 30000)
+*
+ERROR at line 1:
+ORA-02293: cannot validate (SCOTT.) - check constraint violated 
+
+
+SQL> ALTER TABLE E1 MODIFY SALARY CHECK(SALARY BETWEEN 3000 AND 30000) NOVALIDATE;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C SEARCH_CONDITION                                                                                                                                                                
+------------------------------ ------------------------------ - ------------------------------                                                                                                                                                  
+E1                             SYS_C0019392                   C "EMPLOYEE_ID" IS NOT NULL                                                                                                                                                       
+E1                             SYS_C0019393                   C "LAST_NAME" IS NOT NULL                                                                                                                                                         
+E1                             SYS_C0019394                   C "EMAIL" IS NOT NULL                                                                                                                                                             
+E1                             SYS_C0019395                   C "HIRE_DATE" IS NOT NULL                                                                                                                                                         
+E1                             SYS_C0019396                   C "JOB_ID" IS NOT NULL                                                                                                                                                            
+E1                             SYS_C0019437                   C SALARY BETWEEN 3000 AND 30000                                                                                                                                                   
+E1                             SYS_C0019429                   U                                                                                                                                                                                 
+
+7 rows selected.
+
+SQL> SELECT MIN(SALARY), MAX(SALARY) FROM E1;
+
+MIN(SALARY) MAX(SALARY)                                                                                                                                                                                                                         
+----------- -----------                                                                                                                                                                                                                         
+       2500       24000                                                                                                                                                                                                                         
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS , VALIDATED FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C SEARCH_CONDITION               STATUS   VALIDATED                                                                                                                               
+------------------------------ ------------------------------ - ------------------------------ -------- -------------                                                                                                                           
+E1                             SYS_C0019392                   C "EMPLOYEE_ID" IS NOT NULL      ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019393                   C "LAST_NAME" IS NOT NULL        ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019394                   C "EMAIL" IS NOT NULL            ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019395                   C "HIRE_DATE" IS NOT NULL        ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019396                   C "JOB_ID" IS NOT NULL           ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019437                   C SALARY BETWEEN 3000 AND 30000  ENABLED  NOT VALIDATED                                                                                                                           
+E1                             SYS_C0019429                   U                                ENABLED  VALIDATED                                                                                                                               
+
+7 rows selected.
+
+SQL> REM NOVALIDATE IS SUPPORTED BY CHECK , NOT NULL , REFERENCES
+SQL> 
+SQL> ALTER TABLE E1 MODIFY JOB_ID UNIQUE;
+ALTER TABLE E1 MODIFY JOB_ID UNIQUE
+*
+ERROR at line 1:
+ORA-02299: cannot validate (SCOTT.SYS_C0019438) - duplicate keys found 
+
+
+SQL> ALTER TABLE E1 MODIFY JOB_ID UNIQUE NOVALIDATE;
+ALTER TABLE E1 MODIFY JOB_ID UNIQUE NOVALIDATE
+*
+ERROR at line 1:
+ORA-02299: cannot validate (SCOTT.SYS_C0019439) - duplicate keys found 
+
+
+SQL> UPDATE E1 SET SALARY = 30001 WHERE SALARY = 24000;
+UPDATE E1 SET SALARY = 30001 WHERE SALARY = 24000
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0019437) violated 
+
+
+SQL> ALTER TABLE E1 DISABLE CONSTRAINT SYS_C0019437;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS , VALIDATED FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C SEARCH_CONDITION               STATUS   VALIDATED                                                                                                                               
+------------------------------ ------------------------------ - ------------------------------ -------- -------------                                                                                                                           
+E1                             SYS_C0019392                   C "EMPLOYEE_ID" IS NOT NULL      ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019393                   C "LAST_NAME" IS NOT NULL        ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019394                   C "EMAIL" IS NOT NULL            ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019395                   C "HIRE_DATE" IS NOT NULL        ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019396                   C "JOB_ID" IS NOT NULL           ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019429                   U                                ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019437                   C SALARY BETWEEN 3000 AND 30000  DISABLED NOT VALIDATED                                                                                                                           
+
+7 rows selected.
+
+SQL> UPDATE E1 SET SALARY = 30001 WHERE SALARY = 24000;
+
+1 row updated.
+
+SQL> REM ENABLED : IT WILL PERFORM ACTION AS AND WHEN REQUIRED WHEN WE EXECUTE DML STATEMENTS
+SQL> 
+SQL> REM DISABLED : IT WILL NOT PERFORM ACTION AS AND WHEN REQUIRED WHEN WE EXECUTE DML STATEMENTS
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE E1 DROP CONSTRAINT SYS_C0019437;
+
+Table altered.
+
+SQL> SELECT * FROM JOBS;
+
+JOB_ID     JOB_TITLE                           MIN_SALARY MAX_SALARY                                                                                                                                                                            
+---------- ----------------------------------- ---------- ----------                                                                                                                                                                            
+AD_PRES    President                                20000      40000                                                                                                                                                                            
+AD_VP      Administration Vice President            15000      30000                                                                                                                                                                            
+AD_ASST    Administration Assistant                  3000       6000                                                                                                                                                                            
+AC_MGR     Accounting Manager                        8200      16000                                                                                                                                                                            
+AC_ACCOUNT Public Accountant                         4200       9000                                                                                                                                                                            
+SA_MAN     Sales Manager                            10000      20000                                                                                                                                                                            
+SA_REP     Sales Representative                      6000      12000                                                                                                                                                                            
+ST_MAN     Stock Manager                             5500       8500                                                                                                                                                                            
+ST_CLERK   Stock Clerk                               2000       5000                                                                                                                                                                            
+IT_PROG    Programmer                                4000      10000                                                                                                                                                                            
+MK_MAN     Marketing Manager                         9000      15000                                                                                                                                                                            
+MK_REP     Marketing Representative                  4000       9000                                                                                                                                                                            
+
+12 rows selected.
+
+SQL> REM JOB_ID = AD_ASST : SALARY RANGE 3000 TO 6000 , SA_REP : SALARY RANGE 6000 AND 12000
+SQL> 
+SQL> 
+SQL> ALTER TABLE E1 ADD CHECK((JOB_ID='AD_ASST' AND SALARY BETWEEN 3000 AND 6000) OR (JOB_ID = 'SA_REP' AND SALARY BETWEEN 6000 AND 12000));
+ALTER TABLE E1 ADD CHECK((JOB_ID='AD_ASST' AND SALARY BETWEEN 3000 AND 6000) OR (JOB_ID = 'SA_REP' AND SALARY BETWEEN 6000 AND 12000))
+*
+ERROR at line 1:
+ORA-02293: cannot validate (SCOTT.) - check constraint violated 
+
+
+SQL> ALTER TABLE E1 ADD CHECK((JOB_ID='AD_ASST' AND SALARY BETWEEN 3000 AND 6000) OR (JOB_ID = 'SA_REP' AND SALARY BETWEEN 6000 AND 12000)) NOVALIDATE;
+
+Table altered.
+
+SQL> SELECT TABLE_NAME , CONSTRAINT_NAME , CONSTRAINT_TYPE , SEARCH_CONDITION , STATUS , VALIDATED FROM USER_CONSTRAINTS WHERE TABLE_NAME = 'E1';
+
+TABLE_NAME                     CONSTRAINT_NAME                C SEARCH_CONDITION               STATUS   VALIDATED                                                                                                                               
+------------------------------ ------------------------------ - ------------------------------ -------- -------------                                                                                                                           
+E1                             SYS_C0019392                   C "EMPLOYEE_ID" IS NOT NULL      ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019393                   C "LAST_NAME" IS NOT NULL        ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019394                   C "EMAIL" IS NOT NULL            ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019395                   C "HIRE_DATE" IS NOT NULL        ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019396                   C "JOB_ID" IS NOT NULL           ENABLED  VALIDATED                                                                                                                               
+E1                             SYS_C0019444                   C (JOB_ID='AD_ASST' AND SALARY B ENABLED  NOT VALIDATED                                                                                                                           
+                                                                ETWEEN 3000 AND 6000) OR (JOB_                                                                                                                                                  
+                                                                ID = 'SA_REP' AND SA                                                                                                                                                            
+                                                                                                                                                                                                                                                
+E1                             SYS_C0019429                   U                                ENABLED  VALIDATED                                                                                                                               
+
+7 rows selected.
+
+SQL> SELECT FIRST_NAME , JOB_ID , SALARY FROM E1 WHERE JOB_ID IN ('AD_ASST','SA_REP');
+
+FIRST_NAME      JOB_ID         SALARY                                                                                                                                                                                                           
+--------------- ---------- ----------                                                                                                                                                                                                           
+Ellen           SA_REP          11000                                                                                                                                                                                                           
+Jonathon        SA_REP           8600                                                                                                                                                                                                           
+Kimerely        SA_REP           7000                                                                                                                                                                                                           
+Jennifer        AD_ASST          4400                                                                                                                                                                                                           
+
+SQL> CREATE TABLE E2 AS SELECT FIRST_NAME , JOB_ID , SALARY FROM E1 WHERE JOB_ID IN ('AD_ASST','SA_REP');
+CREATE TABLE E2 AS SELECT FIRST_NAME , JOB_ID , SALARY FROM E1 WHERE JOB_ID IN ('AD_ASST','SA_REP')
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE E3 AS SELECT FIRST_NAME , JOB_ID , SALARY FROM E1 WHERE JOB_ID IN ('AD_ASST','SA_REP');
+CREATE TABLE E3 AS SELECT FIRST_NAME , JOB_ID , SALARY FROM E1 WHERE JOB_ID IN ('AD_ASST','SA_REP')
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE E4 AS SELECT FIRST_NAME , JOB_ID , SALARY FROM E1 WHERE JOB_ID IN ('AD_ASST','SA_REP');
+CREATE TABLE E4 AS SELECT FIRST_NAME , JOB_ID , SALARY FROM E1 WHERE JOB_ID IN ('AD_ASST','SA_REP')
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE E420 AS SELECT FIRST_NAME , JOB_ID , SALARY FROM E1 WHERE JOB_ID IN ('AD_ASST','SA_REP');
+
+Table created.
+
+SQL> ALTER TABLE E420 ADD CHECK((JOB_ID='AD_ASST' AND SALARY BETWEEN 3000 AND 6000) OR (JOB_ID = 'SA_REP' AND SALARY BETWEEN 6000 AND 12000));
+
+Table altered.
+
+SQL> SPOOL OFF

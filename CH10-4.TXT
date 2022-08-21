@@ -1,0 +1,1027 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM CREATE TABLE USING SUB QUERY
+SQL> 
+SQL> DROP TABLE E1 PURGE;
+
+Table dropped.
+
+SQL> DROP TABLE E2 PURGE;
+
+Table dropped.
+
+SQL> DROP TABLE E3 PURGE;
+DROP TABLE E3 PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DROP TABLE E4 PURGE;
+DROP TABLE E4 PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> CREATE TABLE T1(NO NUMBER);
+
+Table created.
+
+SQL> INSERT INTO T1 VALUES (10);
+
+1 row created.
+
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> SELECT * FROM T1;
+
+        NO                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        10                                                                                                                                                                                                                                      
+
+SQL> SHOW RECYCLEBIN
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                                                                                                                                          
+---------------- ------------------------------ ------------ -------------------                                                                                                                                                                
+ABC              BIN$coDI9lNgQ8mqT46GbWoxlw==$0 TABLE        2021-06-18:18:56:04                                                                                                                                                                
+ABc              BIN$Pa+6IFh5Q8iqfUCTkkvDew==$0 TABLE        2021-06-18:18:56:31                                                                                                                                                                
+ABc              BIN$/yKm33JBTAKISS7VTeRm7w==$0 TABLE        2021-06-13:13:13:55                                                                                                                                                                
+Abc              BIN$YF561zg7Q6CCkmZXRnVQXg==$0 TABLE        2021-06-18:18:56:28                                                                                                                                                                
+CC               BIN$EUH3EN68T8GbM/8olD7cZQ==$0 TABLE        2021-06-24:17:34:59                                                                                                                                                                
+CC               BIN$UJF9/hKMQY+UA7HhH/N+9A==$0 TABLE        2021-06-22:09:35:16                                                                                                                                                                
+CONTACTNO        BIN$PCcA2v3hRy2ewuaNh32hDA==$0 TABLE        2021-06-24:07:39:56                                                                                                                                                                
+D1               BIN$2NLa3FCpQDGpCF62xlUooQ==$0 TABLE        2021-06-24:17:25:19                                                                                                                                                                
+D2               BIN$yo3SsYWXRR2Q1GMUITYAUQ==$0 TABLE        2021-06-24:17:25:20                                                                                                                                                                
+E1               BIN$YPqBiQNXQEecpSnKhrYvHw==$0 TABLE        2021-06-24:17:24:40                                                                                                                                                                
+EMP              BIN$32YazUGcR723Aamuox8cXA==$0 TABLE        2021-06-19:19:14:46                                                                                                                                                                
+EMPLOYEES        BIN$KyFhpFjzSR+6H8CQMFBV6g==$0 TABLE        2021-06-24:07:39:53                                                                                                                                                                
+EMPLOYEE_NAMES   BIN$aIx0YI0PROy2KaaxDXakhA==$0 TABLE        2021-06-10:17:35:46                                                                                                                                                                
+EMPLOYEE_NAMES   BIN$CmI4e1zfTH6zMdPIocyWew==$0 TABLE        2021-06-10:17:34:47                                                                                                                                                                
+EMPLOYEE_NAMES   BIN$ybf0LgGQS52jFtnIjPa0rg==$0 TABLE        2021-06-10:17:32:11                                                                                                                                                                
+EMPLOYEE_NAMES   BIN$/wqZBLcDR6q34yZWMMqtfg==$0 TABLE        2021-06-04:09:52:26                                                                                                                                                                
+EMPLOYEE_NAMES   BIN$xCkckwonTLSaZEsx0PoMtQ==$0 TABLE        2021-06-04:09:51:18                                                                                                                                                                
+EMPLOYEE_NAMES   BIN$BlaTbNX6RZW1wT5dCRuiXQ==$0 TABLE        2021-06-04:09:48:51                                                                                                                                                                
+EMPLOYEE_NAMES   BIN$UZ2Rjk7+TRGMnnnzgQdPqg==$0 TABLE        2021-06-04:09:45:57                                                                                                                                                                
+HOLIDAY          BIN$J50gGDygSuiu24m5lamxvg==$0 TABLE        2021-06-24:09:28:17                                                                                                                                                                
+JOBS             BIN$Mr77azzmSjivuqnFRapdwA==$0 TABLE        2021-06-24:07:39:54                                                                                                                                                                
+JOB_GRADES       BIN$01KLJyTURuyJ2ABsdgjrIA==$0 TABLE        2021-06-24:07:39:54                                                                                                                                                                
+JOB_HISTORY      BIN$NZXH4u6ZSG+doY5cib1SyQ==$0 TABLE        2021-06-24:07:39:54                                                                                                                                                                
+LOCATIONS        BIN$KVxf4vZEQE6ZM0NpjCOWBw==$0 TABLE        2021-06-24:07:39:55                                                                                                                                                                
+MANAGER          BIN$qK4+XrIIQOyREN8l8btEpw==$0 TABLE        2021-06-24:07:39:56                                                                                                                                                                
+OLDTAB           BIN$JswYxHqZRZSaehPPYQ/LxA==$0 TABLE        2021-06-24:17:24:28                                                                                                                                                                
+POSNEGNO         BIN$YXnsyP1eRKSX6cgAPq3xhg==$0 TABLE        2021-06-24:07:39:56                                                                                                                                                                
+REGIONS          BIN$PfJzqwqFQmm6VFXr5ua3Aw==$0 TABLE        2021-06-24:07:39:55                                                                                                                                                                
+WORKER           BIN$QNAkJ8KbQdSQ89Jfg10ryQ==$0 TABLE        2021-06-24:07:39:56                                                                                                                                                                
+XYZ              BIN$CeVcX9r6QquVstleron4Ow==$0 TABLE        2021-06-24:17:24:10                                                                                                                                                                
+XYZ              BIN$CRoxG42mQ82ENJ3qd6u+pg==$0 TABLE        2021-06-22:09:35:16                                                                                                                                                                
+YEMP             BIN$hWYy/PvNT4qo5b5dIDuOZA==$0 TABLE        2021-06-25:19:11:18                                                                                                                                                                
+SQL> PURGE RECYCLEBIN;
+
+Recyclebin purged.
+
+SQL> SHOW RECYC
+SQL> DROP TABLE T1;
+
+Table dropped.
+
+SQL> SELECT * FROM T1;
+SELECT * FROM T1
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> DESC T1
+ERROR:
+ORA-04043: object T1 does not exist 
+
+
+SQL> SHOW RECYC
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                                                                                                                                          
+---------------- ------------------------------ ------------ -------------------                                                                                                                                                                
+T1               BIN$38Nw0LD5RZGJgjZ70P/GZg==$0 TABLE        2021-06-27:12:49:29                                                                                                                                                                
+SQL> SELECT * FROM "BIN$38Nw0LD5RZGJgjZ70P/GZg==$0";
+
+        NO                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        10                                                                                                                                                                                                                                      
+
+SQL> DELETE "BIN$38Nw0LD5RZGJgjZ70P/GZg==$0";
+DELETE "BIN$38Nw0LD5RZGJgjZ70P/GZg==$0"
+       *
+ERROR at line 1:
+ORA-38301: can not perform DDL/DML over objects in Recycle Bin 
+
+
+SQL> GRANT ALL ON "BIN$38Nw0LD5RZGJgjZ70P/GZg==$0" TO HR;
+
+Grant succeeded.
+
+SQL> CONN HR/HR
+Connected.
+SQL> SELECT * FROM SCOTT."BIN$38Nw0LD5RZGJgjZ70P/GZg==$0";
+
+        NO                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        10                                                                                                                                                                                                                                      
+
+SQL> CONN SCOTT/TIGER
+Connected.
+SQL> FLASHBACK TABLE T1 TO BEFORE DROP;
+
+Flashback complete.
+
+SQL> DESC T1
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ NO                                                                                                                                                 NUMBER
+
+SQL> SELECT * FROM T1;
+
+        NO                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        10                                                                                                                                                                                                                                      
+
+SQL> SHOW RECYC
+SQL> DROP TABLE T1;
+
+Table dropped.
+
+SQL> SHOW RECYC
+ORIGINAL NAME    RECYCLEBIN NAME                OBJECT TYPE  DROP TIME                                                                                                                                                                          
+---------------- ------------------------------ ------------ -------------------                                                                                                                                                                
+T1               BIN$6TaRX31MSU+zNGiCOZg7jA==$0 TABLE        2021-06-27:12:51:33                                                                                                                                                                
+SQL> PURGE TABLE T1;
+
+Table purged.
+
+SQL> CREATE TABLE T2 AS SELECT * FROM EMPLOYEES;
+
+Table created.
+
+SQL> DESC T2
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> SELECT * FROM T2;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> DROP TABLE T2 PURGE;
+
+Table dropped.
+
+SQL> DESC T2
+ERROR:
+ORA-04043: object T2 does not exist 
+
+
+SQL> SELECT * FROM T2;
+SELECT * FROM T2
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> SHOW RECYC
+SQL> 
+SQL> CL SCR
+
+SQL> CREATE TABLE E1 AS SELECT * FROM EMPLOYEES;
+
+Table created.
+
+SQL> DESC EMPLOYEES
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> DESC E1
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> REM WHEN WE CREATE TABLE USING EXISTING TABLE, NEW TABLE WILL COPY ONLY NOT NULL CONSTRAINTS
+SQL> 
+SQL> 
+SQL> REM ALL REMAINING CONSTRAINTS CAN BE ADDED USING ALTER TABLE COMMAND
+SQL> 
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> SELECT * FROM E1;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> CREATE TABLE E2 AS SELECT FIRST_NAME , SALARY FROM EMPLOYEES;
+
+Table created.
+
+SQL> DESC EMPLOYEES
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> DESC E2
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ SALARY                                                                                                                                             NUMBER(8,2)
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> SELECT * FROM E2;
+
+FIRST_NAME          SALARY                                                                                                                                                                                                                      
+--------------- ----------                                                                                                                                                                                                                      
+Steven               24000                                                                                                                                                                                                                      
+Neena                17000                                                                                                                                                                                                                      
+Lex                  17000                                                                                                                                                                                                                      
+Alexander             9000                                                                                                                                                                                                                      
+Bruce                 6000                                                                                                                                                                                                                      
+Diana                 4200                                                                                                                                                                                                                      
+Kevin                 5800                                                                                                                                                                                                                      
+Trenna                3500                                                                                                                                                                                                                      
+Curtis                3100                                                                                                                                                                                                                      
+Randall               2600                                                                                                                                                                                                                      
+Peter                 2500                                                                                                                                                                                                                      
+Eleni                10500                                                                                                                                                                                                                      
+Ellen                11000                                                                                                                                                                                                                      
+Jonathon              8600                                                                                                                                                                                                                      
+Kimerely              7000                                                                                                                                                                                                                      
+Jennifer              4400                                                                                                                                                                                                                      
+Michael              13000                                                                                                                                                                                                                      
+Pat                   6000                                                                                                                                                                                                                      
+Shelley              12000                                                                                                                                                                                                                      
+William               8300                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> CREATE TABLE E2 AS SELECT * FROM EMPLOYEES WHERE SALARY > 10000;
+CREATE TABLE E2 AS SELECT * FROM EMPLOYEES WHERE SALARY > 10000
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> CREATE TABLE E3 AS SELECT * FROM EMPLOYEES WHERE SALARY > 10000;
+
+Table created.
+
+SQL> DESC EMPLOYEES
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> DESC E3
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                                               NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ LAST_NAME                                                                                                                                 NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                                                     NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                                                       VARCHAR2(20)
+ HIRE_DATE                                                                                                                                 NOT NULL DATE
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                                             NUMBER(8,2)
+ COMMISSION_PCT                                                                                                                                     NUMBER(2,2)
+ MANAGER_ID                                                                                                                                         NUMBER(6)
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> SELECT * FROM E3;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+
+7 rows selected.
+
+SQL> CREATE TABLE E4 AS SELECT FIRST_NAME , SALARY * 12 FROM EMPLOYEES;
+CREATE TABLE E4 AS SELECT FIRST_NAME , SALARY * 12 FROM EMPLOYEES
+                                              *
+ERROR at line 1:
+ORA-00998: must name this expression with a column alias 
+
+
+SQL> SELECT FIRST_NAME , SALARY * 12 FROM EMPLOYEES;
+
+FIRST_NAME       SALARY*12                                                                                                                                                                                                                      
+--------------- ----------                                                                                                                                                                                                                      
+Steven              288000                                                                                                                                                                                                                      
+Neena               204000                                                                                                                                                                                                                      
+Lex                 204000                                                                                                                                                                                                                      
+Alexander           108000                                                                                                                                                                                                                      
+Bruce                72000                                                                                                                                                                                                                      
+Diana                50400                                                                                                                                                                                                                      
+Kevin                69600                                                                                                                                                                                                                      
+Trenna               42000                                                                                                                                                                                                                      
+Curtis               37200                                                                                                                                                                                                                      
+Randall              31200                                                                                                                                                                                                                      
+Peter                30000                                                                                                                                                                                                                      
+Eleni               126000                                                                                                                                                                                                                      
+Ellen               132000                                                                                                                                                                                                                      
+Jonathon            103200                                                                                                                                                                                                                      
+Kimerely             84000                                                                                                                                                                                                                      
+Jennifer             52800                                                                                                                                                                                                                      
+Michael             156000                                                                                                                                                                                                                      
+Pat                  72000                                                                                                                                                                                                                      
+Shelley             144000                                                                                                                                                                                                                      
+William              99600                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> CREATE TABLE E4 AS SELECT FIRST_NAME , SALARY * 12 ANN_SAL FROM EMPLOYEES;
+
+Table created.
+
+SQL> DESC E4
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ ANN_SAL                                                                                                                                            NUMBER
+
+SQL> SELECT * FROM E4;
+
+FIRST_NAME         ANN_SAL                                                                                                                                                                                                                      
+--------------- ----------                                                                                                                                                                                                                      
+Steven              288000                                                                                                                                                                                                                      
+Neena               204000                                                                                                                                                                                                                      
+Lex                 204000                                                                                                                                                                                                                      
+Alexander           108000                                                                                                                                                                                                                      
+Bruce                72000                                                                                                                                                                                                                      
+Diana                50400                                                                                                                                                                                                                      
+Kevin                69600                                                                                                                                                                                                                      
+Trenna               42000                                                                                                                                                                                                                      
+Curtis               37200                                                                                                                                                                                                                      
+Randall              31200                                                                                                                                                                                                                      
+Peter                30000                                                                                                                                                                                                                      
+Eleni               126000                                                                                                                                                                                                                      
+Ellen               132000                                                                                                                                                                                                                      
+Jonathon            103200                                                                                                                                                                                                                      
+Kimerely             84000                                                                                                                                                                                                                      
+Jennifer             52800                                                                                                                                                                                                                      
+Michael             156000                                                                                                                                                                                                                      
+Pat                  72000                                                                                                                                                                                                                      
+Shelley             144000                                                                                                                                                                                                                      
+William              99600                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> CREATE TABLE E5 AS SELECT UPPER(FIRST_NAME) NAME , UPPER(LAST_NAME) FROM EMPLOYEES;
+CREATE TABLE E5 AS SELECT UPPER(FIRST_NAME) NAME , UPPER(LAST_NAME) FROM EMPLOYEES
+                                                   *
+ERROR at line 1:
+ORA-00998: must name this expression with a column alias 
+
+
+SQL> CREATE TABLE E5 AS SELECT UPPER(FIRST_NAME) NAME , UPPER(LAST_NAME) SURNAME FROM EMPLOYEES;
+
+Table created.
+
+SQL> DESC E5
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ NAME                                                                                                                                               VARCHAR2(15)
+ SURNAME                                                                                                                                            VARCHAR2(15)
+
+SQL> SELECT * FROM E5;
+
+NAME            SURNAME                                                                                                                                                                                                                         
+--------------- ---------------                                                                                                                                                                                                                 
+STEVEN          KING                                                                                                                                                                                                                            
+NEENA           KOCHHAR                                                                                                                                                                                                                         
+LEX             DE HAAN                                                                                                                                                                                                                         
+ALEXANDER       HUNOLD                                                                                                                                                                                                                          
+BRUCE           ERNST                                                                                                                                                                                                                           
+DIANA           LORENTZ                                                                                                                                                                                                                         
+KEVIN           MOURGOS                                                                                                                                                                                                                         
+TRENNA          RAJS                                                                                                                                                                                                                            
+CURTIS          DAVIES                                                                                                                                                                                                                          
+RANDALL         MATOS                                                                                                                                                                                                                           
+PETER           VARGAS                                                                                                                                                                                                                          
+ELENI           ZLOTKEY                                                                                                                                                                                                                         
+ELLEN           ABEL                                                                                                                                                                                                                            
+JONATHON        TAYLOR                                                                                                                                                                                                                          
+KIMERELY        GRANT                                                                                                                                                                                                                           
+JENNIFER        WHALEN                                                                                                                                                                                                                          
+MICHAEL         HARTSTEIN                                                                                                                                                                                                                       
+PAT             FAY                                                                                                                                                                                                                             
+SHELLEY         HIGGINS                                                                                                                                                                                                                         
+WILLIAM         GIETZ                                                                                                                                                                                                                           
+
+20 rows selected.
+
+SQL> CREATE TABLE E6 AS SELECT CONCAT(UPPER(FIRST_NAME)||' ', UPPER(LAST_NAME)) FULLNAME , SALARY * COMMISSION_PCT COMM_AMT FROM EMPLOYEES;
+
+Table created.
+
+SQL> DESC E6
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ FULLNAME                                                                                                                                           VARCHAR2(31)
+ COMM_AMT                                                                                                                                           NUMBER
+
+SQL> SELECT * FROM E6;
+
+FULLNAME                          COMM_AMT                                                                                                                                                                                                      
+------------------------------- ----------                                                                                                                                                                                                      
+STEVEN KING                                                                                                                                                                                                                                     
+NEENA KOCHHAR                                                                                                                                                                                                                                   
+LEX DE HAAN                                                                                                                                                                                                                                     
+ALEXANDER HUNOLD                                                                                                                                                                                                                                
+BRUCE ERNST                                                                                                                                                                                                                                     
+DIANA LORENTZ                                                                                                                                                                                                                                   
+KEVIN MOURGOS                                                                                                                                                                                                                                   
+TRENNA RAJS                                                                                                                                                                                                                                     
+CURTIS DAVIES                                                                                                                                                                                                                                   
+RANDALL MATOS                                                                                                                                                                                                                                   
+PETER VARGAS                                                                                                                                                                                                                                    
+ELENI ZLOTKEY                         2100                                                                                                                                                                                                      
+ELLEN ABEL                            3300                                                                                                                                                                                                      
+JONATHON TAYLOR                       2580                                                                                                                                                                                                      
+KIMERELY GRANT                        1050                                                                                                                                                                                                      
+JENNIFER WHALEN                                                                                                                                                                                                                                 
+MICHAEL HARTSTEIN                                                                                                                                                                                                                               
+PAT FAY                                                                                                                                                                                                                                         
+SHELLEY HIGGINS                                                                                                                                                                                                                                 
+WILLIAM GIETZ                                                                                                                                                                                                                                   
+
+20 rows selected.
+
+SQL> CERATE TABLE E7 AS SELECT DEPARTMENT_ID , SUM(SALARY) DEPT_TOTAL_SAL FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+SP2-0734: unknown command beginning "CERATE TAB..." - rest of line ignored.
+SQL> 
+SQL> CREATE TABLE E7 AS SELECT DEPARTMENT_ID , SUM(SALARY) DEPT_TOTAL_SAL FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+Table created.
+
+SQL> DESC E7
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+ DEPT_TOTAL_SAL                                                                                                                                     NUMBER
+
+SQL> SELECT * FROM E7;
+
+DEPARTMENT_ID DEPT_TOTAL_SAL                                                                                                                                                                                                                    
+------------- --------------                                                                                                                                                                                                                    
+                        7000                                                                                                                                                                                                                    
+           90          58000                                                                                                                                                                                                                    
+           20          19000                                                                                                                                                                                                                    
+          110          20300                                                                                                                                                                                                                    
+           50          17500                                                                                                                                                                                                                    
+           80          30100                                                                                                                                                                                                                    
+           60          19200                                                                                                                                                                                                                    
+           10           4400                                                                                                                                                                                                                    
+
+8 rows selected.
+
+SQL> CREATE TABLE E8 AS SELECT DEPARTMENT_ID , SUM(SALARY) DEPT_TOTAL_SAL FROM EMPLOYEES GROUP BY DEPARTMENT_ID HAVING SUM(SALARY) > 30000;
+
+Table created.
+
+SQL> DESC E8
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                                                      NUMBER(4)
+ DEPT_TOTAL_SAL                                                                                                                                     NUMBER
+
+SQL> SELECT* FROM E8;
+
+DEPARTMENT_ID DEPT_TOTAL_SAL                                                                                                                                                                                                                    
+------------- --------------                                                                                                                                                                                                                    
+           90          58000                                                                                                                                                                                                                    
+           80          30100                                                                                                                                                                                                                    
+
+SQL> CREATE TABLE E9 AS SELECT FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  JOIN DEPARTMENTS USING (DEPARTMENT_ID);
+
+Table created.
+
+SQL> DESC E9
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+ DEPARTMENT_NAME                                                                                                                           NOT NULL VARCHAR2(30)
+
+SQL> SELECT * FROM E9;
+
+FIRST_NAME      DEPARTMENT_NAME                                                                                                                                                                                                                 
+--------------- ------------------------------                                                                                                                                                                                                  
+Jennifer        Administration                                                                                                                                                                                                                  
+Michael         Marketing                                                                                                                                                                                                                       
+Pat             Marketing                                                                                                                                                                                                                       
+Kevin           Shiping                                                                                                                                                                                                                         
+Peter           Shiping                                                                                                                                                                                                                         
+Randall         Shiping                                                                                                                                                                                                                         
+Curtis          Shiping                                                                                                                                                                                                                         
+Trenna          Shiping                                                                                                                                                                                                                         
+Diana           IT                                                                                                                                                                                                                              
+Bruce           IT                                                                                                                                                                                                                              
+Alexander       IT                                                                                                                                                                                                                              
+Ellen           Sales                                                                                                                                                                                                                           
+Eleni           Sales                                                                                                                                                                                                                           
+Jonathon        Sales                                                                                                                                                                                                                           
+Lex             Executive                                                                                                                                                                                                                       
+Steven          Executive                                                                                                                                                                                                                       
+Neena           Executive                                                                                                                                                                                                                       
+William         Accounting                                                                                                                                                                                                                      
+Shelley         Accounting                                                                                                                                                                                                                      
+
+19 rows selected.
+
+SQL> CREATE TABLE D10 AS SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID;
+
+Table created.
+
+SQL> DESC D10
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ JOB_ID                                                                                                                                    NOT NULL VARCHAR2(10)
+ JOB_MIN_SAL                                                                                                                                        NUMBER
+ JOB_MAX_SAL                                                                                                                                        NUMBER
+
+SQL> SELECT * FROM D10;
+
+JOB_ID     JOB_MIN_SAL JOB_MAX_SAL                                                                                                                                                                                                              
+---------- ----------- -----------                                                                                                                                                                                                              
+IT_PROG           4200        9000                                                                                                                                                                                                              
+AC_MGR           12000       12000                                                                                                                                                                                                              
+AC_ACCOUNT        8300        8300                                                                                                                                                                                                              
+ST_MAN            5800        5800                                                                                                                                                                                                              
+AD_ASST           4400        4400                                                                                                                                                                                                              
+AD_VP            17000       17000                                                                                                                                                                                                              
+SA_MAN           10500       10500                                                                                                                                                                                                              
+MK_MAN           13000       13000                                                                                                                                                                                                              
+AD_PRES          24000       24000                                                                                                                                                                                                              
+SA_REP            7000       11000                                                                                                                                                                                                              
+MK_REP            6000        6000                                                                                                                                                                                                              
+ST_CLERK          2500        3500                                                                                                                                                                                                              
+
+12 rows selected.
+
+SQL> SELECT * FROM JOB_GRADES;
+
+GRA LOWEST_SAL HIGHEST_SAL                                                                                                                                                                                                                      
+--- ---------- -----------                                                                                                                                                                                                                      
+A         1000        2999                                                                                                                                                                                                                      
+B         3000        5999                                                                                                                                                                                                                      
+C         6000        9999                                                                                                                                                                                                                      
+D        10000       14999                                                                                                                                                                                                                      
+E        15000       24999                                                                                                                                                                                                                      
+F        25000       40000                                                                                                                                                                                                                      
+
+6 rows selected.
+
+SQL> SELECT * FROM JOBS;
+
+JOB_ID     JOB_TITLE                           MIN_SALARY MAX_SALARY                                                                                                                                                                            
+---------- ----------------------------------- ---------- ----------                                                                                                                                                                            
+AD_PRES    President                                20000      40000                                                                                                                                                                            
+AD_VP      Administration Vice President            15000      30000                                                                                                                                                                            
+AD_ASST    Administration Assistant                  3000       6000                                                                                                                                                                            
+AC_MGR     Accounting Manager                        8200      16000                                                                                                                                                                            
+AC_ACCOUNT Public Accountant                         4200       9000                                                                                                                                                                            
+SA_MAN     Sales Manager                            10000      20000                                                                                                                                                                            
+SA_REP     Sales Representative                      6000      12000                                                                                                                                                                            
+ST_MAN     Stock Manager                             5500       8500                                                                                                                                                                            
+ST_CLERK   Stock Clerk                               2000       5000                                                                                                                                                                            
+IT_PROG    Programmer                                4000      10000                                                                                                                                                                            
+MK_MAN     Marketing Manager                         9000      15000                                                                                                                                                                            
+MK_REP     Marketing Representative                  4000       9000                                                                                                                                                                            
+
+12 rows selected.
+
+SQL> CREATE TABLE E11 AS SELECT JOB_TITLE , SUM(SALARY) FROM EMPLOYEES
+  2  NATURAL JOIN JOBS GROUP BY JOB_TITLE;
+CREATE TABLE E11 AS SELECT JOB_TITLE , SUM(SALARY) FROM EMPLOYEES
+                                       *
+ERROR at line 1:
+ORA-00998: must name this expression with a column alias 
+
+
+SQL> CREATE TABLE E11 AS SELECT JOB_TITLE , SUM(SALARY) JOB_SUM FROM EMPLOYEES
+  2  NATURAL JOIN JOBS GROUP BY JOB_TITLE;
+
+Table created.
+
+SQL> DESC E11
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ JOB_TITLE                                                                                                                                 NOT NULL VARCHAR2(35)
+ JOB_SUM                                                                                                                                            NUMBER
+
+SQL> SELECT * FROM E11;
+
+JOB_TITLE                              JOB_SUM                                                                                                                                                                                                  
+----------------------------------- ----------                                                                                                                                                                                                  
+Accounting Manager                       12000                                                                                                                                                                                                  
+Programmer                               19200                                                                                                                                                                                                  
+Sales Representative                     26600                                                                                                                                                                                                  
+Administration Vice President            34000                                                                                                                                                                                                  
+Marketing Representative                  6000                                                                                                                                                                                                  
+Stock Manager                             5800                                                                                                                                                                                                  
+Administration Assistant                  4400                                                                                                                                                                                                  
+President                                24000                                                                                                                                                                                                  
+Stock Clerk                              11700                                                                                                                                                                                                  
+Public Accountant                         8300                                                                                                                                                                                                  
+Marketing Manager                        13000                                                                                                                                                                                                  
+Sales Manager                            10500                                                                                                                                                                                                  
+
+12 rows selected.
+
+SQL> SELECT FIRST_NAME FROM EMPLOYEES;
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Steven                                                                                                                                                                                                                                          
+Neena                                                                                                                                                                                                                                           
+Lex                                                                                                                                                                                                                                             
+Alexander                                                                                                                                                                                                                                       
+Bruce                                                                                                                                                                                                                                           
+Diana                                                                                                                                                                                                                                           
+Kevin                                                                                                                                                                                                                                           
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+Eleni                                                                                                                                                                                                                                           
+Ellen                                                                                                                                                                                                                                           
+Jonathon                                                                                                                                                                                                                                        
+Kimerely                                                                                                                                                                                                                                        
+Jennifer                                                                                                                                                                                                                                        
+Michael                                                                                                                                                                                                                                         
+Pat                                                                                                                                                                                                                                             
+Shelley                                                                                                                                                                                                                                         
+William                                                                                                                                                                                                                                         
+
+20 rows selected.
+
+SQL> SELECT ENAME FROM MPSEMP;
+
+ENAME                                                                                                                                                                                                                                           
+----------                                                                                                                                                                                                                                      
+GANESH                                                                                                                                                                                                                                          
+KING                                                                                                                                                                                                                                            
+CLARK                                                                                                                                                                                                                                           
+JONES                                                                                                                                                                                                                                           
+FORD                                                                                                                                                                                                                                            
+BLAKE                                                                                                                                                                                                                                           
+SMITH                                                                                                                                                                                                                                           
+ALLEN                                                                                                                                                                                                                                           
+WARD                                                                                                                                                                                                                                            
+MARTIN                                                                                                                                                                                                                                          
+SCOTT                                                                                                                                                                                                                                           
+TURNER                                                                                                                                                                                                                                          
+ADAMS                                                                                                                                                                                                                                           
+JAMES                                                                                                                                                                                                                                           
+MILLER                                                                                                                                                                                                                                          
+
+15 rows selected.
+
+SQL> CREATE TABLE E12 AS SELECT FIRST_NAME FROM EMPLOYEES
+  2  UNION ALL
+  3  SELECT ENAME FROM MPSEMP;
+
+Table created.
+
+SQL> DESC E12
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ FIRST_NAME                                                                                                                                         VARCHAR2(15)
+
+SQL> SELECT * FROM E12;
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+Steven                                                                                                                                                                                                                                          
+Neena                                                                                                                                                                                                                                           
+Lex                                                                                                                                                                                                                                             
+Alexander                                                                                                                                                                                                                                       
+Bruce                                                                                                                                                                                                                                           
+Diana                                                                                                                                                                                                                                           
+Kevin                                                                                                                                                                                                                                           
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+Eleni                                                                                                                                                                                                                                           
+Ellen                                                                                                                                                                                                                                           
+Jonathon                                                                                                                                                                                                                                        
+Kimerely                                                                                                                                                                                                                                        
+Jennifer                                                                                                                                                                                                                                        
+Michael                                                                                                                                                                                                                                         
+Pat                                                                                                                                                                                                                                             
+Shelley                                                                                                                                                                                                                                         
+William                                                                                                                                                                                                                                         
+GANESH                                                                                                                                                                                                                                          
+
+FIRST_NAME                                                                                                                                                                                                                                      
+---------------                                                                                                                                                                                                                                 
+KING                                                                                                                                                                                                                                            
+CLARK                                                                                                                                                                                                                                           
+JONES                                                                                                                                                                                                                                           
+FORD                                                                                                                                                                                                                                            
+BLAKE                                                                                                                                                                                                                                           
+SMITH                                                                                                                                                                                                                                           
+ALLEN                                                                                                                                                                                                                                           
+WARD                                                                                                                                                                                                                                            
+MARTIN                                                                                                                                                                                                                                          
+SCOTT                                                                                                                                                                                                                                           
+TURNER                                                                                                                                                                                                                                          
+ADAMS                                                                                                                                                                                                                                           
+JAMES                                                                                                                                                                                                                                           
+MILLER                                                                                                                                                                                                                                          
+
+35 rows selected.
+
+SQL> CREATE TABLE E12 AS SELECT FIRST_NAME NAMES FROM EMPLOYEES
+  2  UNION ALL
+  3  SELECT ENAME FROM MPSEMP
+  4  
+SQL> CREATE TABLE E13 AS SELECT FIRST_NAME NAMES FROM EMPLOYEES
+  2  UNION ALL
+  3  SELECT ENAME FROM MPSEMP;
+
+Table created.
+
+SQL> SELECT * FROM E13;
+
+NAMES                                                                                                                                                                                                                                           
+---------------                                                                                                                                                                                                                                 
+Steven                                                                                                                                                                                                                                          
+Neena                                                                                                                                                                                                                                           
+Lex                                                                                                                                                                                                                                             
+Alexander                                                                                                                                                                                                                                       
+Bruce                                                                                                                                                                                                                                           
+Diana                                                                                                                                                                                                                                           
+Kevin                                                                                                                                                                                                                                           
+Trenna                                                                                                                                                                                                                                          
+Curtis                                                                                                                                                                                                                                          
+Randall                                                                                                                                                                                                                                         
+Peter                                                                                                                                                                                                                                           
+Eleni                                                                                                                                                                                                                                           
+Ellen                                                                                                                                                                                                                                           
+Jonathon                                                                                                                                                                                                                                        
+Kimerely                                                                                                                                                                                                                                        
+Jennifer                                                                                                                                                                                                                                        
+Michael                                                                                                                                                                                                                                         
+Pat                                                                                                                                                                                                                                             
+Shelley                                                                                                                                                                                                                                         
+William                                                                                                                                                                                                                                         
+GANESH                                                                                                                                                                                                                                          
+
+NAMES                                                                                                                                                                                                                                           
+---------------                                                                                                                                                                                                                                 
+KING                                                                                                                                                                                                                                            
+CLARK                                                                                                                                                                                                                                           
+JONES                                                                                                                                                                                                                                           
+FORD                                                                                                                                                                                                                                            
+BLAKE                                                                                                                                                                                                                                           
+SMITH                                                                                                                                                                                                                                           
+ALLEN                                                                                                                                                                                                                                           
+WARD                                                                                                                                                                                                                                            
+MARTIN                                                                                                                                                                                                                                          
+SCOTT                                                                                                                                                                                                                                           
+TURNER                                                                                                                                                                                                                                          
+ADAMS                                                                                                                                                                                                                                           
+JAMES                                                                                                                                                                                                                                           
+MILLER                                                                                                                                                                                                                                          
+
+35 rows selected.
+
+SQL> SELECT * FROM MPSSTAFF;
+
+NAME                                                                                                                                                                                                                                            
+----------                                                                                                                                                                                                                                      
+ASHWIN                                                                                                                                                                                                                                          
+SARITA                                                                                                                                                                                                                                          
+BIMAL                                                                                                                                                                                                                                           
+
+SQL> SELECT * FROM MPSSUBJECT;
+
+NAME                                                                                                                                                                                                                                            
+----------                                                                                                                                                                                                                                      
+TOEFL                                                                                                                                                                                                                                           
+GMAT                                                                                                                                                                                                                                            
+SAT                                                                                                                                                                                                                                             
+GRE                                                                                                                                                                                                                                             
+
+SQL> SELECT * FROM MPSCANTEACH;
+
+STAFF      SUBJECT                                                                                                                                                                                                                              
+---------- ----------                                                                                                                                                                                                                           
+ASHWIN     TOEFL                                                                                                                                                                                                                                
+ASHWIN     GRE                                                                                                                                                                                                                                  
+SARITA     GMAT                                                                                                                                                                                                                                 
+BIMAL      SAT                                                                                                                                                                                                                                  
+
+SQL> SELECT MANAGER_ID , COUNT(CASE WHEN JOB_ID = 'ST_CLERK' THEN '*' END) ST_CLERK_CNT,
+  2                      SUM  (CASE WHEN JOB_ID = 'IT_PROG' THEN SALARY END) IT_PROG_SUM,
+  3                      MAX  (CASE WHEN JOB_ID = 'AD_VP' THEN SALARY END) AD_VP_MAX,
+  4                      MIN  (CASE WHEN DEPARTMENT_ID = 80 THEN SALARY END) DEPT_80_MIN,
+  5                      AVG  (CASE WHEN DEPARTMENT_ID = 110 THEN SALARY END) DEPT_110_AVG
+  6  FROM EMPLOYEES
+  7  GROUP BY MANAGER_ID;
+
+MANAGER_ID ST_CLERK_CNT IT_PROG_SUM  AD_VP_MAX DEPT_80_MIN DEPT_110_AVG                                                                                                                                                                         
+---------- ------------ ----------- ---------- ----------- ------------                                                                                                                                                                         
+                      0                                                                                                                                                                                                                         
+       100            0                  17000       10500                                                                                                                                                                                      
+       149            0                               8600                                                                                                                                                                                      
+       205            0                                            8300                                                                                                                                                                         
+       102            0        9000                                                                                                                                                                                                             
+       201            0                                                                                                                                                                                                                         
+       101            0                                           12000                                                                                                                                                                         
+       124            4                                                                                                                                                                                                                         
+       103            0       10200                                                                                                                                                                                                             
+
+9 rows selected.
+
+SQL> REM PCM : PIVOTE/CROSS TAB/MATRIX
+SQL> 
+SQL> SPOOL OFF

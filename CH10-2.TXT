@@ -1,0 +1,739 @@
+SQL> 
+SQL> 
+SQL> DESC REGIONS
+ Name                                                                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------------------------------------------------------- -------- --------------------------------------------------------------------------------------------
+ REGION_ID                                                                                                                                 NOT NULL NUMBER
+ REGION_NAME                                                                                                                                        VARCHAR2(25)
+
+SQL> REM NUMBER ,VARCHAR2 ,CHAR ,BFILE ,TIMESTAMP ,INTERVAL DAY TO SECOND ,DATE , NVARCHAR2, INTERVAL YEAR TO MONTH, TIMESTAMP WITH TIME ZONE,
+SQL> 
+SQL> REM TIMESTAMP WITH LOCAL TIME ZONE
+SQL> 
+SQL> 
+SQL> REM DEFAULT
+SQL> 
+SQL> REM CONSTRAINT
+SQL> 
+SQL> REM DEFAULT CAN BE USED TO SET DEFAULT VALUE FOR ANY COLUMN. THIS VALUE IS USED WHEN WE INSERT ROW BUT DON'T PROVIDE VALUE FOR THE COLUMN.
+SQL> 
+SQL> 
+SQL> CREATE TABLE INVOICE(INO NUMBER,IDT DATE DEFAULT SYSDATE,AMOUNT NUMBER);
+
+Table created.
+
+SQL> INSERT INTO INVOICE VALUES (1,SYSDATE-2,1500);
+
+1 row created.
+
+SQL> SELECT * FROM INVOICE;
+
+       INO IDT           AMOUNT                                                                                                                                                                                                                 
+---------- --------- ----------                                                                                                                                                                                                                 
+         1 17-JUN-21       1500                                                                                                                                                                                                                 
+
+SQL> INSERT INTO INVOICE (INO) VALUES (2);
+
+1 row created.
+
+SQL> SELECT * FROM INVOICE;
+
+       INO IDT           AMOUNT                                                                                                                                                                                                                 
+---------- --------- ----------                                                                                                                                                                                                                 
+         1 17-JUN-21       1500                                                                                                                                                                                                                 
+         2 19-JUN-21                                                                                                                                                                                                                            
+
+SQL> INSERT INTO INVOICE VALUES (3,DEFAULT,5600);
+
+1 row created.
+
+SQL> SELECT * FROM INVOICE;
+
+       INO IDT           AMOUNT                                                                                                                                                                                                                 
+---------- --------- ----------                                                                                                                                                                                                                 
+         1 17-JUN-21       1500                                                                                                                                                                                                                 
+         2 19-JUN-21                                                                                                                                                                                                                            
+         3 19-JUN-21       5600                                                                                                                                                                                                                 
+
+SQL> INSERT INTO INVOICE VALUES (4,NULL,5600);
+
+1 row created.
+
+SQL> SELECT * FROM INVOICE;
+
+       INO IDT           AMOUNT                                                                                                                                                                                                                 
+---------- --------- ----------                                                                                                                                                                                                                 
+         1 17-JUN-21       1500                                                                                                                                                                                                                 
+         2 19-JUN-21                                                                                                                                                                                                                            
+         3 19-JUN-21       5600                                                                                                                                                                                                                 
+         4                 5600                                                                                                                                                                                                                 
+
+SQL> DROP TABLE INVOICE;
+
+Table dropped.
+
+SQL> CREATE SEQUENCE INO;
+
+Sequence created.
+
+SQL> CREATE TABLE INVOICE(INO NUMBER DEFAULT INO.NEXTVAL,IDT DATE DEFAULT SYSDATE,AMOUNT NUMBER);
+
+Table created.
+
+SQL> INSERT INTO INVOICE (AMOUNT) VALUES (&AMT);
+Enter value for amt: 100
+old   1: INSERT INTO INVOICE (AMOUNT) VALUES (&AMT)
+new   1: INSERT INTO INVOICE (AMOUNT) VALUES (100)
+
+1 row created.
+
+SQL> /
+Enter value for amt: 2000
+old   1: INSERT INTO INVOICE (AMOUNT) VALUES (&AMT)
+new   1: INSERT INTO INVOICE (AMOUNT) VALUES (2000)
+
+1 row created.
+
+SQL> /
+Enter value for amt: 5600
+old   1: INSERT INTO INVOICE (AMOUNT) VALUES (&AMT)
+new   1: INSERT INTO INVOICE (AMOUNT) VALUES (5600)
+
+1 row created.
+
+SQL> SELECT * FROM INVOICE;
+
+       INO IDT           AMOUNT                                                                                                                                                                                                                 
+---------- --------- ----------                                                                                                                                                                                                                 
+         1 19-JUN-21        100                                                                                                                                                                                                                 
+         2 19-JUN-21       2000                                                                                                                                                                                                                 
+         3 19-JUN-21       5600                                                                                                                                                                                                                 
+
+SQL> SELECT INO.NEXTVAL FROM DUAL;
+
+   NEXTVAL                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+         4                                                                                                                                                                                                                                      
+
+SQL> /
+
+   NEXTVAL                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+         5                                                                                                                                                                                                                                      
+
+SQL> INSERT INTO INVOICE (AMOUNT) VALUES (&AMT);
+Enter value for amt: 6500
+old   1: INSERT INTO INVOICE (AMOUNT) VALUES (&AMT)
+new   1: INSERT INTO INVOICE (AMOUNT) VALUES (6500)
+
+1 row created.
+
+SQL> SELECT * FROM INVOICE;
+
+       INO IDT           AMOUNT                                                                                                                                                                                                                 
+---------- --------- ----------                                                                                                                                                                                                                 
+         1 19-JUN-21        100                                                                                                                                                                                                                 
+         2 19-JUN-21       2000                                                                                                                                                                                                                 
+         3 19-JUN-21       5600                                                                                                                                                                                                                 
+         6 19-JUN-21       6500                                                                                                                                                                                                                 
+
+SQL> REM CONSTRAINTS : IT IS NOTHING BUT DATA VALIDATION RULES
+SQL> 
+SQL> REM 5 TYPES OF CONSTRIANTS : 1 CHECK 2 NOT NULL 3 UNIQUE 4 PRIMARY 5 REFERENCES
+SQL> 
+SQL> CREATE TABLE STD5A(RNO NUMBER(2),NM VARCHAR2(10));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (1,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (0,'SIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (-4,'SHUBH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (-5,'LABH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (NULL,'LAKSHMI');
+
+1 row created.
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                                                           
+         1 GANESH                                                                                                                                                                                                                               
+         1 RIDDHI                                                                                                                                                                                                                               
+         0 SIDDHI                                                                                                                                                                                                                               
+        -4 SHUBH                                                                                                                                                                                                                                
+        -5 LABH                                                                                                                                                                                                                                 
+           LAKSHMI                                                                                                                                                                                                                              
+
+6 rows selected.
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30),NM VARCHAR2(10));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (1,'RIDDHI');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (0,'SIDDHI');
+INSERT INTO STD5A VALUES (0,'SIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016666) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (-4,'SHUBH');
+INSERT INTO STD5A VALUES (-4,'SHUBH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016666) violated 
+
+
+SQL> 
+SQL> INSERT INTO STD5A VALUES (-5,'LABH');
+INSERT INTO STD5A VALUES (-5,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016666) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (NULL,'LAKSHMI');
+
+1 row created.
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                                                           
+         1 GANESH                                                                                                                                                                                                                               
+         1 RIDDHI                                                                                                                                                                                                                               
+           LAKSHMI                                                                                                                                                                                                                              
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30) NOT NULL,NM VARCHAR2(10));
+
+Table created.
+
+SQL> 
+SQL> INSERT INTO STD5A VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (1,'RIDDHI');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO STD5A VALUES (0,'SIDDHI');
+INSERT INTO STD5A VALUES (0,'SIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016668) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (-4,'SHUBH');
+INSERT INTO STD5A VALUES (-4,'SHUBH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016668) violated 
+
+
+SQL> 
+SQL> INSERT INTO STD5A VALUES (-5,'LABH');
+INSERT INTO STD5A VALUES (-5,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016668) violated 
+
+
+SQL>  INSERT INTO STD5A VALUES (NULL,'LAKSHMI');
+ INSERT INTO STD5A VALUES (NULL,'LAKSHMI')
+                           *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STD5A"."RNO") 
+
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                                                           
+         1 GANESH                                                                                                                                                                                                                               
+         1 RIDDHI                                                                                                                                                                                                                               
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30) NOT NULL UNIQUE,NM VARCHAR2(10));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (1,'RIDDHI');
+INSERT INTO STD5A VALUES (1,'RIDDHI')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0016671) violated 
+
+
+SQL> 
+SQL> INSERT INTO STD5A VALUES (0,'SIDDHI');
+INSERT INTO STD5A VALUES (0,'SIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016670) violated 
+
+
+SQL> 
+SQL> INSERT INTO STD5A VALUES (NULL,'LAKSHMI');
+INSERT INTO STD5A VALUES (NULL,'LAKSHMI')
+                          *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STD5A"."RNO") 
+
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> REM CHECK , NOT NULL , UNIQUE
+SQL> 
+SQL> REM PRIMARY KEY = UNIQUE + NOT NULL
+SQL> 
+SQL> REM PRIMARY KEY CONSTRAINT CAN BE USED SINGLE TIME PER TABLE.
+SQL> 
+SQL> 
+SQL> 
+SQL> REM PRIMARY KEY : PER TABLE 1 TIME
+SQL> 
+SQL> REM ALL OTHER CONSTRAINTS : PER TABLE MULTIPLE TIMES
+SQL> 
+SQL> REM CHECK , REFERENCES : PER COLUMN MULTIPLE TIMES
+SQL> 
+SQL> REM NOT NULL , UNIQUE : PER COLUMN SINGLE TIME
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30) PRIMARY KEY,NM VARCHAR2(10));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (1,'RIDDHI');
+INSERT INTO STD5A VALUES (1,'RIDDHI')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0016673) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (0,'SIDDHI');
+INSERT INTO STD5A VALUES (0,'SIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016672) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (-5,'LABH');
+INSERT INTO STD5A VALUES (-5,'LABH')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016672) violated 
+
+
+SQL>  INSERT INTO STD5A VALUES (NULL,'LAKSHMI');
+ INSERT INTO STD5A VALUES (NULL,'LAKSHMI')
+                           *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STD5A"."RNO") 
+
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                                                           
+         1 GANESH                                                                                                                                                                                                                               
+
+SQL> INSERT INTO STD5A VALUES (2,'Riddhi');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (3,'siddhi');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (4,'ShUbH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (5,'laBH');
+
+1 row created.
+
+SQL> SELECT * FROM STD5A;
+
+       RNO NM                                                                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                                                           
+         1 GANESH                                                                                                                                                                                                                               
+         2 Riddhi                                                                                                                                                                                                                               
+         3 siddhi                                                                                                                                                                                                                               
+         4 ShUbH                                                                                                                                                                                                                                
+         5 laBH                                                                                                                                                                                                                                 
+
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CHECK(RNO BETWEEN 1 AND 30) PRIMARY KEY,NM VARCHAR2(10) CHECK (NM = UPPER(NM)));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (2,'Riddhi');
+INSERT INTO STD5A VALUES (2,'Riddhi')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016675) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (1,'RIDDHI');
+INSERT INTO STD5A VALUES (1,'RIDDHI')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0016676) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (-1,'RIDDHI');
+INSERT INTO STD5A VALUES (-1,'RIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SYS_C0016674) violated 
+
+
+SQL> REM CONSTRAINT NAME MUST BE UNIQUE IN WHOLE DATABASE.
+SQL> 
+SQL> REM SCOTT : PQR , ABC , XYZ : PQR X
+SQL> 
+SQL> REM HR : PQR , ABC
+SQL> 
+SQL> REM CONSTRAINT NAMING CONVENTION : USERNAME_TABLENAME_COLUMNNAME_CONSTRAINTTYPE_NUMBER
+SQL> 
+SQL> DROP TABLE STD5A;
+
+Table dropped.
+
+SQL> CREATE TABLE STD5A(RNO NUMBER(2) CONSTRAINT SCOTT_STD5A_RNO_CH_01 CHECK(RNO BETWEEN 1 AND 30) CONSTRAINT SCOTT_STD5A_RNO_PK PRIMARY KEY,NM VARCHAR2(10) CONSTRAINT SCOTT_STD5A_NM_CH_01 CHECK (NM = UPPER(NM)));
+
+Table created.
+
+SQL> INSERT INTO STD5A VALUES (1,'GANESH');
+
+1 row created.
+
+SQL> INSERT INTO STD5A VALUES (2,'Riddhi');
+INSERT INTO STD5A VALUES (2,'Riddhi')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SCOTT_STD5A_NM_CH_01) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (1,'RIDDHI');
+INSERT INTO STD5A VALUES (1,'RIDDHI')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SCOTT_STD5A_RNO_PK) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (NULL,'RIDDHI');
+INSERT INTO STD5A VALUES (NULL,'RIDDHI')
+                          *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STD5A"."RNO") 
+
+
+SQL> INSERT INTO STD5A VALUES (-1,'RIDDHI');
+INSERT INTO STD5A VALUES (-1,'RIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SCOTT_STD5A_RNO_CH_01) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (-1,'riddhi');
+INSERT INTO STD5A VALUES (-1,'riddhi')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SCOTT_STD5A_NM_CH_01) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (-1,'RIDDHI');
+INSERT INTO STD5A VALUES (-1,'RIDDHI')
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.SCOTT_STD5A_RNO_CH_01) violated 
+
+
+SQL> INSERT INTO STD5A VALUES (10,'RIDDHI');
+
+1 row created.
+
+SQL> DROP TABLE EMP PURGE;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP(ENO NUMBER(4) PRIMARY KEY,ENM VARCHAR2(10),MGR NUMBER(4));
+
+Table created.
+
+SQL> INSERT INTO EMP VALUES (1,'GANESH',NULL);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (2,'RIDDHI',1);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',4);
+
+1 row created.
+
+SQL> SELECT * FROM EMP;
+
+       ENO ENM               MGR                                                                                                                                                                                                                
+---------- ---------- ----------                                                                                                                                                                                                                
+         1 GANESH                                                                                                                                                                                                                               
+         2 RIDDHI              1                                                                                                                                                                                                                
+         3 SIDDHI              4                                                                                                                                                                                                                
+
+SQL> INSERT INTO EMP VALUES (3,'LABH',NULL);
+INSERT INTO EMP VALUES (3,'LABH',NULL)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C0016680) violated 
+
+
+SQL> INSERT INTO EMP VALUES (NULL,'LABH',NULL);
+INSERT INTO EMP VALUES (NULL,'LABH',NULL)
+                        *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."EMP"."ENO") 
+
+
+SQL> DROP TABLE EMP PURGE;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP(ENO NUMBER(4) PRIMARY KEY,ENM VARCHAR2(10),MGR NUMBER(4) REFERENCES EMP(ENO));
+
+Table created.
+
+SQL> INSERT INTO EMP VALUES (1,'GANESH',NULL);
+
+1 row created.
+
+SQL>  INSERT INTO EMP VALUES (2,'RIDDHI',1);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (3,'SIDDHI',4);
+INSERT INTO EMP VALUES (3,'SIDDHI',4)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0016682) violated - parent key not found 
+
+
+SQL> SELECT * FROM EMP;
+
+       ENO ENM               MGR                                                                                                                                                                                                                
+---------- ---------- ----------                                                                                                                                                                                                                
+         1 GANESH                                                                                                                                                                                                                               
+         2 RIDDHI              1                                                                                                                                                                                                                
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP(ENO NUMBER(4) PRIMARY KEY,ENM VARCHAR2(10),MGR NUMBER(4) REFERENCES EMP);
+
+Table created.
+
+SQL> DROP TABLE EMP;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP(ENO NUMBER(4) UNIQUE NOT NULL,ENM VARCHAR2(10),MGR NUMBER(4) REFERENCES EMP);
+CREATE TABLE EMP(ENO NUMBER(4) UNIQUE NOT NULL,ENM VARCHAR2(10),MGR NUMBER(4) REFERENCES EMP)
+                                                                                         *
+ERROR at line 1:
+ORA-02268: referenced table does not have a primary key 
+
+
+SQL> CREATE TABLE EMP(ENO NUMBER(4) UNIQUE NOT NULL,ENM VARCHAR2(10),MGR NUMBER(4) REFERENCES EMP(ENO));
+
+Table created.
+
+SQL> DROP TABLE EMP PURGE;
+
+Table dropped.
+
+SQL> CREATE TABLE EMP(ENO NUMBER(4) NOT NULL,ENM VARCHAR2(10),MGR NUMBER(4) REFERENCES EMP(ENO));
+CREATE TABLE EMP(ENO NUMBER(4) NOT NULL,ENM VARCHAR2(10),MGR NUMBER(4) REFERENCES EMP(ENO))
+                                                                                  *
+ERROR at line 1:
+ORA-02270: no matching unique or primary key for this column-list 
+
+
+SQL> DROP TABLE EMP PURGE;
+DROP TABLE EMP PURGE
+           *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> REM ACROSS TABLE RELATIONSHIP
+SQL> 
+SQL> CREATE TABLE DEPT(DID NUMBER(2) PRIMARY KEY CHECK(DID >0),DNM VARCHAR2(10));
+
+Table created.
+
+SQL> CREATE TABLE EMP(EID NUMBER(4) PRIMARY KEY CHECK(EID>0),ENM VARCHAR2(10),MGR NUMBER(4) REFERENCES EMP,DID NUMBER(2) REFERENCES DEPT);
+
+Table created.
+
+SQL> REM DEPT IS PARENT TABLE, EMP IS CHILD TABLE
+SQL> 
+SQL> INSERT INTO DEPT VALUES (10,'ACC');
+
+1 row created.
+
+SQL> INSERT INTO DEPT VALUES (20,'RES');
+
+1 row created.
+
+SQL> INSERT INTO DEPT VALUES (30,'SAL');
+
+1 row created.
+
+SQL> 
+SQL> SELECT* FROM DEPT;
+
+       DID DNM                                                                                                                                                                                                                                  
+---------- ----------                                                                                                                                                                                                                           
+        10 ACC                                                                                                                                                                                                                                  
+        20 RES                                                                                                                                                                                                                                  
+        30 SAL                                                                                                                                                                                                                                  
+
+SQL> INSERT INTO EMP VALUES (101,'GANESH',NULL,10);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (102,'RIDDHI',101,10);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (103,'SIDDHI',104,10);
+INSERT INTO EMP VALUES (103,'SIDDHI',104,10)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0016692) violated - parent key not found 
+
+
+SQL> REM WHEN WE TAKE REFERENCE OF PRIMARY KEY, IT IS OPTIONAL TO LIST COLUMN NAME IN REFERENCES CONSTRAINT.
+SQL> 
+SQL> REM WHEN WE TAKE REFERENCE OF UNIQUE COLUMN, IT IS MANDATORY TO LIST COLUMN NAME IN REFERENCES CONSTRAINT.
+SQL> 
+SQL> 
+SQL> INSERT INTO EMP VALUES (103,'SIDDHI',102,20);
+
+1 row created.
+
+SQL> INSERT INTO EMP VALUES (104,'LABH',102,40);
+INSERT INTO EMP VALUES (104,'LABH',102,40)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SCOTT.SYS_C0016693) violated - parent key not found 
+
+
+SQL> SELECT * FROM DEPT;
+
+       DID DNM                                                                                                                                                                                                                                  
+---------- ----------                                                                                                                                                                                                                           
+        10 ACC                                                                                                                                                                                                                                  
+        20 RES                                                                                                                                                                                                                                  
+        30 SAL                                                                                                                                                                                                                                  
+
+SQL> SELECT * FROM EMP;
+
+       EID ENM               MGR        DID                                                                                                                                                                                                     
+---------- ---------- ---------- ----------                                                                                                                                                                                                     
+       101 GANESH                        10                                                                                                                                                                                                     
+       102 RIDDHI            101         10                                                                                                                                                                                                     
+       103 SIDDHI            102         20                                                                                                                                                                                                     
+
+SQL> REM LEVELS OF CONSTRIANTS : 1 COLUMN LEVEL 2 TABLE LEVEL
+SQL> 
+SQL> REM COLUMN LEVEL CONSTRAINTS ARE PLACED WITH COLUMN DEFINITION ONLY, IT CAN REFER SINGLE COLUMN ONLY OR COLUMN ITSELF
+SQL> 
+SQL> REM TABLE LEVEL CONSTRAINTS ARE PLACED AT THE END OF TABLE DEFINITION AFTER LAST COLUMN DEFINITION.
+SQL> 
+SQL> 
+SQL> REM TABLE LEVEL CONSTRAINTS CAN REFER MULTIPLE COLUMNS OF THE TABLE.
+SQL> 
+SQL> REM SCHOOL : REGISTER_NUMBER : UNIQUENESS
+SQL> 
+SQL> 
+SQL> REM SCHOOL : BOARD || MED || STD || DIV || RNO
+SQL> 
+SQL> REM          C        E      5      A      1
+SQL> REM          C        E      5      A      2
+SQL> REM          C        E      5      A      3
+SQL> REM          C        E      5      B      1
+SQL> REM          C        E      5      B      2
+SQL> REM          C        E      5      B      3
+SQL> REM          C        E      6      A      1
+SQL> REM          C        E      6      A      2
+SQL> REM          C        E      6      A      3
+SQL> REM          I        E      5      A      1
+SQL> 
+SQL> 
+SQL> REM TABLE LEVEL CONSTRAINTS
+SQL> 
+SQL> REM RELATIONSHIP TYPES BETWEEN TABLES
+SQL> 
+SQL> REM CREATE TABLE USING SUB QUERY
+SQL> 
+SQL> SPOOL OFF

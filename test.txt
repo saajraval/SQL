@@ -1,0 +1,178 @@
+
+1)     DISPLAY LAST_NAME , HIRE_DATE AND PAY_ROLL_DATE. PAY_ROLL_DATE IS ON 25th TUESDAY AFTER HIS/HER JOINING.
+ANS -> SELECT HIRE_DATE , NEXT_DAY(HIRE_DATE+(24*7),'TUE') FROM EMPLOYEES
+
+2)     DISPLAY FIRST_NAME , COMMISSION_PCT. SORT THE ROWS SO THAT ROWS WITH COMMISSION_PCT .15 AND .2 DISPLAYS AT THE TOP. ALL ROWS WITH NULL COMMISSION_PCT IN THE MIDDLE AND ROWS WITH COMMISSION_PCT .3 AT THE BOTTOM.
+ANS->  SELECT FIRST_NAME,COMMISSION_PCT FROM EMPLOYEES  ORDER BY NVL(COMMISSION_PCT,.21) ;
+
+3)     DISPLAY COMBINATIONS OF *, FIRST_NAME, LAST_NAME AND #. UNDER SINGLE COLUMNS HEADING. IT SHOULD DISPLAY OF LEFT OF FIRST_NAME MAKING TOTAL LENGTH 10. SAME WITH LAST_NAME PAD IT WITH # ON RIGHT MAKING LENGTH 10.
+
+4)	DISPLAY FIRST_NAME AND HIRE_DATE WHO WERE HIRED IN FIRST OR THIRD QUARTER OF ANY YEAR. SORT THE RESULT ON MONTH NUMBER.
+	WITHOUT USING INSTR FUNCTION, FIND THE COUNT OF 'e' IN FIRST_NAME COLUMN.
+
+	DISPLAY ONLY THOSE ROWS HAVING EITHER 'o' OR 'O' IN ANY OF THE FIRST_NAME , LAST_NAME OR EMAIL COLUMN. (USING SINGLE CONDITION)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DISPLAY FIRST_NAME , HIRE_DATE AND NO. OF YEARS, MONTHS AND DAYS HE HAS BEEN WORKING WITH COMPANY.
+5 points
+select first_name,hire_date,months_between(sysdate,hire_date)/12 from hr.employees
+
+
+
+DISPLAY FIRST_NAME WHICH HAS ALPHABET 'e' ON LAST POSITION AFTER REMOVING ALL OCCURENCES OF 'a' AND 'n' FROM RIGHT SIDE/END. *
+5 points
+select rtrim(first_name,'an') from hr.employees where first_name like '%e';
+
+
+
+DISPLAY NON-DUPLICATE COMBINATIONS OF MANAGER_ID , JOB_ID AND DEPARTMENT_ID BY COMBINING THEM IN SINGLE COLUMN WITH PROPER COLUMN HEADING. *
+5 points
+select distinct manager_id||' '||job_id||' '||department_id as DATA from hr.employees;
+
+
+
+DISPLAY FIRST_NAME , HIRE_DATE AND PAY_ROLL_DATE. PAY_ROLL_DATE IS ON 15th THURSDAY AFTER HIS/HER JOINING.
+5 points
+select first_name,hire_date,next_day(hire_date+(14*7),'THU') from hr.employees;
+
+
+
+DISPLAY COMBINATIONS OF SMALL CASE FIRST_NAME, CAPITAL CASE LAST_NAME AND CAMEL CASE OF EMAIL IN SINGLE COLUMN. (USE BOTH OPERATOR AND FUNCTION TO COMBINE / CLUB THEM IN SINGLE COLUMN) *
+5 points
+select concat(lower(first_name),upper(last_name))||initcap(email) as DATA from hr.employees;
+
+
+
+DISPLAY LAST_NAME COLUMN SORT IT ON THE LAST VOWEL OF IT'S SPELLING. *
+5 points
+select last_name from hr.employees order by substr(replace(upper(last_name),'AEIOU','aeiou'),-1) asc;
+
+
+
+DISPLAY HIRE_DATE WITH DAY NAME, SORT RESULT ON DAY OF WEEK.(DON'T USE ALTER SESSION) *
+5 points
+select first_name,to_char(hire_date,'Day'),to_char(hire_date,'d') from hr.employees order by 3;
+
+
+
+DISPLAY ALL FIRST_NAME WITH ALL CONSONENT IN SMALL CASE AND ALL VOWELS IN CAPITAL LATTERS. *
+5 points
+select translate(lower(first_name),'aeiou','AEIOU') from hr.employees;
+
+
+
+DISPLAY FIRST_NAME AND LAST_NAME COLUMNS WITH FIRST_NAME LENGTH UPTO 5 (USING LIKE OPERATOR) OR LAST_NAME LENGTH MORE THAN 5 (WITHOUT USING LIKE OPERATOR). *
+5 points
+select first_name,last_name from hr.employees where first_name like '___' or length(last_name)>5;
+
+
+
+DISPLAY ALL FIRST_NAME HAVING TWO OR MORE OCCURENCES OF ALPHABET 'E' OR 'e' WITHOUT USING LIKE. *
+5 points
+select first_name from hr.employees
+where (length(first_name)-length(replace(replace(first_name,'E',''),'e','')))>1;
+
+
+
+DISPLAY HIRE_DATE, ALL DATES OF JAN AND OCT MONTHS. DATES SHOULD BE DISPLAYED WITH SMALL CASE FULL MONTH NAMES. (SHOULD NOT DISPLAY ANY EXTRA 0 (ZERO) OR SPACE) *
+5 points
+select trim('0' from replace(replace(hire_date,'JAN','january'),'OCT','october')) as DATES from 
+hr.employees where hire_date like '%JAN%' OR hire_date like '%OCT%';
+
+
+
+DISPLAY ROWID , ALL COLUMNS OF EMPLOYEES TABLE, NEW ANNUAL SALARY (BY ADDING 1500 AS INCREMENT AMOUNT IN MONTHLY SALARY). (USE META CHARACTER AND DON'T USE TABLE ALIAS) *
+5 points
+select rowid,hr.employees.*,(salary+1500)*12 as NEWSALARY from hr.employees;
+
+
+
+DISPLAY LAST_NAME AND HIRE_DATE IN WHICH '9' EXISTS ON BOTH SECOND AND SECOND LAST POSITION IN HIRE_DATE COLUMN. *
+5 points
+select last_name,hire_date from hr.employees where hire_date like '9-_-9';
+
+
+
+DISPLAY FIRST_NAME AND NO. OF QUARTERS THE EMPLOYEE HAS BEEN WORKING WITH COMPANY.
+5 points
+select first_name,hire_date,trunc(months_between(sysdate,hire_date)/3) as QUARTERS from hr.employees;
+
+
+
+DISPLAY FIRST_NAME AND HIRE_DATE WHO WERE HIRED IN SECOND OR FOURTH QUARTER OF ANY YEAR. SORT ROWS IN DESCENDING ORDER OF MONTH NUMBER. *
+5 points
+select first_name,to_char(hire_date,'Q') from hr.employees where mod(to_char(hire_date,'Q'),2)=0 order by
+to_char(hire_date,'mm');
+
+
+
+DISPLAY MANAGER_ID , SALARY , FIRST_NAME. SORT ROWS IN ASCENDING ORDER OF MANAGER_ID KEEPING NULLS AT THE TOP AND WITHIN IT SALARY WISE DESCENDING ORDER. *
+5 points
+select manager_id,salary,first_name from hr.employees order by manager_id asc nulls first,salary desc;
+
+
+
+DISPLAY ALL HIRE_DATE COLUMN USING 17/Dec\87 FORMAT. DON'T USE ALTER SESSION OR CONVERSION FUNCTION. *
+5 points
+select substr(hire_date,1,2)||'/'||
+substr(hire_date,4,3)||'\'||
+substr(hire_date,-2) from hr.employees;
+
+
+
+DISPLAY COMBINATIONS OF CAPITAL FIRST_NAME AND SMALL CASE LAST_NAME UNDER SINGLE COLUMN. TOTAL LENGTH MUST BE 20 CHARACTERS. ADD SERIES OF * BETWEEN FIRST_NAME AND LAST_NAME. *
+5 points
+select concat(upper(rpad(first_name,10,'')),lower(lpad(last_name,10,''))) from hr.employees;
+
+
+
+DISPLAY THOSE FIRST_NAME WHICH HAS IT'S LENGTH IN ODD DIGIT. DISPLAY RESULT IN ASENDING ORDER OF THEIR LENGTH. *
+5 points
+select first_name from hr.employees where mod(length(first_name),2)!=0 order by length(first_name) asc;
+
+
+
+DISPLAY FIRST_NAME , LAST_NAME AND NAME COLUMN. NAME COLUMN SHOULD DISPLAY THE SMALLER/LOWER VALUE OF FIRST_NAME AND LAST_NAME. SORT THE ROWS ON THIRD COLUMN IN DESCENDING ORDER. *
+5 points
+select first_name,last_name,lower(concat(first_name,last_name)) as NAME from hr.employees order by 3 desc;
+
+
+
+DISPLAY EMPLOYEE_ID , PHONE_NUMBER , MANAGER_ID AND HIRE_DATE COLUMNS, IF ANY OF IT HAS TWO SUCCESSIVE/BACK TO BACK ZEROS. (USING SINGLE CONDITION, WITHOUT USING ||) *
+5 points
+select employee_id,phone_number,manager_id,hire_date from hr.employees where 
+instr(concat(concat(concat(employee_id,phone_number),manager_id),hire_date),'00')!=0; 
+
+
+
+DISPLAY FIRST_NAME IF LAST CHARACTER FALLS IN THE RANGE OF 'n' TO 'z'. SORT THE ROWS ON DESCENDING ORDER OF LAST CHARACTER. (DON'T USE SPECIAL OPERATOR) *
+5 points
+select first_name from hr.employees where substr(first_name,-1) between 'n' and 'z' order by substr(first_name,-1);
+
+
+
+DISPLAY FIRST_NAME WHICH HAS ALPHABET 'a' ON EVEN POSITION. SORT THE RESULT ON COMMISSION_PCT COLUMN IN DESCENDING ORDER KEEPING ALL NULLS AT THE BOTTOM. *
+5 points
+select first_name from hr.employees where mod(instr(first_name,'a'),2)=0 and instr(first_name,'a')!=0 
+order by commission_pct nulls last;
+
+
+
+DISPLAY LAST_NAME AND BONUS AMOUNT. BONUS AMOUNT = SALARY + COMMISSION_AMOUNT * 36.83%. WHOLE AMOUNT MUST BE ROUND OFF TO THOUSANDS.(eg. 12745.38 -> 13000)
+5 points
+select last_name,round(salary+(salary*commission_pct)*.3683,-3) as BONUS from hr.employees;
